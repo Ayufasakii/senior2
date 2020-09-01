@@ -83,16 +83,19 @@ export default {
             let temp;
             let temp1;
             let i;
-            for (i = 0; i < self.S_idAndPass.length || i < self.T_idAndPass.length; i++) {
+            for (i = 0; i < self.S_idAndPass.length; i++) {
                 if (self.id == self.S_idAndPass[i].I_ID && self.pass == self.S_idAndPass[i].I_password) {
                     temp = true
                     break;
+                } else {
+                    temp = false
                 }
-                else if (self.id == self.T_idAndPass[i].T_ID && self.pass == self.T_idAndPass[i].T_password) {
+            }
+            for (i = 0; i < self.T_idAndPass.length; i++) {
+                if (self.id == self.T_idAndPass[i].T_ID && self.pass == self.T_idAndPass[i].T_password) {
                     temp1 = true
                     break;
                 } else {
-                    temp = false
                     temp1 = false
                 }
             }
@@ -101,10 +104,14 @@ export default {
             }else if(temp1){
                 sessionStorage.setItem('TID',self.id)
               this.$router.push('/Teacher/Home')
-              
-            }else{
+            }else if(!temp&&!temp1){
               alert('Invalid ID or Password!')
             }
+        }
+    }
+}
+</script>
+            
         }
     }
 }

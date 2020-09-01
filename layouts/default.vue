@@ -26,6 +26,9 @@
   </v-app>
 </template>
 
+<style>
+</style>
+
 <script>
 import MFULogo from '~/components/MFULogo.vue'
 export default {
