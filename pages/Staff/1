@@ -1,0 +1,14 @@
+<template>
+    <v-app id="inspire">
+        <v-main>
+            <v-container fluid class="fill-height">
+                <v-row align="center" justify="center">
+                    <v-col cols="12" sm="8" md="6">
+                        <v-card class="elevation-12">
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-main>
+    </v-app>
+</template>

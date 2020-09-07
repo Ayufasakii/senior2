@@ -4,7 +4,7 @@
 const axios = require('axios');
 export default {
     layout(context) {
-        return 'Layout'
+        return 'SLayout'
     },
     props: {
         source: String,
