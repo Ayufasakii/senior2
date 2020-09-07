@@ -25,7 +25,7 @@
 
                             <v-data-table
                             :headers="headers"
-                            :items="students"
+                            :items="teachers"
                             :search="search"
                             >
 
@@ -69,10 +69,34 @@
 
                                                         <v-col cols="12" sm="6">
                                                             <v-text-field  
-                                                            label="Student ID" 
-                                                            ref="SID" 
-                                                            v-model="SID" 
-                                                            :rules="[() => !!SID || 'This field is required']" 
+                                                            label="Teacher ID" 
+                                                            ref="TID" 
+                                                            v-model="TID" 
+                                                            :rules="[() => !!TID || 'This field is required']" 
+                                                            outlined 
+                                                            dense 
+                                                            required>
+                                                            </v-text-field>
+                                                        </v-col>
+
+                                                        <v-col cols="12" sm="6">
+                                                        <v-text-field 
+                                                        label="Password" 
+                                                        ref="Tpass" 
+                                                        v-model="Tpass" 
+                                                        :rules="[() => !!Tpass|| 'This field is required']" 
+                                                        outlined 
+                                                        dense 
+                                                        required>
+                                                        </v-text-field>
+                                                        </v-col>
+
+                                                        <v-col cols="12" sm="6">
+                                                            <v-text-field 
+                                                            label="Email" 
+                                                            ref="Temail" 
+                                                            v-model="Temail" 
+                                                            :rules="[() => !!Temail || 'This field is required']" 
                                                             outlined 
                                                             dense 
                                                             required>
@@ -116,58 +140,7 @@
                                                             outlined 
                                                             required>
                                                             </v-select>
-                                                        </v-col>
-
-                                                        <v-col cols="12" sm="6">
-                                                            <v-text-field 
-                                                            label="Organization Name" 
-                                                            ref="Oname" 
-                                                            v-model="Oname" 
-                                                            :rules="[() => !!Oname || 'This field is required']" 
-                                                            outlined 
-                                                            dense 
-                                                            required>
-                                                            </v-text-field>
-                                                        </v-col>
-
-                                                        <v-col cols="12" sm="6">
-                                                            <v-text-field  
-                                                            label="Organization contact" 
-                                                            ref="Contact" 
-                                                            v-model="Contact" 
-                                                            :rules="[() => !!Contact || 'This field is required']" 
-                                                            outlined 
-                                                            dense 
-                                                            required>
-                                                            </v-text-field>
-                                                        </v-col>
-
-                                                        <v-col cols="12" sm="6">
-                                                            <v-select 
-                                                            :items="Province" 
-                                                            label="Province"
-                                                            v-model="Province" 
-                                                            :rules="[() => !!Province || 'This field is required']" 
-                                                            dense 
-                                                            outlined 
-                                                            required>
-                                                            </v-select>
-                                                        </v-col>
-
-                                                        <v-col cols="12" sm="6">
-                                                            <v-textarea 
-                                                            auto-grow 
-                                                            label="Address" 
-                                                            ref="Address" 
-                                                            v-model="Address" 
-                                                            :rules="[() => !!Address || 'This field is required']" 
-                                                            outlined 
-                                                            dense 
-                                                            rows="3" 
-                                                            row-height="25" 
-                                                            required>
-                                                            </v-textarea>
-                                                        </v-col>
+                                                        </v-col>                                              
                                                     </v-row>
                                                 </v-container>
                                             </v-card-text>
@@ -209,50 +182,47 @@
 <script>
 const axios = require('axios');
 export default {
-    layout (context) {
+  layout (context) {
     return 'SLayout'
-    },
+  },
       async asyncData({ params }) {
-        const { data } = await axios.get(`http://localhost:5010/getAllStudents`)
+        const { data } = await axios.get(`http://localhost:5010/getAllTeachers`)
         console.log(data)
-        return { students: data }
+        return { teachers: data }
     },
-    data () {
+  data () {
       return {
-        dialog: false,
         search: '',
         headers: [
           {
-            text: 'Student ID',
+            text: 'Teacher ID',
             align: 'start',
-            value: 'S_ID',
+            value: 'T_ID',
           },
-          { text: 'Name', value: 'S_name' },
-          { text: 'Major', value: 'S_major' },
+          { text: 'Name', value: 'T_name' },
+          { text: 'Major', value: 'T_major' },
           { text: 'Actions', value: 'actions', sortable: false },
         ],
-        student: [],
-        sID:null,
+        TID:null,
+        teacher: [],
       }
     },
-    editItem (item) {
-    this.student = this.student
-    this.dialog = true
-    },
+  editItem(item) {
+    this.teacher = this.teachers
+  },
   methods: {
-    deleteItem (item) {
-        const index = this.student.indexOf(item)
-        this.sID = this.student[index].S_ID
-        console.log(this.student[index].S_ID)
+  deleteItem (item) {
+        const index = this.teacher.indexOf(item)
+        this.TID = this.teacher[index].T_ID
         confirm('Are you sure you want to delete this item?') && axios({
                 method: 'delete', 
-                url: `http://localhost:5010/deleteStudent`,
+                url: `http://localhost:5010/deleteTeacher`,
                 data: {
-                    sID:this.sID ,
+                    TID:this.TID ,
                 }
             });
             location.reload();
       },
-    },
   }
+}
 </script>

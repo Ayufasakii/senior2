@@ -85,6 +85,11 @@ export default {
           icon: 'mdi-account',
           title: 'Student information',
           to: '/Staff/Student information'
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Teacher information',
+          to: '/Staff/Teacher information'
         }
       ],
       miniVariant: false,
