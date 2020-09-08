@@ -32,14 +32,18 @@
                             <template v-slot:top>
                                 <v-toolbar flat color="white">
                                     <v-spacer></v-spacer>
-                                    <v-dialog v-model="dialog" max-width="800px">
+                                    <v-dialog v-model="dialog" max-width="750px">
 
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn class="mb-2" color=#8c1515 small dark v-bind="attrs" v-on="on" >New</v-btn>
                                         </template>
 
                                         <v-card>
-                                            <v-card-title><span class="headline">{{ formTitle }}</span></v-card-title>
+                                            <v-toolbar color=#8c1515 dark flat>
+                                            <v-toolbar-title>
+                                                <span>{{ formTitle }}</span>
+                                            </v-toolbar-title>
+                                            </v-toolbar>
                                             <v-card-text>
                                                 <v-container>
                                                     <v-row>
@@ -48,7 +52,6 @@
                                                             label="First name" 
                                                             ref="Fname" 
                                                             v-model="editedItem.Fname" 
-                                                            :rules="[() => !!editedItem.Fname || 'This field is required']" 
                                                             outlined 
                                                             dense 
                                                             required>
@@ -60,7 +63,6 @@
                                                             label="Last name" 
                                                             ref="Lname" 
                                                             v-model="editedItem.Lname" 
-                                                            :rules="[() => !!editedItem.Lname || 'This field is required']" 
                                                             outlined 
                                                             dense 
                                                             required>
@@ -72,7 +74,6 @@
                                                             label="Student ID" 
                                                             ref="SID" 
                                                             v-model="editedItem.SID" 
-                                                            :rules="[() => !!editedItem.SID || 'This field is required']" 
                                                             outlined 
                                                             dense 
                                                             required>
@@ -83,8 +84,7 @@
                                                             <v-text-field  
                                                             label="Mobile Phone" 
                                                             ref="Phone" 
-                                                            v-model="editedItem.Phone" 
-                                                            :rules="[() => !!editedItem.Phone || 'This field is required']" 
+                                                            v-model="editedItem.Phone"  
                                                             outlined 
                                                             dense 
                                                             required>
@@ -98,8 +98,7 @@
                                                             :items="School" 
                                                             label="School" 
                                                             v-model="editedItem.selectedSchool" 
-                                                            @input="schoolSelect"
-                                                            :rules="[() => !!editedItem.School || 'This field is required']" 
+                                                            @input="schoolSelect" 
                                                             dense 
                                                             outlined 
                                                             required>
@@ -111,7 +110,6 @@
                                                             :items="Major" 
                                                             label="Major" 
                                                             v-model="editedItem.selectedMajor"
-                                                            :rules="[() => !!editedItem.Major || 'This field is required']" 
                                                             dense 
                                                             outlined 
                                                             required>
@@ -122,8 +120,7 @@
                                                             <v-text-field 
                                                             label="Organization Name" 
                                                             ref="Oname" 
-                                                            v-model="editedItem.Oname" 
-                                                            :rules="[() => !!editedItem.Oname || 'This field is required']" 
+                                                            v-model="editedItem.Oname"
                                                             outlined 
                                                             dense 
                                                             required>
@@ -135,7 +132,6 @@
                                                             label="Organization contact" 
                                                             ref="Contact" 
                                                             v-model="editedItem.Contact" 
-                                                            :rules="[() => !!editedItem.Contact || 'This field is required']" 
                                                             outlined 
                                                             dense 
                                                             required>
@@ -147,7 +143,6 @@
                                                             :items="Province" 
                                                             label="Province"
                                                             v-model="editedItem.Province" 
-                                                            :rules="[() => !!editedItem.Province || 'This field is required']" 
                                                             dense 
                                                             outlined 
                                                             required>
@@ -159,8 +154,7 @@
                                                             auto-grow 
                                                             label="Address" 
                                                             ref="Address" 
-                                                            v-model="editedItem.Address" 
-                                                            :rules="[() => !!editedItem.Address || 'This field is required']" 
+                                                            v-model="editedItem.Address"  
                                                             outlined 
                                                             dense 
                                                             rows="3" 
@@ -231,10 +225,11 @@ export default {
           { text: 'Major', value: 'S_major' },
           { text: 'Actions', value: 'actions', sortable: false },
         ],
-        student: [],
+        students: [],
         sID:null,
         editedIndex: -1,
-        School: ['Agro-Industry', 'Cosmetic Science', 'Dentistry', 'Health Science', 'Information Teachnology', 'Integrative Medicine', 'Law', 'Liberal Arts', 'Management', 'Medicine', 'Nursing', 'Science', 'Sinology', 'Social of Innovation'],
+        School: ['Agro-Industry', 'Cosmetic Science', 'Dentistry', 'Health Science', 'Information Teachnology',
+         'Integrative Medicine', 'Law', 'Liberal Arts', 'Management', 'Medicine', 'Nursing', 'Science', 'Sinology', 'Social of Innovation'],
         Province: ['Krabi', 'Bangkok', 'Kanchanaburi', 'Kalasin', 'Kamphaengphet', 'Khonkaen', 'Chanthaburi', 'Chachoengsao', 'Chonburi', 'Chainat',
             'Chaiyaphum', 'Chumphon', 'Chiangrai', 'Chiangmai', 'Trang', 'Trat', 'Tak', 'Nakhonnayok', 'Nakhonpathom', 'Nakhonphanom', 'Nakhonratchasima',
             'Nakhonsithammarat', 'Nakhonsawan', 'Nonthaburi', 'Narathiwat', 'Nan', 'Buriram', 'Pathumthani', 'Prachuapkhirikhan', 'Prachinburi',
@@ -289,9 +284,9 @@ export default {
             this.dialog = true
       },
         deleteItem (item) {
-            const index = this.student.indexOf(item)
-            this.sID = this.student[index].S_ID
-            console.log(this.student[index].S_ID)
+            const index = this.students.indexOf(item)
+            this.sID = this.students[index].S_ID
+            console.log(this.students[index].S_ID)
             confirm('Are you sure you want to delete this item?') && axios({
                 method: 'delete', 
                 url: `http://localhost:5010/deleteStudent`,
@@ -302,27 +297,39 @@ export default {
             location.reload();
       },
         save () {
-            if (this.editedIndex > -1) {
-            Object.assign(this.desserts[this.editedIndex], this.editedItem)
-            } else {
-            axios({
-                method: 'post', 
-                url: `http://localhost:5010/createStudents`,
-                data: {
-                    sID:this.editedItem.SID ,
-                    Sname: this.editedItem.Fname+" "+this.editedItem.Lname,
-                    Stel: this.editedItem.Phone,
-                    Smajor:this.editedItem.selectedMajor,
-                    Sschool:this.editedItem.selectedSchool,
-                    W_name:this.editedItem.Oname,
-                    W_address:this.editedItem.Address,
-                    W_contract:this.editedItem.Contact,
-                    W_province:this.editedItem.Province
+            let self = this
+            if (self.editedItem.selectedSchool == null || self.editedItem.Fname == null || self.editedItem.selectedMajor == null ||
+                self.editedItem.Lname == null || self.edited.ItemSID == null || self.editedItem.Phone == null ||
+                self.editedItem.Oname == null || self.edited.ItemContact == null || self.editedItem.Province == null ||
+                self.editedItem.Address == null) {
+                alert('Please check information that not empty!!')
+            }else {
+                let r = confirm('Are you sure you want to create?')
+                if(r == true){
+                    if (this.editedIndex > -1) {
+                        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+                    } else {
+                        axios({
+                            method: 'post', 
+                            url: `http://localhost:5010/createStudents`,
+                            data: {
+                                sID:this.editedItem.SID ,
+                                Sname: this.editedItem.Fname+" "+this.editedItem.Lname,
+                                Stel: this.editedItem.Phone,
+                                Smajor:this.editedItem.selectedMajor,
+                                Sschool:this.editedItem.selectedSchool,
+                                W_name:this.editedItem.Oname,
+                                W_address:this.editedItem.Address,
+                                W_contract:this.editedItem.Contact,
+                                W_province:this.editedItem.Province
+                            }
+                        });
+                        location.reload()
+                    }
+                } else {
+                    this.close()
                 }
-            });
-            confirm('Are you sure you want to create?') &&this.$router.push('/Staff/Student information')
             }
-            this.close()
       },
         close () {
             this.dialog = false
