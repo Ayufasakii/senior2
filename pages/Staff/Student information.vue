@@ -39,7 +39,7 @@
                                         </template>
 
                                         <v-card>
-                                            <v-card-title>Add Student Information</v-card-title>
+                                            <v-card-title><span class="headline">{{ formTitle }}</span></v-card-title>
                                             <v-card-text>
                                                 <v-container>
                                                     <v-row>
@@ -47,8 +47,8 @@
                                                             <v-text-field  
                                                             label="First name" 
                                                             ref="Fname" 
-                                                            v-model="Fname" 
-                                                            :rules="[() => !!Fname || 'This field is required']" 
+                                                            v-model="editedItem.Fname" 
+                                                            :rules="[() => !!editedItem.Fname || 'This field is required']" 
                                                             outlined 
                                                             dense 
                                                             required>
@@ -58,9 +58,9 @@
                                                         <v-col cols="12" sm="6">
                                                             <v-text-field  
                                                             label="Last name" 
-                                                            ref="Fname" 
-                                                            v-model="Fname" 
-                                                            :rules="[() => !!Fname || 'This field is required']" 
+                                                            ref="Lname" 
+                                                            v-model="editedItem.Lname" 
+                                                            :rules="[() => !!editedItem.Lname || 'This field is required']" 
                                                             outlined 
                                                             dense 
                                                             required>
@@ -71,8 +71,8 @@
                                                             <v-text-field  
                                                             label="Student ID" 
                                                             ref="SID" 
-                                                            v-model="SID" 
-                                                            :rules="[() => !!SID || 'This field is required']" 
+                                                            v-model="editedItem.SID" 
+                                                            :rules="[() => !!editedItem.SID || 'This field is required']" 
                                                             outlined 
                                                             dense 
                                                             required>
@@ -83,8 +83,8 @@
                                                             <v-text-field  
                                                             label="Mobile Phone" 
                                                             ref="Phone" 
-                                                            v-model="Phone" 
-                                                            :rules="[() => !!Phone || 'This field is required']" 
+                                                            v-model="editedItem.Phone" 
+                                                            :rules="[() => !!editedItem.Phone || 'This field is required']" 
                                                             outlined 
                                                             dense 
                                                             required>
@@ -97,9 +97,9 @@
                                                             <v-select 
                                                             :items="School" 
                                                             label="School" 
-                                                            v-model="selectedSchool" 
+                                                            v-model="editedItem.selectedSchool" 
                                                             @input="schoolSelect"
-                                                            :rules="[() => !!School || 'This field is required']" 
+                                                            :rules="[() => !!editedItem.School || 'This field is required']" 
                                                             dense 
                                                             outlined 
                                                             required>
@@ -110,8 +110,8 @@
                                                             <v-select 
                                                             :items="Major" 
                                                             label="Major" 
-                                                            v-model="selectedMajor"
-                                                            :rules="[() => !!Major || 'This field is required']" 
+                                                            v-model="editedItem.selectedMajor"
+                                                            :rules="[() => !!editedItem.Major || 'This field is required']" 
                                                             dense 
                                                             outlined 
                                                             required>
@@ -122,8 +122,8 @@
                                                             <v-text-field 
                                                             label="Organization Name" 
                                                             ref="Oname" 
-                                                            v-model="Oname" 
-                                                            :rules="[() => !!Oname || 'This field is required']" 
+                                                            v-model="editedItem.Oname" 
+                                                            :rules="[() => !!editedItem.Oname || 'This field is required']" 
                                                             outlined 
                                                             dense 
                                                             required>
@@ -134,8 +134,8 @@
                                                             <v-text-field  
                                                             label="Organization contact" 
                                                             ref="Contact" 
-                                                            v-model="Contact" 
-                                                            :rules="[() => !!Contact || 'This field is required']" 
+                                                            v-model="editedItem.Contact" 
+                                                            :rules="[() => !!editedItem.Contact || 'This field is required']" 
                                                             outlined 
                                                             dense 
                                                             required>
@@ -146,8 +146,8 @@
                                                             <v-select 
                                                             :items="Province" 
                                                             label="Province"
-                                                            v-model="Province" 
-                                                            :rules="[() => !!Province || 'This field is required']" 
+                                                            v-model="editedItem.Province" 
+                                                            :rules="[() => !!editedItem.Province || 'This field is required']" 
                                                             dense 
                                                             outlined 
                                                             required>
@@ -159,8 +159,8 @@
                                                             auto-grow 
                                                             label="Address" 
                                                             ref="Address" 
-                                                            v-model="Address" 
-                                                            :rules="[() => !!Address || 'This field is required']" 
+                                                            v-model="editedItem.Address" 
+                                                            :rules="[() => !!editedItem.Address || 'This field is required']" 
                                                             outlined 
                                                             dense 
                                                             rows="3" 
@@ -233,18 +233,66 @@ export default {
         ],
         student: [],
         sID:null,
+        editedIndex: -1,
+        School: ['Agro-Industry', 'Cosmetic Science', 'Dentistry', 'Health Science', 'Information Teachnology', 'Integrative Medicine', 'Law', 'Liberal Arts', 'Management', 'Medicine', 'Nursing', 'Science', 'Sinology', 'Social of Innovation'],
+        Province: ['Krabi', 'Bangkok', 'Kanchanaburi', 'Kalasin', 'Kamphaengphet', 'Khonkaen', 'Chanthaburi', 'Chachoengsao', 'Chonburi', 'Chainat',
+            'Chaiyaphum', 'Chumphon', 'Chiangrai', 'Chiangmai', 'Trang', 'Trat', 'Tak', 'Nakhonnayok', 'Nakhonpathom', 'Nakhonphanom', 'Nakhonratchasima',
+            'Nakhonsithammarat', 'Nakhonsawan', 'Nonthaburi', 'Narathiwat', 'Nan', 'Buriram', 'Pathumthani', 'Prachuapkhirikhan', 'Prachinburi',
+            'Pattani', 'Ayutthaya', 'Phayao', 'Phangnga', 'Phatthalung', 'Phichit', 'Phitsanulok', 'Phetchaburi', 'Phetchabun', 'Phrae',
+            'Phuket', 'Mahasarakham', 'Mukdahan', 'Maehongson', 'Yasothon', 'Yala', 'Roiet', 'Ranong', 'Rayong', 'Ratchaburi', 'Lopburi',
+            'Loei', 'Lampang', 'Lamphun', 'Sisaket', 'Sakonnakhon', 'Songkhla', 'Satun', 'Samutprakan', 'Samutsongkhram', 'Samutsakhon', 'Sakaeo', 'Saraburi',
+            'Singburi', 'Sukhothai', 'Suphanburi', 'Suratthani', 'Surin', 'Nongkhai', 'Nongbualamphu', 'Angthong', 'Amnatcharoen', 'Udonthani',
+            'Uttaradit', 'Uthaithani', 'Ubonratchathani', 'Betong', 'Other'
+        ],
+        editedItem: {
+            Major: [],
+            selectedSchool: null,
+            selectedMajor: null,
+            Fname: null,
+            Lname: null,
+            SID: null,
+            Phone: null,
+            Oname: null,
+            Contact: null,
+            Province: null,
+            Address: null,
+         },
+        defaultItem: {
+            Major: [],
+            selectedSchool: null,
+            selectedMajor: null,
+            Fname: null,
+            Lname: null,
+            SID: null,
+            Phone: null,
+            Oname: null,
+            Contact: null,
+            Province: null,
+            Address: null,
+      },
       }
     },
-    editItem (item) {
-    this.student = this.student
-    this.dialog = true
+    computed: {
+      formTitle () {
+        return this.editedIndex === -1 ? 'New Student Information' : 'Edit Student Information'
+      },
     },
-  methods: {
-    deleteItem (item) {
-        const index = this.student.indexOf(item)
-        this.sID = this.student[index].S_ID
-        console.log(this.student[index].S_ID)
-        confirm('Are you sure you want to delete this item?') && axios({
+    watch: {
+      dialog (val) {
+        val || this.close()
+      },
+    },
+    methods: {
+        editItem (item) {
+            this.editedIndex = this.students.indexOf(item)
+            this.editedItem = Object.assign({}, item)
+            this.dialog = true
+      },
+        deleteItem (item) {
+            const index = this.student.indexOf(item)
+            this.sID = this.student[index].S_ID
+            console.log(this.student[index].S_ID)
+            confirm('Are you sure you want to delete this item?') && axios({
                 method: 'delete', 
                 url: `http://localhost:5010/deleteStudent`,
                 data: {
@@ -253,6 +301,68 @@ export default {
             });
             location.reload();
       },
+        save () {
+            if (this.editedIndex > -1) {
+            Object.assign(this.desserts[this.editedIndex], this.editedItem)
+            } else {
+            axios({
+                method: 'post', 
+                url: `http://localhost:5010/createStudents`,
+                data: {
+                    sID:this.editedItem.SID ,
+                    Sname: this.editedItem.Fname+" "+this.editedItem.Lname,
+                    Stel: this.editedItem.Phone,
+                    Smajor:this.editedItem.selectedMajor,
+                    Sschool:this.editedItem.selectedSchool,
+                    W_name:this.editedItem.Oname,
+                    W_address:this.editedItem.Address,
+                    W_contract:this.editedItem.Contact,
+                    W_province:this.editedItem.Province
+                }
+            });
+            confirm('Are you sure you want to create?') &&this.$router.push('/Staff/Student information')
+            }
+            this.close()
+      },
+        close () {
+            this.dialog = false
+            this.$nextTick(() => {
+            this.editedItem = Object.assign({}, this.defaultItem)
+            this.editedIndex = -1
+        })
+      },
+      schoolSelect: function () {
+            let self = this
+            if (self.editedItem.selectedSchool == "Agro-Industry") {
+                self.Major = ["Food Science and Technology", "Postharvest Technology and Logistics", "Postharvest Technology and Logistics And Bachelor of Business Administration Program in Logistics and Supply Chain Management"]
+            } else if (self.editedItem.selectedSchool == "Cosmetic Science") {
+                self.Major = ["Beauty Technology", "Cosmetic Science"]
+            } else if (self.editedItem.selectedSchool == "Dentistry") {
+                self.Major = ["Dental Surgery"]
+            } else if (self.editedItem.selectedSchool == "Health Science") {
+                self.Major = ["Environmental Health", "Public Health Program", "Occupational Health and Safety", "Sports and Health Science"]
+            } else if (self.editedItem.selectedSchool == "Information Teachnology") {
+                self.Major = ["Computer Engineering", "Digital Technology for Business Innovation", "Multimedia Technology and Animation", "Software Engineering"]
+            } else if (self.editedItem.selectedSchool == "Integrative Medicine") {
+                self.Major = ["Applied Thai Traditional Medicine", "Physical Therapy Program", "Traditional Chinese Medicine"]
+            } else if (self.editedItem.selectedSchool == "Law") {
+                self.Major = ["Laws"]
+            } else if (self.editedItem.selectedSchool == "Liberal Arts") {
+                self.Major = ["English", "Thai Language and Culture"]
+            } else if (self.editedItem.selectedSchool == "Management") {
+                self.Major = ["Accounting", "Aviation Business Management", "Business Administration", "Hospitality Industry Management", "Logistics and Supply Chain Management", "Tourism Management", "Economics"]
+            } else if (self.editedItem.selectedSchool == "Medicine") {
+                self.Major = ["Medicine"]
+            } else if (self.editedItem.selectedSchool == "Nursing") {
+                self.Major = ["Practical Nursing"]
+            } else if (self.editedItem.selectedSchool == "Science") {
+                self.Major = ["Materials Engineering", "Applied Chemistry", "Biotechnology"]
+            } else if (self.editedItem.selectedSchool == "Sinology") {
+                self.Major = ["Teaching Chines Language", "Business Chinese", "Chinese Language and Culture", "Chinese Studies"]
+            } else if (self.editedItem.selectedSchool == "Social of Innovation") {
+                self.Major = ["International Development"]
+            }
+        },
     },
   }
 </script>
