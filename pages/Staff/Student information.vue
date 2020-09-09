@@ -307,7 +307,7 @@ export default {
                 let r = confirm('Are you sure you want to create?')
                 if(r == true){
                     if (this.editedIndex > -1) {
-                        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+                        Object.assign(this.students[this.editedIndex], this.editedItem)
                     } else {
                         axios({
                             method: 'post', 

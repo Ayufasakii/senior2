@@ -6,8 +6,5 @@ export default {
     layout(context) {
         return 'TLayout'
     },
-    props: {
-        source: String,
-    }
 }
 </script>

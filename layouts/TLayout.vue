@@ -83,12 +83,12 @@ export default {
         {
           icon: 'mdi-home',
           title: 'Home',
-          to: '/Staff/Home'
+          to: '/Teacher/Home'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'mdi-account',
+          title: 'Profile',
+          to: '/Teacher/Profile'
         }
       ],
       miniVariant: false,
