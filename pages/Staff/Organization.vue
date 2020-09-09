@@ -6,7 +6,7 @@
                     <v-col cols="12" sm="8" md="6">
                         <v-card class="elevation-12">
                             <v-toolbar color=#8c1515 dark flat>
-                                <v-toolbar-title>Student Information</v-toolbar-title>
+                                <v-toolbar-title>Organization information</v-toolbar-title>
                             <v-spacer></v-spacer>
                             </v-toolbar>
 
@@ -25,7 +25,7 @@
 
                             <v-data-table
                             :headers="headers"
-                            :items="students"
+                            :items="Organization"
                             :search="search"
                             >
 
@@ -48,75 +48,6 @@
                                                 <v-container>
                                                     <v-row>
                                                         <v-col cols="12" sm="6">
-                                                            <v-text-field  
-                                                            label="First name" 
-                                                            ref="Fname" 
-                                                            v-model="editedItem.Fname" 
-                                                            outlined 
-                                                            dense 
-                                                            required>
-                                                            </v-text-field>
-                                                        </v-col>
-
-                                                        <v-col cols="12" sm="6">
-                                                            <v-text-field  
-                                                            label="Last name" 
-                                                            ref="Lname" 
-                                                            v-model="editedItem.Lname" 
-                                                            outlined 
-                                                            dense 
-                                                            required>
-                                                            </v-text-field>
-                                                        </v-col>
-
-                                                        <v-col cols="12" sm="6">
-                                                            <v-text-field  
-                                                            label="Student ID" 
-                                                            ref="SID" 
-                                                            v-model="editedItem.SID" 
-                                                            outlined 
-                                                            dense 
-                                                            required>
-                                                            </v-text-field>
-                                                        </v-col>
-
-                                                        <v-col cols="12" sm="6">
-                                                            <v-text-field  
-                                                            label="Mobile Phone" 
-                                                            ref="Phone" 
-                                                            v-model="editedItem.Phone"  
-                                                            outlined 
-                                                            dense 
-                                                            required>
-                                                            </v-text-field>
-                                                        </v-col>
-                                                    </v-row>
-
-                                                    <v-row>
-                                                        <v-col cols="12" sm="6">
-                                                            <v-select 
-                                                            :items="School" 
-                                                            label="School" 
-                                                            v-model="editedItem.selectedSchool" 
-                                                            @input="schoolSelect" 
-                                                            dense 
-                                                            outlined 
-                                                            required>
-                                                            </v-select>
-                                                        </v-col>
-
-                                                        <v-col cols="12" sm="6">
-                                                            <v-select 
-                                                            :items="Major" 
-                                                            label="Major" 
-                                                            v-model="editedItem.selectedMajor"
-                                                            dense 
-                                                            outlined 
-                                                            required>
-                                                            </v-select>
-                                                        </v-col>
-
-                                                        <v-col cols="12" sm="6">
                                                             <v-text-field 
                                                             label="Organization Name" 
                                                             ref="Oname" 
@@ -129,7 +60,7 @@
 
                                                         <v-col cols="12" sm="6">
                                                             <v-text-field  
-                                                            label="Organization contact" 
+                                                            label="Phone" 
                                                             ref="Contact" 
                                                             v-model="editedItem.Contact" 
                                                             outlined 
@@ -207,9 +138,9 @@ export default {
     return 'SLayout'
     },
       async asyncData({ params }) {
-        const { data } = await axios.get(`http://localhost:5010/getAllStudents`)
+        const { data } = await axios.get(`http://localhost:5010/getAllOrganization`)
         console.log(data)
-        return { students: data }
+        return { Organization: data }
     },
     data () {
       return {
@@ -217,19 +148,16 @@ export default {
         search: '',
         headers: [
           {
-            text: 'Student ID',
+            text: 'Organization Name',
             align: 'start',
-            value: 'S_ID',
+            value: 'W_name',
           },
-          { text: 'Name', value: 'S_name' },
-          { text: 'Major', value: 'S_major' },
+          { text: 'Province', value: 'W_province' },
           { text: 'Actions', value: 'actions', sortable: false },
         ],
-        students: [],
-        sID:null,
+        Organization: [],
+        WID:null,
         editedIndex: -1,
-        School: ['Agro-Industry', 'Cosmetic Science', 'Dentistry', 'Health Science', 'Information Teachnology',
-         'Integrative Medicine', 'Law', 'Liberal Arts', 'Management', 'Medicine', 'Nursing', 'Science', 'Sinology', 'Social of Innovation'],
         Province: ['Krabi', 'Bangkok', 'Kanchanaburi', 'Kalasin', 'Kamphaengphet', 'Khonkaen', 'Chanthaburi', 'Chachoengsao', 'Chonburi', 'Chainat',
             'Chaiyaphum', 'Chumphon', 'Chiangrai', 'Chiangmai', 'Trang', 'Trat', 'Tak', 'Nakhonnayok', 'Nakhonpathom', 'Nakhonphanom', 'Nakhonratchasima',
             'Nakhonsithammarat', 'Nakhonsawan', 'Nonthaburi', 'Narathiwat', 'Nan', 'Buriram', 'Pathumthani', 'Prachuapkhirikhan', 'Prachinburi',
@@ -240,26 +168,12 @@ export default {
             'Uttaradit', 'Uthaithani', 'Ubonratchathani', 'Betong', 'Other'
         ],
         editedItem: {
-            Major: [],
-            selectedSchool: null,
-            selectedMajor: null,
-            Fname: null,
-            Lname: null,
-            SID: null,
-            Phone: null,
             Oname: null,
             Contact: null,
             Province: null,
             Address: null,
          },
         defaultItem: {
-            Major: [],
-            selectedSchool: null,
-            selectedMajor: null,
-            Fname: null,
-            Lname: null,
-            SID: null,
-            Phone: null,
             Oname: null,
             Contact: null,
             Province: null,
@@ -269,7 +183,7 @@ export default {
     },
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'New Student Information' : 'Edit Student Information'
+        return this.editedIndex === -1 ? 'New Organization' : 'Edit Organization'
       },
     },
     watch: {
@@ -279,45 +193,38 @@ export default {
     },
     methods: {
         editItem (item) {
-            this.editedIndex = this.students.indexOf(item)
+            this.editedIndex = this.Organization.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.dialog = true
       },
         deleteItem (item) {
-            const index = this.students.indexOf(item)
-            this.sID = this.students[index].S_ID
-            console.log(this.students[index].S_ID)
+            const index = this.Organization.indexOf(item)
+            this.WID = this.Organization[index].W_ID
+            console.log(this.Organization[index].W_ID)
             confirm('Are you sure you want to delete this item?') && axios({
                 method: 'delete', 
-                url: `http://localhost:5010/deleteStudent`,
+                url: `http://localhost:5010/deleteOrganization`,
                 data: {
-                    sID:this.sID ,
+                    WID:this.WID ,
                 }
             });
             location.reload();
       },
         save () {
             let self = this
-            if (self.editedItem.selectedSchool == null || self.editedItem.Fname == null || self.editedItem.selectedMajor == null ||
-                self.editedItem.Lname == null || self.editedItem.SID == null || self.editedItem.Phone == null ||
-                self.editedItem.Oname == null || self.editedItem.Contact == null || self.editedItem.Province == null ||
+            if (self.editedItem.Oname == null || self.editedItem.Contact == null || self.editedItem.Province == null ||
                 self.editedItem.Address == null) {
                 alert('Please check information that not empty!!')
             }else {
                 let r = confirm('Are you sure you want to create?')
                 if(r == true){
                     if (this.editedIndex > -1) {
-                        Object.assign(this.students[this.editedIndex], this.editedItem)
+                        Object.assign(this.Organization[this.editedIndex], this.editedItem)
                     } else {
                         axios({
                             method: 'post', 
-                            url: `http://localhost:5010/createStudents`,
+                            url: `http://localhost:5010/createWorkplace`,
                             data: {
-                                sID:this.editedItem.SID ,
-                                Sname: this.editedItem.Fname+" "+this.editedItem.Lname,
-                                Stel: this.editedItem.Phone,
-                                Smajor:this.editedItem.selectedMajor,
-                                Sschool:this.editedItem.selectedSchool,
                                 W_name:this.editedItem.Oname,
                                 W_address:this.editedItem.Address,
                                 W_contract:this.editedItem.Contact,
@@ -338,38 +245,6 @@ export default {
             this.editedIndex = -1
         })
       },
-      schoolSelect: function () {
-            let self = this
-            if (self.editedItem.selectedSchool == "Agro-Industry") {
-                self.Major = ["Food Science and Technology", "Postharvest Technology and Logistics", "Postharvest Technology and Logistics And Bachelor of Business Administration Program in Logistics and Supply Chain Management"]
-            } else if (self.editedItem.selectedSchool == "Cosmetic Science") {
-                self.Major = ["Beauty Technology", "Cosmetic Science"]
-            } else if (self.editedItem.selectedSchool == "Dentistry") {
-                self.Major = ["Dental Surgery"]
-            } else if (self.editedItem.selectedSchool == "Health Science") {
-                self.Major = ["Environmental Health", "Public Health Program", "Occupational Health and Safety", "Sports and Health Science"]
-            } else if (self.editedItem.selectedSchool == "Information Teachnology") {
-                self.Major = ["Computer Engineering", "Digital Technology for Business Innovation", "Multimedia Technology and Animation", "Software Engineering"]
-            } else if (self.editedItem.selectedSchool == "Integrative Medicine") {
-                self.Major = ["Applied Thai Traditional Medicine", "Physical Therapy Program", "Traditional Chinese Medicine"]
-            } else if (self.editedItem.selectedSchool == "Law") {
-                self.Major = ["Laws"]
-            } else if (self.editedItem.selectedSchool == "Liberal Arts") {
-                self.Major = ["English", "Thai Language and Culture"]
-            } else if (self.editedItem.selectedSchool == "Management") {
-                self.Major = ["Accounting", "Aviation Business Management", "Business Administration", "Hospitality Industry Management", "Logistics and Supply Chain Management", "Tourism Management", "Economics"]
-            } else if (self.editedItem.selectedSchool == "Medicine") {
-                self.Major = ["Medicine"]
-            } else if (self.editedItem.selectedSchool == "Nursing") {
-                self.Major = ["Practical Nursing"]
-            } else if (self.editedItem.selectedSchool == "Science") {
-                self.Major = ["Materials Engineering", "Applied Chemistry", "Biotechnology"]
-            } else if (self.editedItem.selectedSchool == "Sinology") {
-                self.Major = ["Teaching Chines Language", "Business Chinese", "Chinese Language and Culture", "Chinese Studies"]
-            } else if (self.editedItem.selectedSchool == "Social of Innovation") {
-                self.Major = ["International Development"]
-            }
-        },
     },
   }
 </script>

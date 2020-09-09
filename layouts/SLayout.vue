@@ -83,13 +83,18 @@ export default {
         },
         {
           icon: 'mdi-account',
+          title: 'Teacher information',
+          to: '/Staff/Teacher information'
+        },
+        {
+          icon: 'mdi-account',
           title: 'Student information',
           to: '/Staff/Student information'
         },
         {
           icon: 'mdi-account',
-          title: 'Teacher information',
-          to: '/Staff/Teacher information'
+          title: 'Organization',
+          to: '/Staff/Organization'
         }
       ],
       miniVariant: false,

@@ -162,7 +162,7 @@ app.delete('/deleteTeacher', (req, res) => {
 app.delete('/deleteOrganization', (req, res) => {
   //get student info
   let WID = req.body.WID
-  let sql1 = `DELETE FROM teacher WHERE W_ID = '${WID}'`
+  let sql1 = `DELETE FROM workplace WHERE W_ID = '${WID}'`
   connection.query(sql1, function (err, result, fields) {
     console.log(err)
     if (err) throw err;
