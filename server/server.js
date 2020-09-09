@@ -40,8 +40,9 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
+///////////////////////////////GET////////////////////////////
 app.get('/getT_IDandPass', (req, res) => {
-  connection.query("SELECT T_ID,T_password FROM teacher", function (err, result, fields) {
+  connection.query("SELECT T_ID,T_password,T_name,T_major,T_school FROM teacher", function (err, result, fields) {
     if (err) throw err;
     res.send(result)
   });
@@ -52,18 +53,43 @@ app.get('/getS_IDandPass', (req, res) => {
     res.send(result)
   });
 })
+app.get('/getAllStaffs', (req, res) => {
+  connection.query("SELECT * FROM internshipstaff", function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+})
 app.get('/getAllStudents', (req, res) => {
   connection.query("SELECT S_ID,S_name,S_major FROM student", function (err, result, fields) {
     if (err) throw err;
     res.send(result)
   });
 })
-app.get('/getAllTeachers', (req, res) => {
-  connection.query("SELECT T_ID,T_name,T_major FROM teacher", function (err, result, fields) {
+app.get('/getStudentAndOrg', (req, res) => {
+  connection.query("SELECT student.S_ID,student.S_name,student.S_major,workplace.W_name,workplace.W_province FROM student INNER JOIN workplace ON student.O_ID=workplace.W_ID", function (err, result, fields) {
     if (err) throw err;
     res.send(result)
   });
 })
+app.get('/getAllOrganization', (req, res) => {
+  connection.query("SELECT W_ID,W_name,W_address,W_contract,W_province FROM workplace", function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+})
+app.get('/getAllnameOrganization', (req, res) => {
+  connection.query("SELECT W_name FROM workplace", function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+})
+app.get('/getAllTeachers', (req, res) => {
+  connection.query("SELECT T_ID,T_name,T_major,T_school FROM teacher", function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+})
+//////////////////////////////CREATE//////////////////////////////////
 app.post('/createStudents', (req, res) => {
   //get student info
   let sID = req.body.sID 
@@ -71,13 +97,9 @@ app.post('/createStudents', (req, res) => {
   let Stel = req.body.Stel
   let Smajor = req.body.Smajor 
   let Sschool = req.body.Sschool
-  //get workplace info
   let Wname = req.body.W_name
-  let Waddress = req.body.W_address 
-  let Wcontract = req.body.W_contract
-  let Wprovince = req.body.W_province
-  let sql1 = `INSERT INTO student(S_ID,S_name,S_tel,S_major,S_school) VALUES ('${sID}','${Sname}','${Stel}','${Smajor}','${Sschool}')`
-  let sql2 = `INSERT INTO workplace(W_name,W_address,W_contract,W_province) VALUES ('${Wname}','${Waddress}','${Wcontract}','${Wprovince}')`
+  let sql1 = `INSERT INTO student(S_ID,S_name,S_tel,S_major,S_school,O_ID) VALUES ('${sID}','${Sname}','${Stel}','${Smajor}','${Sschool}','${Wname}')`
+ 
   connection.query(sql1, function (err, result, fields) {
     console.log(err)
     if (err) throw err;
@@ -88,8 +110,20 @@ app.post('/createStudents', (req, res) => {
   });
   res.send('Create success')
 })
+app.post('/createWorkplace', (req, res) => {
+  //get workplace info
+  let Wname = req.body.W_name
+  let Waddress = req.body.W_address 
+  let Wcontract = req.body.W_contract
+  let Wprovince = req.body.W_province
+  let sql2 = `INSERT INTO workplace(W_name,W_address,W_contract,W_province) VALUES ('${Wname}','${Waddress}','${Wcontract}','${Wprovince}')`
+  connection.query(sql2, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  res.send('Create success')
+})
 app.post('/createTeacher', (req, res) => {
-  //get student info
   let TID = req.body.TID
   let Tname = req.body.Tname 
   let Ttel = req.body.Ttel
@@ -104,6 +138,7 @@ app.post('/createTeacher', (req, res) => {
   });
   res.send('Create success')
 })
+//////////////////////////////////DELETE///////////////////////////////////////
 app.delete('/deleteStudent', (req, res) => {
   //get student info
   let sID = req.body.sID 
