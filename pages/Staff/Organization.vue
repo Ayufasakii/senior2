@@ -35,7 +35,7 @@
                                     <v-dialog v-model="dialog" max-width="750px">
 
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-btn class="mb-2" color=#8c1515 small dark v-bind="attrs" v-on="on" >New</v-btn>
+                                            <v-btn class="mb-2" color=#8c1515 small dark v-bind="attrs" v-on="on" @click="New">New</v-btn>
                                         </template>
 
                                         <v-card>
@@ -43,6 +43,16 @@
                                             <v-toolbar-title>
                                                 <span>{{ formTitle }}</span>
                                             </v-toolbar-title>
+                                            <v-spacer></v-spacer>
+                                                <v-btn
+                                                v-if="!show"
+                                                color=#8c1515
+                                                fab
+                                                small
+                                                @click="isEditing=!isEditing">
+                                                <v-icon v-if="isEditing">mdi-close</v-icon>
+                                                <v-icon v-else>mdi-pencil</v-icon>
+                                                </v-btn> 
                                             </v-toolbar>
                                             <v-card-text>
                                                 <v-container>
@@ -54,7 +64,8 @@
                                                             v-model="editedItem.Oname"
                                                             outlined 
                                                             dense 
-                                                            required>
+                                                            required
+                                                            :readonly="!isEditing">
                                                             </v-text-field>
                                                         </v-col>
 
@@ -65,7 +76,8 @@
                                                             v-model="editedItem.Contact" 
                                                             outlined 
                                                             dense 
-                                                            required>
+                                                            required
+                                                            :readonly="!isEditing">
                                                             </v-text-field>
                                                         </v-col>
 
@@ -76,7 +88,8 @@
                                                             v-model="editedItem.Province" 
                                                             dense 
                                                             outlined 
-                                                            required>
+                                                            required
+                                                            :readonly="!isEditing">
                                                             </v-select>
                                                         </v-col>
 
@@ -90,7 +103,8 @@
                                                             dense 
                                                             rows="3" 
                                                             row-height="25" 
-                                                            required>
+                                                            required
+                                                            :readonly="!isEditing">
                                                             </v-textarea>
                                                         </v-col>
                                                     </v-row>
@@ -99,8 +113,8 @@
 
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
-                                                <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                                                <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                                                <v-btn color="blue darken-1" text @click="close" :disabled="!isEditing">Cancel</v-btn>
+                                                <v-btn color="blue darken-1" text @click="save" :disabled="!isEditing">Save</v-btn>
                                             </v-card-actions>
                                         </v-card>
                                     </v-dialog>
@@ -144,6 +158,7 @@ export default {
     },
     data () {
       return {
+        isEditing:false,
         dialog: false,
         search: '',
         headers: [
@@ -192,7 +207,13 @@ export default {
       },
     },
     methods: {
+        New () {
+            this.show=true
+            this.isEditing=true
+      },
         editItem (item) {
+            this.show=false
+            this.isEditing=false
             this.editedIndex = this.Organization.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.dialog = true

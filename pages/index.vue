@@ -106,6 +106,7 @@ export default {
               this.$router.push('/Teacher/Home')
             }else if(!temp&&!temp1){
               alert('Invalid ID or Password!')
+              this.pass = null
             }else{
               alert('Error')
             }

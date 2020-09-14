@@ -43,11 +43,7 @@
       </nuxt-link>
     </v-app-bar>
  
-    <v-main >
-      <v-container>
         <nuxt />
-      </v-container>
-    </v-main>
 
     <v-footer
       :absolute="!fixed"
