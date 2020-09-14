@@ -84,7 +84,7 @@ app.get('/getAllnameOrganization', (req, res) => {
   });
 })
 app.get('/getAllTeachers', (req, res) => {
-  connection.query("SELECT T_ID,T_name,T_major,T_school FROM teacher", function (err, result, fields) {
+  connection.query("SELECT T_ID,T_name,T_major,T_school,T_email,T_tel FROM teacher", function (err, result, fields) {
     if (err) throw err;
     res.send(result)
   });

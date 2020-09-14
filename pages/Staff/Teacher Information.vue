@@ -3,7 +3,7 @@
         <v-main>
             <v-container fluid class="fill-height">
                 <v-row align="center" justify="center">
-                    <v-col cols="12" sm="8" md="6">
+                    <v-col cols="12" sm="8" md="8">
                         <v-card class="elevation-12">
                             <v-toolbar color=#8c1515 dark flat>
                                 <v-toolbar-title>Teacher Information</v-toolbar-title>
@@ -97,6 +97,7 @@
                                                         <v-text-field 
                                                         label="Password" 
                                                         ref="Tpass" 
+                                                        v-if = "show"
                                                         v-model="editedItem.Tpass"
                                                         outlined 
                                                         dense
@@ -161,7 +162,7 @@
 
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
-                                                <v-btn color="blue darken-1" text @click="close" :disabled="!isEditing">Cancel</v-btn>
+                                                <v-btn color="blue darken-1" text @click="close" >Cancel</v-btn>
                                                 <v-btn color="blue darken-1" text @click="save" :disabled="!isEditing">Save</v-btn>
                                             </v-card-actions>
                                         </v-card>
@@ -217,7 +218,10 @@ export default {
           },
           { text: 'Name', value: 'T_name' },
           { text: 'Major', value: 'T_major' },
+          { text: 'Telephone Number', value: 'T_tel' },
+          { text: 'Email', value: 'T_email' },
           { text: 'Actions', value: 'actions', sortable: false },
+
         ],
         TID:null,
         teachers: [],
@@ -269,6 +273,15 @@ export default {
             this.editedIndex = this.teachers.indexOf(item)
             this.editedItem = Object.assign({}, item)
             this.dialog = true
+            console.log(item)
+            let name = item.T_name.split(" ");
+            this.editedItem.Fname = name[0]
+            this.editedItem.Lname = name[1]
+            this.editedItem.TID = item.T_ID
+            this.editedItem.selectedMajor = item.T_major
+            this.editedItem.selectedSchool = item.T_school
+            this.editedItem.Temail = item.T_email
+            this.editedItem.Phone = item.T_tel
       },
         deleteItem (item) {
             const index = this.teachers.indexOf(item)
