@@ -11,17 +11,30 @@
                             </v-toolbar>
 
                             <v-card-text>
-                                <v-row>
-                                <b-avatar size="72px"></b-avatar>
-                                <v-col cols="12" sm="6">
-                                <v-text-field
-                                label="Name"
-                                outlined
-                                dense
-                                readonly>
-                                </v-text-field>
-                                </v-col>
-                                </v-row>
+                                <b-row>
+                                    <b-col cols="12" sm="6">
+                                        <b-input-group prepend="Name" class="mt-3">
+                                        <b-input
+                                        disabled>
+                                        </b-input>
+                                        </b-input-group>
+                                    </b-col>
+
+                                    <b-col cols="12" sm="6">
+                                        <b-input-group prepend="ID" class="mt-3">
+                                        <b-input
+                                        disabled>
+                                        </b-input>
+                                        </b-input-group>
+                                    </b-col>
+                                    <b-col cols="12" sm="6">
+                                        <b-input-group prepend="Tel." class="mt-3">
+                                        <b-input
+                                        disabled>
+                                        </b-input>
+                                        </b-input-group>
+                                    </b-col>
+                                </b-row>
 
                             </v-card-text>
                         </v-card>

@@ -62,7 +62,6 @@
                                                             label="First name" 
                                                             ref="Fname" 
                                                             v-model="editedItem.Fname"
-                                                            :rules="[() => !!editedItem.Fname || 'This field is required']"
                                                             outlined 
                                                             dense
                                                             required
@@ -75,7 +74,6 @@
                                                             label="Last name" 
                                                             ref="Lname" 
                                                             v-model="editedItem.Lname"
-                                                            :rules="[() => !!editedItem.Lname || 'This field is required']"
                                                             outlined 
                                                             dense
                                                             required
@@ -88,7 +86,6 @@
                                                             label="Teacher ID" 
                                                             ref="TID" 
                                                             v-model="editedItem.TID"
-                                                            :rules="[() => !!editedItem.TID || 'This field is required']" 
                                                             outlined 
                                                             dense
                                                             required
@@ -101,7 +98,6 @@
                                                         label="Password" 
                                                         ref="Tpass" 
                                                         v-model="editedItem.Tpass"
-                                                        :rules="[() => !!editedItem.Tpass || 'This field is required']" 
                                                         outlined 
                                                         dense
                                                         required
@@ -113,8 +109,7 @@
                                                             <v-text-field 
                                                             label="Email" 
                                                             ref="Temail" 
-                                                            v-model="editedItem.Temail"
-                                                            :rules="[() => !!editedItem.Temail || 'This field is required']"  
+                                                            v-model="editedItem.Temail" 
                                                             outlined 
                                                             dense
                                                             required
@@ -127,7 +122,6 @@
                                                             label="Mobile Phone" 
                                                             ref="Phone" 
                                                             v-model="editedItem.Phone"
-                                                            :rules="[() => !!editedItem.Phone || 'This field is required']"  
                                                             outlined 
                                                             dense 
                                                             required
@@ -142,7 +136,6 @@
                                                             :items="School" 
                                                             label="School" 
                                                             v-model="editedItem.selectedSchool"
-                                                            :rules="[() => !!editedItem.selectedSchool || 'This field is required']" 
                                                             @input="schoolSelect"
                                                             dense 
                                                             outlined 
@@ -155,8 +148,7 @@
                                                             <v-select 
                                                             :items="Major" 
                                                             label="Major" 
-                                                            v-model="editedItem.selectedMajor"
-                                                            :rules="[() => !!editedItem.selectedMajor || 'This field is required']" 
+                                                            v-model="editedItem.selectedMajor" 
                                                             dense 
                                                             outlined 
                                                             required
