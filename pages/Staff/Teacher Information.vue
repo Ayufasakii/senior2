@@ -224,8 +224,11 @@ export default {
 
         ],
         TID:null,
+        oldTID:null,
+        newTID:null,
         teachers: [],
         editedIndex: -1,
+        Major:[],
         School: ['Agro-Industry', 'Cosmetic Science', 'Dentistry', 'Health Science', 'Information Teachnology', 
         'Integrative Medicine', 'Law', 'Liberal Arts', 'Management', 'Medicine', 'Nursing', 'Science', 'Sinology', 'Social of Innovation'],
         editedItem: {
@@ -275,11 +278,13 @@ export default {
             this.dialog = true
             console.log(item)
             let name = item.T_name.split(" ");
+            this.editedItem.selectedSchool = item.T_school
+            this.schoolSelect()
             this.editedItem.Fname = name[0]
             this.editedItem.Lname = name[1]
             this.editedItem.TID = item.T_ID
+            this.oldTID = item.T_ID
             this.editedItem.selectedMajor = item.T_major
-            this.editedItem.selectedSchool = item.T_school
             this.editedItem.Temail = item.T_email
             this.editedItem.Phone = item.T_tel
       },
@@ -330,6 +335,19 @@ export default {
                         location.reload()
                     }
                 } else {
+            axios({
+                            method: 'put', 
+                            url: `http://localhost:5010/updateTeacher`,
+                            data: {
+                                Tname: this.editedItem.Fname+" "+this.editedItem.Lname,
+                                Ttel: this.editedItem.Phone,
+                                Tmajor:this.editedItem.selectedMajor,
+                                Tschool:this.editedItem.selectedSchool,
+                                Temail:this.editedItem.Temail,
+                                newTID:this.editedItem.TID,
+                                oldTID:this.oldTID
+                                }
+            });
                     this.close()
                 }
             }

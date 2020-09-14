@@ -169,6 +169,23 @@ app.delete('/deleteOrganization', (req, res) => {
   });
   res.send('Delete success')
 })
+//////////////////////////////////UPDATE///////////////////////////////////////
+app.put('/updateTeacher', (req, res) => {
+  let oldTID = req.body.oldTID
+  let newTID = req.body.newTID
+  let Tname = req.body.Tname 
+  let Ttel = req.body.Ttel
+  let Tmajor = req.body.Tmajor 
+  let Tschool = req.body.Tschool
+  let Temail = req.body.Temail
+  let sql1 = `UPDATE teacher SET T_ID = '${newTID}',T_name = '${Tname}',T_major = '${Tmajor}',T_school = '${Tschool}',T_email = '${Temail}',T_tel = '${Ttel}'
+   WHERE old.T_ID = '${oldTID}'`
+  connection.query(sql1, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  res.send('Update success')
+})
 app.listen(5010, () => {
   console.log('Start server at port 5010.')
 })
