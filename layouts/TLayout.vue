@@ -84,8 +84,28 @@ export default {
         {
           icon: 'mdi-account',
           title: 'Profile',
-          to: '/Teacher/Profile'
-        }
+          to: '/Teacher/TAC'
+        },
+        {
+          icon: 'mdi-home',
+          title: 'Create Cost form',
+          to: '/Teacher/TCF'
+        },
+        {
+          icon: 'mdi-home',
+          title: 'Create Visit form',
+          to: '/Teacher/TVF'
+        },
+        {
+          icon: 'mdi-home',
+          title: 'Cost form Information',
+          to: '/Teacher/TSCF'
+        },
+        {
+          icon: 'mdi-home',
+          title: 'Visit form information',
+          to: '/Teacher/TSVF'
+        },
       ],
       miniVariant: false,
       right: true,
