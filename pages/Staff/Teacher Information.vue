@@ -311,13 +311,26 @@ export default {
             let self = this
             if (self.editedItem.selectedSchool == null || self.editedItem.Fname == null || self.editedItem.selectedMajor == null ||
                 self.editedItem.Lname == null || self.editedItem.TID == null || self.editedItem.Phone == null ||
-                self.editedItem.Temail == null || self.editedItem.Tpass == null) {
+                self.editedItem.Temail == null ) {
                 alert('Please check information that not empty!!')
             }else {
                 let r = confirm('Are you sure you want to create?')
                 if(r == true){
                     if (this.editedIndex > -1) {
-                        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+                        axios({
+                            method: 'put', 
+                            url: `http://localhost:5010/updateTeacher`,
+                            data: {
+                                Tname: this.editedItem.Fname+" "+this.editedItem.Lname,
+                                Ttel: this.editedItem.Phone,
+                                Tmajor:this.editedItem.selectedMajor,
+                                Tschool:this.editedItem.selectedSchool,
+                                Temail:this.editedItem.Temail,
+                                newTID:this.editedItem.TID,
+                                oldTID:this.oldTID
+                                }
+                        });
+                        location.reload()
                     } else {
                         axios({
                             method: 'post', 
@@ -335,19 +348,6 @@ export default {
                         location.reload()
                     }
                 } else {
-            axios({
-                            method: 'put', 
-                            url: `http://localhost:5010/updateTeacher`,
-                            data: {
-                                Tname: this.editedItem.Fname+" "+this.editedItem.Lname,
-                                Ttel: this.editedItem.Phone,
-                                Tmajor:this.editedItem.selectedMajor,
-                                Tschool:this.editedItem.selectedSchool,
-                                Temail:this.editedItem.Temail,
-                                newTID:this.editedItem.TID,
-                                oldTID:this.oldTID
-                                }
-            });
                     this.close()
                 }
             }
