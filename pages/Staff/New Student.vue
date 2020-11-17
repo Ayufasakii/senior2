@@ -1,61 +1,16 @@
 <template>
-    <v-app id="inspire">
-        <v-main>
-            <v-container fluid class="fill-height">
-                <v-row align="center" justify="center">
-                    <v-col cols="12" sm="8" md="6">
-                        <v-card class="elevation-12">
-                            <v-toolbar color=#8c1515 dark flat dense>
-                                <v-toolbar-title>Student Information</v-toolbar-title>
+<v-app id="inspire">
+    <v-content>
+        <v-container class="fill-height" fluid>
+            <v-row align="center" justify="center">
+                <v-col cols="12" sm="8" md="6">
+                    <v-card class="elevation-12">
+                        <v-toolbar color=#8c1515 dark flat>
+                            <v-toolbar-title>Student Information</v-toolbar-title>
                             <v-spacer></v-spacer>
-                            </v-toolbar>
+                        </v-toolbar>
 
-                            <v-card-title>
-                            <v-spacer></v-spacer>
-                            <v-col cols="12" sm="6" >
-                            <v-text-field
-                            v-model="search"
-                            append-icon="mdi-magnify"
-                            label="Search"
-                            single-line
-                            hide-details
-                            ></v-text-field>
-                            </v-col>
-                            </v-card-title>
-
-                            <v-data-table
-                            :headers="headers"
-                            :items="students"
-                            :search="search"
-                            >
-
-                            <template v-slot:top>
-                                <v-toolbar flat color="white">
-                                    <v-spacer></v-spacer>
-                                    <v-dialog v-model="dialog" max-width="750px">
-
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn class="mb-2" color=#8c1515 small dark v-bind="attrs" v-on="on" @click="New">New</v-btn>
-                                        </template>
-
-                                        <v-card>
-                                            <v-toolbar color=#8c1515 dark flat>
-                                            <v-toolbar-title>
-                                                <span>{{ formTitle }}</span>
-                                            </v-toolbar-title>
-                                            <v-spacer></v-spacer>
-                                                <v-btn
-                                                v-if="!show"
-                                                color=#8c1515
-                                                fab
-                                                small
-                                                @click="isEditing=!isEditing">
-                                                <v-icon v-if="isEditing">mdi-close</v-icon>
-                                                <v-icon v-else>mdi-pencil</v-icon>
-                                                </v-btn> 
-                                            </v-toolbar>
-                                            <v-card-text>
-                                                <v-container>
+                        <v-card-text>
                                                     <v-row>
                                                         <v-col cols="12" sm="6">
                                                             <v-text-field  
@@ -64,8 +19,7 @@
                                                             v-model="editedItem.Fname" 
                                                             outlined 
                                                             dense 
-                                                            required
-                                                            :readonly="!isEditing">
+                                                            required>
                                                             </v-text-field>
                                                         </v-col>
 
@@ -76,8 +30,7 @@
                                                             v-model="editedItem.Lname" 
                                                             outlined 
                                                             dense 
-                                                            required
-                                                            :readonly="!isEditing">
+                                                            required>
                                                             </v-text-field>
                                                         </v-col>
 
@@ -88,8 +41,7 @@
                                                             v-model="editedItem.SID" 
                                                             outlined 
                                                             dense 
-                                                            required
-                                                            :readonly="!isEditing">
+                                                            required>
                                                             </v-text-field>
                                                         </v-col>
 
@@ -100,8 +52,7 @@
                                                             v-model="editedItem.Phone"  
                                                             outlined 
                                                             dense 
-                                                            required
-                                                            :readonly="!isEditing">
+                                                            required>
                                                             </v-text-field>
                                                         </v-col>
                                                     </v-row>
@@ -115,8 +66,7 @@
                                                             @input="schoolSelect" 
                                                             dense 
                                                             outlined 
-                                                            required
-                                                            :readonly="!isEditing">
+                                                            required>
                                                             </v-select>
                                                         </v-col>
 
@@ -127,22 +77,11 @@
                                                             v-model="editedItem.selectedMajor"
                                                             dense 
                                                             outlined 
-                                                            required
-                                                            :readonly="!isEditing">
+                                                            required>
                                                             </v-select>
                                                         </v-col>
 
-                                                        <v-col cols="12" sm="6">
-                                                            <v-autocomplete 
-                                                            label="Organization Name"
-                                                            v-model="editedItem.Oname"
-                                                            :items="Organization"
-                                                            outlined 
-                                                            dense 
-                                                            required
-                                                            :readonly="!isEditing">
-                                                            </v-autocomplete>
-                                                        </v-col>
+                                                        
 
                                                         <v-col cols="12" sm="6">
                                                             <v-text-field  
@@ -151,8 +90,7 @@
                                                             v-model="editedItem.Contact" 
                                                             outlined 
                                                             dense 
-                                                            required
-                                                            :readonly="!isEditing">
+                                                            required>
                                                             </v-text-field>
                                                         </v-col>
 
@@ -163,8 +101,7 @@
                                                             v-model="editedItem.Province" 
                                                             dense 
                                                             outlined 
-                                                            required
-                                                            :readonly="!isEditing">
+                                                            required>
                                                             </v-select>
                                                         </v-col>
 
@@ -178,46 +115,23 @@
                                                             dense 
                                                             rows="3" 
                                                             row-height="25" 
-                                                            required
-                                                            :readonly="!isEditing">
+                                                            required>
                                                             </v-textarea>
                                                         </v-col>
                                                     </v-row>
-                                                </v-container>
-                                            </v-card-text>
+                        </v-card-text>
 
-                                            <v-card-actions>
-                                                <v-spacer></v-spacer>
-                                                <v-btn color="blue darken-1" text @click="close" :disabled="!isEditing">Cancel</v-btn>
-                                                <v-btn color="blue darken-1" text @click="save" :disabled="!isEditing">Save</v-btn>
-                                            </v-card-actions>
-                                        </v-card>
-                                    </v-dialog>
-                                </v-toolbar>
-                            </template>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color=#8c1515 @click="save" dark>Submit</v-btn>
+                        </v-card-actions>
+                    </v-card>
 
-                            <template v-slot:item.actions="{ item }">
-                                <v-icon
-                                small
-                                class="mr-2"
-                                @click="editItem(item)"
-                                >
-                                mdi-account-edit
-                                </v-icon>
-                                <v-icon
-                                small
-                                @click="deleteItem(item)"
-                                >
-                                mdi-delete
-                                </v-icon>
-                            </template>
-                            </v-data-table>
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </v-main>
-    </v-app>
+                </v-col>
+            </v-row>
+        </v-container>
+    </v-content>
+</v-app>
 </template>
 
 <script>
@@ -305,7 +219,8 @@ export default {
     },
     methods: {
         New () {
-            this.$router.push('/Staff/New Student')
+            this.show=true
+            this.isEditing=true
       },
         editItem (item) {
             this.show=false
@@ -331,7 +246,7 @@ export default {
             let self = this
             if (self.editedItem.selectedSchool == null || self.editedItem.Fname == null || self.editedItem.selectedMajor == null ||
                 self.editedItem.Lname == null || self.editedItem.SID == null || self.editedItem.Phone == null ||
-                self.editedItem.Oname == null || self.editedItem.Contact == null || self.editedItem.Province == null ||
+                 self.editedItem.Contact == null || self.editedItem.Province == null ||
                 self.editedItem.Address == null) {
                 alert('Please check information that not empty!!')
             }else {
@@ -355,7 +270,7 @@ export default {
                                 W_province:this.editedItem.Province
                             }
                         });
-                        location.reload()
+                         this.$router.push('/Staff/Student information')
                     }
                 } else {
                     this.close()

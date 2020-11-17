@@ -36,11 +36,9 @@
       <mfu-logo />
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <nuxt-link class="nuxt-link" to="/">
-            <v-btn depressed color=#8c1515>
+            <v-btn depressed color=#8c1515 to="/" nuxt>
                 <v-icon left>mdi-logout</v-icon>Logout
             </v-btn>
-      </nuxt-link>
     </v-app-bar>
  
         <nuxt />
