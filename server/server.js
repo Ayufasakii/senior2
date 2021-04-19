@@ -60,7 +60,7 @@ app.get('/getAllStaffs', (req, res) => {
   });
 })
 app.get('/getAllStudents', (req, res) => {
-  connection.query("SELECT S_ID,S_name,S_major FROM student", function (err, result, fields) {
+  connection.query("SELECT * FROM student", function (err, result, fields) {
     if (err) throw err;
     res.send(result)
   });
@@ -89,6 +89,13 @@ app.get('/getAllTeachers', (req, res) => {
     res.send(result)
   });
 })
+app.post('/getTeacherByID', (req, res) => {
+  let TID = req.body.TID
+  connection.query(`SELECT T_ID,T_name,T_major,T_school,T_email,T_tel FROM teacher where T_ID = '${TID}'`, function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+})
 //////////////////////////////CREATE//////////////////////////////////
 app.post('/createStudents', (req, res) => {
   //get student info
@@ -97,8 +104,7 @@ app.post('/createStudents', (req, res) => {
   let Stel = req.body.Stel
   let Smajor = req.body.Smajor 
   let Sschool = req.body.Sschool
-  let Wname = req.body.W_name
-  let sql1 = `INSERT INTO student(S_ID,S_name,S_tel,S_major,S_school,O_ID) VALUES ('${sID}','${Sname}','${Stel}','${Smajor}','${Sschool}','${Wname}')`
+  let sql1 = `INSERT INTO student(S_ID,S_name,S_tel,S_major,S_school) VALUES ('${sID}','${Sname}','${Stel}','${Smajor}','${Sschool}')`
  
   connection.query(sql1, function (err, result, fields) {
     console.log(err)
