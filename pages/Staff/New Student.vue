@@ -83,7 +83,7 @@
 
                                                         
 
-                                                        <v-col cols="12" sm="6">
+                                                        <!-- <v-col cols="12" sm="6">
                                                             <v-text-field  
                                                             label="Organization contact" 
                                                             ref="Contact" 
@@ -117,7 +117,7 @@
                                                             row-height="25" 
                                                             required>
                                                             </v-textarea>
-                                                        </v-col>
+                                                        </v-col> -->
                                                     </v-row>
                         </v-card-text>
 
@@ -245,9 +245,8 @@ export default {
         save () {
             let self = this
             if (self.editedItem.selectedSchool == null || self.editedItem.Fname == null || self.editedItem.selectedMajor == null ||
-                self.editedItem.Lname == null || self.editedItem.SID == null || self.editedItem.Phone == null ||
-                 self.editedItem.Contact == null || self.editedItem.Province == null ||
-                self.editedItem.Address == null) {
+                self.editedItem.Lname == null || self.editedItem.SID == null || self.editedItem.Phone == null 
+                 ) {
                 alert('Please check information that not empty!!')
             }else {
                 let r = confirm('Are you sure you want to create?')

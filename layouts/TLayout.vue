@@ -92,7 +92,7 @@ export default {
         {
           icon: 'mdi-home',
           title: 'Create Visit form',
-          to: '/Teacher/TVF'
+          to: '/Teacher/CostFrom'
         },
         {
           icon: 'mdi-home',
