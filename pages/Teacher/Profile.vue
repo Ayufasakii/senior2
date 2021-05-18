@@ -3,7 +3,7 @@
         <v-main>
             <v-container fluid class="fill-height">
                 <v-row align="center" justify="center">
-                    <v-col cols="12" sm="10" md="10">
+                    <v-col cols="12" sm="8" md="6">
                         <v-card class="elevation-12">
                             <v-toolbar color=#8c1515 dark flat>
                                 <v-toolbar-title>Profile</v-toolbar-title>
@@ -11,33 +11,27 @@
                             </v-toolbar>
 
                             <v-card-text>
-                                <b-row>
-                                    <b-col cols="12" sm="6">
-                                        <b-input-group prepend="Name"  class="mt-3">
-                                        <b-input
-                                        v-model="TName"
-                                        disabled>
-                                        </b-input>
-                                        </b-input-group>
-                                    </b-col>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <span class="black--text">Name : {{ TName }}</span>
+                                    </v-col>
 
-                                    <b-col cols="12" sm="6">
-                                        <b-input-group prepend="ID" class="mt-3">
-                                        <b-input
-                                        v-model="TId"
-                                        disabled>
-                                        </b-input>
-                                        </b-input-group>
-                                    </b-col>
-                                    <b-col cols="12" sm="6">
-                                        <b-input-group prepend="Tel." class="mt-3">
-                                        <b-input
-                                        v-model="TTelephoneNum"
-                                        disabled>
-                                        </b-input>
-                                        </b-input-group>
-                                    </b-col>
-                                </b-row>
+                                    <v-col cols="12">
+                                        <span class="black--text">ID : {{ TId }}</span>
+                                    </v-col>
+                                    <v-col cols="12" sm="6">
+                                        <span class="black--text">School : {{  }}</span>
+                                    </v-col>
+                                    <v-col cols="12" sm="6">
+                                        <span class="black--text">Major : {{  }}</span>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <span class="black--text">Email : {{ Email }}</span>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <span class="black--text">Tel. : {{ TTelephoneNum }}</span>
+                                    </v-col>
+                                </v-row>
 
                             </v-card-text>
                         </v-card>

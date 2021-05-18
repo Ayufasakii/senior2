@@ -12,55 +12,7 @@
 
                         <v-card-text>
                             <v-row>
-                                <v-col cols="12" sm="6">
-                                    <v-text-field  
-                                    label="First name" 
-                                    ref="Fname" 
-                                    v-model="Fname"
-                                    outlined 
-                                    dense
-                                    required
-                                    readonly>
-                                    </v-text-field>
-                                    </v-col>
-
-                                <v-col cols="12" sm="6">
-                                    <v-text-field  
-                                    label="Last name" 
-                                    ref="Lname" 
-                                    v-model="Lname"
-                                    outlined 
-                                    dense
-                                    required
-                                    readonly>
-                                    </v-text-field>
-                                </v-col>
-
-                                <v-col cols="12" sm="6">
-                                    <v-text-field  
-                                    label="Major" 
-                                    ref="Major" 
-                                    v-model="Major"
-                                    outlined 
-                                    dense
-                                    required
-                                    readonly>
-                                    </v-text-field>
-                                </v-col>
-
-                                <v-col cols="12" sm="6">
-                                    <v-text-field  
-                                    label="School" 
-                                    ref="School" 
-                                    v-model="School"
-                                    outlined 
-                                    dense
-                                    required
-                                    readonly>
-                                    </v-text-field>
-                                </v-col>
-
-                                <v-col cols="12" sm="6">
+                                <v-col cols="12">
                                     <v-menu
                                         ref="menu"
                                         v-model="menu"
@@ -79,7 +31,8 @@
                                         readonly
                                         v-bind="attrs"
                                         v-on="on"
-                                        required>
+                                        required
+                                        dense>
                                         </v-text-field>
                                         </template>
 
@@ -107,6 +60,40 @@
                                         </v-date-picker>
                                     </v-menu>
                                 </v-col>
+                                </v-row>
+
+                                <v-row>
+                                <v-col cols="12" sm="6">
+                                    <span class="black--text">Time from</span>
+                                    <b-form-timepicker id="FTime" locale="th" dense></b-form-timepicker>
+                                </v-col>
+                                <v-col cols="12" sm="6">
+                                    <span class="black--text">Time To</span>
+                                    <b-form-timepicker id="TTime" locale="th" dense></b-form-timepicker>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-autocomplete
+                                    v-model="Oname"
+                                    :items="items"
+                                    label="Organization"
+                                    multiple
+                                    dense
+                                    ></v-autocomplete>
+                                </v-col>
+
+                                <v-col cols="12">
+                                    <v-textarea  
+                                    label="Address" 
+                                    ref="Address" 
+                                    v-model="Address"
+                                    rows="2"
+                                    outlined 
+                                    dense
+                                    required
+                                    >
+                                    </v-textarea>
+                                </v-col>
+                                
                             </v-row>
                         </v-card-text>
 

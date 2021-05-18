@@ -86,12 +86,12 @@ export default {
         },
         {
           icon: 'mdi-home',
-          title: 'Create Cost form',
-          to: '/Teacher/Form'
+          title: 'Create Visit form',
+          to: '/Teacher/VisitForm'
         },
         {
           icon: 'mdi-home',
-          title: 'Create Visit form',
+          title: 'Create Cost form',
           to: '/Teacher/CostFrom'
         },
         {
