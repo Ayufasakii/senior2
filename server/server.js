@@ -71,18 +71,8 @@ app.get('/getStudentAndOrg', (req, res) => {
     res.send(result)
   });
 })
-app.get('/getAllOrganization', (req, res) => {
-  connection.query("SELECT W_ID,W_name,W_address,W_contract,W_province FROM workplace", function (err, result, fields) {
-    if (err) throw err;
-    res.send(result)
-  });
-})
-app.get('/getAllnameOrganization', (req, res) => {
-  connection.query("SELECT W_name FROM workplace", function (err, result, fields) {
-    if (err) throw err;
-    res.send(result)
-  });
-})
+
+
 app.get('/getAllTeachers', (req, res) => {
   connection.query("SELECT T_ID,T_name,T_major,T_school,T_email,T_tel FROM teacher", function (err, result, fields) {
     if (err) throw err;
@@ -165,16 +155,7 @@ app.delete('/deleteTeacher', (req, res) => {
   });
   res.send('Delete success')
 })
-app.delete('/deleteOrganization', (req, res) => {
-  //get student info
-  let WID = req.body.WID
-  let sql1 = `DELETE FROM workplace WHERE W_ID = '${WID}'`
-  connection.query(sql1, function (err, result, fields) {
-    console.log(err)
-    if (err) throw err;
-  });
-  res.send('Delete success')
-})
+
 //////////////////////////////////UPDATE///////////////////////////////////////
 app.put('/updateTeacher', (req, res) => {
   let oldTID = req.body.oldTID

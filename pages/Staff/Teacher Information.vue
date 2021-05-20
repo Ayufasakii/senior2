@@ -155,7 +155,29 @@
                                                             required
                                                             :readonly="!isEditing">
                                                             </v-select>
-                                                        </v-col>                                              
+                                                            
+                                                        </v-col>   
+                                                        
+                                                        <v-col cols="12" sm="6">                                                
+                                                            <v-text-field  
+                                                            label="Academic Year" 
+                                                            ref="AcYear" 
+                                                            v-model="editedItem.Fname" 
+                                                            outlined 
+                                                            dense 
+                                                            required>
+                                                            </v-text-field>
+                                                        </v-col>
+                                                         <v-col cols="12" sm="6">
+                                                        <v-text-field  
+                                                            label="Semester" 
+                                                            ref="Semester" 
+                                                            v-model="editedItem.Fname" 
+                                                            outlined 
+                                                            dense 
+                                                            required>
+                                                            </v-text-field>
+                                                        </v-col>                                           
                                                     </v-row>
                                                 </v-container>
                                             </v-card-text>

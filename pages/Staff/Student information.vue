@@ -74,15 +74,6 @@
                                                             </v-select>
                                                         </v-col>
 
-                                                        <v-col cols="12" sm="6">
-                                                            <v-autocomplete label="Organization Name" v-model="editedItem.Oname" :items="Organization" outlined dense required :readonly="!isEditing">
-                                                            </v-autocomplete>
-                                                        </v-col>
-
-                                                        <v-col cols="12" sm="6">
-                                                            <v-text-field label="Organization contact" ref="Contact" v-model="editedItem.Contact" outlined dense required :readonly="!isEditing">
-                                                            </v-text-field>
-                                                        </v-col>
 
                                                         <v-col cols="12" sm="6">
                                                             <v-select :items="Province" label="Province" v-model="editedItem.Province" dense outlined required :readonly="!isEditing">
@@ -129,11 +120,6 @@ const axios = require('axios');
 export default {
     layout(context) {
         return 'SLayout'
-    },
-    async asyncData({ params }) {
-        const { data } = await axios.get(`http://localhost:5010/getAllOrganization`)
-        console.log(data)
-        return { Organization: data }
     },
     data() {
         return {
@@ -207,7 +193,7 @@ export default {
     },
     methods: {
         New() {
-            this.$router.push('/Staff/New Student')
+            this.$router.push('/Staff/NewStudent')
         },
         getdata() {
             axios.get('http://localhost:5010/getAllStudents', {
