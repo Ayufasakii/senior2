@@ -86,6 +86,24 @@ app.post('/getTeacherByID', (req, res) => {
     res.send(result)
   });
 })
+app.post('/getSearchStudents', (req, res) => {
+  let SID = req.body.SID 
+  let Sname = req.body.Sname
+  let Sschool = req.body.Sschool
+  let Smajor = req.body.Smajor
+  let SaccYear = req.body.SaccYear
+  let Ssemester = req.body.Ssemester
+  if(SID == undefined){SID = ''}
+  if(Sname == undefined){Sname = ''}
+  if(Sschool == undefined){Sschool = ''}
+  if(Ssemester == undefined){Ssemester = ''}
+  if(SaccYear == undefined){SaccYear = ''}
+  if(Smajor == undefined){Smajor = ''}
+  connection.query(`SELECT * FROM student where S_ID like '%${SID}%' AND S_name like '%${Sname}%' AND S_major like '%${Smajor}%' AND S_school like '%${Sschool}%' AND S_acyear like '%${SaccYear}%' AND S_acsemester like '%${Ssemester}%'`, function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+})
 //////////////////////////////CREATE//////////////////////////////////
 app.post('/createStudents', (req, res) => {
   //get student info
@@ -94,7 +112,9 @@ app.post('/createStudents', (req, res) => {
   let Stel = req.body.Stel
   let Smajor = req.body.Smajor 
   let Sschool = req.body.Sschool
-  let sql1 = `INSERT INTO student(S_ID,S_name,S_tel,S_major,S_school) VALUES ('${sID}','${Sname}','${Stel}','${Smajor}','${Sschool}')`
+  let semester = req.body.semester
+  let accYear = req.body.accYear
+  let sql1 = `INSERT INTO student(S_ID,S_name,S_tel,S_major,S_school,s_acyear,s_acsemester) VALUES ('${sID}','${Sname}','${Stel}','${Smajor}','${Sschool}','${accYear}','${semester}')`
  
   connection.query(sql1, function (err, result, fields) {
     console.log(err)
@@ -127,7 +147,9 @@ app.post('/createTeacher', (req, res) => {
   let Tschool = req.body.Tschool
   let Temail = req.body.Temail
   let Tpass = req.body.Tpass
-  let sql1 = `INSERT INTO teacher(T_ID,T_name,T_password,T_major,T_school,T_email,T_tel) VALUES ('${TID}','${Tname}','${Tpass}','${Tmajor}','${Tschool}','${Temail}','${Ttel}')`
+  let semester = req.body.semester
+  let accYear = req.body.accYear
+  let sql1 = `INSERT INTO teacher(T_ID,T_name,T_password,T_major,T_school,T_email,T_tel,T_AcYear,T_AcSemester) VALUES ('${TID}','${Tname}','${Tpass}','${Tmajor}','${Tschool}','${Temail}','${Ttel}','${accYear}','${semester}')`
   connection.query(sql1, function (err, result, fields) {
     console.log(err)
     if (err) throw err;

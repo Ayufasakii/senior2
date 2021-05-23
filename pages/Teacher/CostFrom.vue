@@ -32,7 +32,9 @@
 <script>
 export default {
   name: "App",
-  
+      layout(context) {
+        return 'TLayout'
+    },
   data: () => ({
     workExperiences: [
       {

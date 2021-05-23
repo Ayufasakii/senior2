@@ -162,21 +162,23 @@
                                                             <v-text-field  
                                                             label="Academic Year" 
                                                             ref="AcYear" 
-                                                            v-model="editedItem.Fname" 
+                                                            v-model="editedItem.selectedAccYear" 
                                                             outlined 
                                                             dense 
                                                             required>
                                                             </v-text-field>
                                                         </v-col>
-                                                         <v-col cols="12" sm="6">
-                                                        <v-text-field  
+                                                       <v-col cols="12" sm="6">
+                                                            <v-select 
+                                                            :items="Semester" 
                                                             label="Semester" 
-                                                            ref="Semester" 
-                                                            v-model="editedItem.Fname" 
-                                                            outlined 
+                                                            v-model="editedItem.selectedSemester" 
                                                             dense 
-                                                            required>
-                                                            </v-text-field>
+                                                            outlined 
+                                                            required
+                                                            :readonly="!isEditing">
+                                                            </v-select>
+                                                            
                                                         </v-col>                                           
                                                     </v-row>
                                                 </v-container>
@@ -250,7 +252,9 @@ export default {
         newTID:null,
         teachers: [],
         editedIndex: -1,
+        accYear:null,
         Major:[],
+        Semester:[1,2,3],
         School: ['Agro-Industry', 'Cosmetic Science', 'Dentistry', 'Health Science', 'Information Teachnology', 
         'Integrative Medicine', 'Law', 'Liberal Arts', 'Management', 'Medicine', 'Nursing', 'Science', 'Sinology', 'Social of Innovation'],
         editedItem: {
@@ -261,6 +265,8 @@ export default {
             Lname: null,
             TID: null,
             Tpass:null,
+            selectedSemester:null,
+            selectedAccYear:null,
             Temail:null,
             Phone: null,
          },
@@ -349,6 +355,8 @@ export default {
                                 Tschool:this.editedItem.selectedSchool,
                                 Temail:this.editedItem.Temail,
                                 newTID:this.editedItem.TID,
+                                semester:this.editedItem.selectedSemester,
+                                accYear:this.editedItem.selectedAccYear,
                                 oldTID:this.oldTID
                                 }
                         });
@@ -364,7 +372,9 @@ export default {
                                 Tmajor:this.editedItem.selectedMajor,
                                 Tschool:this.editedItem.selectedSchool,
                                 Tpass:this.editedItem.Tpass,
-                                Temail:this.editedItem.Temail
+                                Temail:this.editedItem.Temail,
+                                accYear:this.editedItem.selectedAccYear,
+                                semester:this.editedItem.selectedSemester
                             }
                         });
                         location.reload()

@@ -3,7 +3,7 @@
         <v-main>
             <v-container fluid class="fill-height">
                 <v-row align="center" justify="center">
-                    <v-col cols="12" sm="8" md="6">
+                    <v-col cols="12" sm="10" md="10">
                         <v-card class="elevation-12">
                             <v-toolbar color=#8c1515 dark flat dense>
                                 <v-toolbar-title>Organization information</v-toolbar-title>
