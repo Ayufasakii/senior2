@@ -94,6 +94,12 @@ export default {
           title: 'Organization',
           to: '/Staff/Organization'
         }
+        ,
+        {
+          icon: 'mdi-account',
+          title: 'Visit form information',
+          to: '/Staff/VisitFormIn'
+        }
       ],
       miniVariant: false,
       right: true,

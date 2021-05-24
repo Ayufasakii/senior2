@@ -6,39 +6,6 @@
                 <v-col cols="12" sm="10" md="10">
                     <v-card class="elevation-12 mb-6">
                         <v-toolbar color=#8c1515 dark flat>
-                            <v-toolbar-title>Teacher Information</v-toolbar-title>
-
-                        </v-toolbar>
-                        <v-row>
-                            <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
-                                <v-text-field label="Name" v-model="teacher.T_name" disabled outlined dense required>
-                                </v-text-field>
-                            </v-col>
-                            <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
-                                <v-text-field label="Email" v-model="teacher.T_email" disabled outlined dense required>
-                                </v-text-field>
-                            </v-col>
-                            <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
-                                <v-text-field label="Telephone Number" v-model="teacher.T_tel" disabled outlined dense required>
-                                </v-text-field>
-                            </v-col>
-                            <v-col class="ml-5 mr-5" cols="12" sm="3">
-                                <v-text-field label="School" v-model="teacher.T_School" disabled outlined dense required>
-                                </v-text-field>
-                            </v-col>
-                            <v-col class="ml-5 mr-5" cols="12" sm="3">
-                                <v-text-field label="Major" v-model="teacher.T_Major" disabled outlined dense required>
-                                </v-text-field>
-                            </v-col>
-                            <v-spacer></v-spacer>
-                        </v-row>
-
-                        <v-card-text>
-
-                        </v-card-text>
-                    </v-card>
-                    <v-card class="elevation-12 mb-6">
-                        <v-toolbar color=#8c1515 dark flat>
                             <v-toolbar-title>Visit Form Information</v-toolbar-title>
                             <v-spacer></v-spacer>
                         </v-toolbar>
@@ -46,7 +13,11 @@
                         <v-card-text>
                             <v-row>
                                 <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
-                                    <v-text-field label="Name" v-model="search.Sname" outlined dense required>
+                                    <v-text-field label="Teacher Name" v-model="search.Tname" outlined dense required>
+                                    </v-text-field>
+                                </v-col>
+                                <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                    <v-text-field label="Student Name" v-model="search.Sname" outlined dense required>
                                     </v-text-field>
                                 </v-col>
                             </v-row>
@@ -126,10 +97,9 @@
 const axios = require('axios');
 export default {
     layout(context) {
-        return 'TLayout'
+        return 'SLayout'
     },
     created() {
-        this.getdata();
     },
     data: () => ({
         menu: false,
@@ -177,10 +147,11 @@ export default {
         dup: null,
         visitforms: [],
         headers: [{
-                text: 'Student Name',
+                text: 'Teacher Name',
                 align: 'start',
-                value: 'S_name',
+                value: 'T_name',
             },
+            { text: 'Student Name', value: 'S_name' },
             { text: 'Workplace Name', value: 'w_name' },
             { text: 'Status', value: 'status' },
             { text: 'Actions', value: 'actions', sortable: false },
@@ -194,32 +165,17 @@ export default {
         New() {
             this.$router.push('/Staff/NewStudent')
         },
-        getdata() {
-            axios.post('http://localhost:5010/getTeacherByID', {
-                    TID: sessionStorage.getItem("TID"),
-                })
-                .then((response) => {
-                    this.teacher.T_name = response.data[0].T_name
-                    this.teacher.T_email = response.data[0].T_email
-                    this.teacher.T_tel = response.data[0].T_tel
-                    this.teacher.T_School = response.data[0].T_school
-                    this.teacher.T_Major = response.data[0].T_major
-                    console.log(response.data)
-                }, (error) => {
-                    console.log(error);
-                });
-        },
         searchVisit() {
             axios.post('http://localhost:5010/getSearchVisitForm', {
-                    Sname : this.search.Sname,
-                    Tname :  this.teacher.T_name,
-                    Date2Go : this.search.Date2Go,
-                    Date2Arrive : this.search.Date2Arrive,
-                    Date2Visit :this.search.Date2Visit,
-                    semester : this.search.semester,
-                    acyear : this.search.acyear,
-                    workplace : this.search.workplace,
-                    status : this.search.status,
+                    Sname: this.search.Sname,
+                    Tname: this.search.T_name,
+                    Date2Go: this.search.Date2Go,
+                    Date2Arrive: this.search.Date2Arrive,
+                    Date2Visit: this.search.Date2Visit,
+                    semester: this.search.semester,
+                    acyear: this.search.acyear,
+                    workplace: this.search.workplace,
+                    status: this.search.status,
                 })
                 .then((response) => {
                     this.visitforms = response.data

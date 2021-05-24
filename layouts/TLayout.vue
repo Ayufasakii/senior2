@@ -102,7 +102,7 @@ export default {
         {
           icon: 'mdi-home',
           title: 'Visit form information',
-          to: '/Teacher/TSVF'
+          to: '/Teacher/VisitFormIn'
         },
       ],
       miniVariant: false,

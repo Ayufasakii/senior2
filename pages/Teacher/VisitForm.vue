@@ -99,52 +99,60 @@
                         <v-card-text>
                             <v-row>
                                 <v-col cols="12">
-                                    <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="date" transition="scale-transition" offset-y min-width="290px">
-
+                                    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="DateRange" label="Visiting Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on" required dense>
-                                            </v-text-field>
+                                            <v-text-field v-model="form.date_go" label="Date to go" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-
-                                        <v-date-picker v-model="dates" no-title scrollable range>
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu = false">
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(date)">
-                                                OK
-                                            </v-btn>
-                                        </v-date-picker>
+                                        <v-date-picker v-model="form.date_go" @input="menu2 = false"></v-date-picker>
                                     </v-menu>
                                 </v-col>
                             </v-row>
-                            
+                            <v-row>
+                                <v-col cols="12">
+                                    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="form.date_arrive" label="Date to arrive" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="form.date_arrive" @input="menu2 = false"></v-date-picker>
+                                    </v-menu>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="12">
+                                    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-text-field v-model="form.date_intern" label="Date to visit" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="form.date_intern" @input="menu2 = false"></v-date-picker>
+                                    </v-menu>
+                                </v-col>
+                            </v-row>
 
                             <v-row>
                                 <v-col cols="12" sm="6">
-                                    <span class="black--text">Time from</span>
-                                    <b-form-timepicker id="FTime" locale="th" dense></b-form-timepicker>
+                                    <span class="black--text">Start time visit</span>
+                                    <b-form-timepicker id="FTime" locale="th" dense v-model="form.time_start"></b-form-timepicker>
                                 </v-col>
                                 <v-col cols="12" sm="6">
-                                    <span class="black--text">Time To</span>
-                                    <b-form-timepicker id="TTime" locale="th" dense></b-form-timepicker>
+                                    <span class="black--text">End time visit</span>
+                                    <b-form-timepicker id="TTime" locale="th" dense v-model="form.time_end"></b-form-timepicker>
                                 </v-col>
 
                                 <v-col cols="12">
-                                    <v-text-field label="Organization Name" v-model="searchID" outlined dense required>
+                                    <v-text-field label="Organization Name" v-model="form.workplace" outlined dense required>
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12">
-                                    <v-text-field label="Organization Telephone Number" v-model="searchID" outlined dense required>
+                                    <v-text-field label="Organization Telephone Number" v-model="form.telephone" outlined dense required>
                                     </v-text-field>
                                 </v-col>
 
                                 <v-col cols="12">
-                                    <v-textarea label="Address" ref="Address" v-model="Address" rows="2" outlined dense required>
+                                    <v-textarea label="Address" ref="Address" v-model="form.address" rows="2" outlined dense required>
                                     </v-textarea>
                                 </v-col>
                                 <v-col cols="12">
-                                    <v-textarea label="Remark" ref="Address" v-model="Address" rows="2" outlined dense required>
+                                    <v-textarea label="Remark" ref="Address" v-model="form.remark" rows="2" outlined dense required>
                                     </v-textarea>
                                 </v-col>
 
@@ -153,7 +161,7 @@
 
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color=#8c1515 @click="save" dark>Submit</v-btn>
+                            <v-btn color=#8c1515 @click="submit" dark>Submit</v-btn>
                         </v-card-actions>
                     </v-card>
 
@@ -174,7 +182,6 @@ export default {
         this.getdata();
     },
     data: () => ({
-        dates: [],
         menu: false,
         teacher: {
             T_name: null,
@@ -188,9 +195,25 @@ export default {
             searchMajor: '',
             searchAccYear: '',
             searchSemester: '',
-            student: null
-
         },
+        form: {
+            student: null,
+            teacher: null,
+            workplace: null,
+            address: null,
+            telephone: null,
+            date_go: null,
+            date_arrive: null,
+            date_intern: null,
+            time_start: null,
+            time_end: null,
+            remark: null,
+            comment: null,
+            status: null,
+            AccYear: null,
+            semester: null
+        },
+        dup:null,
         students: [],
         headers: [{
                 text: 'Student ID',
@@ -198,15 +221,16 @@ export default {
                 value: 'S_ID',
             },
             { text: 'Name', value: 'S_name' },
+            { text: 'School', value: 'S_school' },
             { text: 'Major', value: 'S_major' },
+            { text: 'Accademic Year', value: 's_acyear' },
+            { text: 'Semester', value: 's_acsemester' },
             { text: 'Actions', value: 'actions', sortable: false },
         ],
         TID: null
     }),
     computed: {
-        DateRange() {
-            return this.dates.join(' ~ ')
-        },
+
     },
     methods: {
         New() {
@@ -246,12 +270,61 @@ export default {
         addStudent(item) {
             let r = confirm('ต้องการเพิ่มนักเรียนคนนี้ในฟอร์ม?')
             if (r == true) {
-                this.student = item.S_name
-
+                this.form.student = item.S_name
+                this.form.AccYear = item.S_acYear
+                this.form.semester = item.S_acsemester
             } else {
 
             }
+        },
+        async submit() {
+            await axios.post('http://localhost:5010/checkDuplicateFormStudents', {
+                    Sname: this.form.student
+                })
+                .then((response) => {
+                    this.dup = response.data
+                }, (error) => {
+                    console.log(error);
+                });
+            if(this.dup == true){
+                alert('นักเรียนคนนี้มีแบบฟอร์มนิเทศอยู่แล้ว')
+            }else{
+            this.form.teacher = this.teacher.T_name
+            console.log(this.form)
+            if (this.form.date_go == null || this.form.date_arrive == null || this.form.date_intern == null ||
+                this.form.student == null || this.form.teacher == null || this.form.time_start == null || this.form.time_end == null ||
+                this.form.workplace == null || this.form.address == null || this.form.telephone == null
+            ) {
+                alert('กรุณากรอกข้อมูลให้ครบถ้วน')
+            } else {
+                let r = confirm('Are you sure you want to create?')
+                if (r == true) {
+                    axios({
+                        method: 'post',
+                        url: `http://localhost:5010/createVisitForm`,
+                        data: {
+                            V_date_go: this.form.date_go,
+                            V_date_arrive: this.form.date_arrive,
+                            V_date_intern: this.form.date_intern,
+                            remark: this.form.remark,
+                            S_name: this.form.student,
+                            T_name: this.form.teacher,
+                            V_time_start: this.form.time_start,
+                            V_time_end: this.form.time_end,
+                            w_name: this.form.workplace,
+                            w_add: this.form.address,
+                            w_tel: this.form.telephone,
+                        }
+                    });
+                    this.$router.push('/Staff/Student information')
+                } else {
+                    this.close()
+                }
+            }
         }
+        
+    }
     }
 }
+
 </script>

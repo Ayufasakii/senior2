@@ -104,6 +104,38 @@ app.post('/getSearchStudents', (req, res) => {
     res.send(result)
   });
 })
+app.post('/getSearchVisitForm', (req, res) => { 
+  let Sname = req.body.Sname
+  let Tname = req.body.Tname
+  let Date2Go = req.body.Date2Go
+  let Date2Arrive = req.body.Date2Arrive
+  let Date2Visit = req.body.Date2Visit
+  let semester = req.body.semester
+  let acyear = req.body.acyear
+  let workplace = req.body.workplace
+  let status = req.body.status
+  if(Sname == undefined){Sname = ''}
+  if(Tname == undefined){Tname = ''}
+  if(Date2Go == undefined){Date2Go = ''}
+  if(Date2Arrive == undefined){Date2Arrive = ''}
+  if(Date2Visit == undefined){Date2Visit = ''}
+  if(semester == undefined){semester = ''}
+  if(acyear == undefined){acyear = ''}
+  if(workplace == undefined){workplace = ''}
+  if(status == undefined){status = ''}
+  connection.query(`SELECT * FROM visit_form where S_name like '%${Sname}%' AND T_name like '%${Tname}%' AND V_date_go like '%${Date2Go}%' AND V_date_arrive like '%${Date2Arrive}%' AND V_date_intern like '%${Date2Visit}%' AND semester like '%${semester}%' AND accyear like '%${acyear}%' AND w_name like '%${workplace}%' AND status like '%${status}%'`, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result)
+    res.send(result)
+  });
+})
+app.post('/checkDuplicateFormStudents', (req, res) => {
+  let Sname = req.body.Sname
+  connection.query(`Select * from visit_form where S_name = '${Sname}'`, function (err, result, fields) {
+    if (err) throw err;
+    if(result.length == 0){res.send(false)}else{res.send(true)}
+  });
+})
 //////////////////////////////CREATE//////////////////////////////////
 app.post('/createStudents', (req, res) => {
   //get student info
@@ -134,6 +166,26 @@ app.post('/createWorkplace', (req, res) => {
   let Wprovince = req.body.W_province
   let sql2 = `INSERT INTO workplace(W_name,W_address,W_contract,W_province) VALUES ('${Wname}','${Waddress}','${Wcontract}','${Wprovince}')`
   connection.query(sql2, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  res.send('Create success')
+})
+app.post('/createVisitForm', (req, res) => {
+  let V_date_go = req.body.V_date_go
+  let V_date_arrive = req.body.V_date_arrive
+  let V_date_intern = req.body.V_date_intern
+  let remark = req.body.remark
+  let S_name = req.body.S_name
+  let T_name = req.body.T_name
+  let V_time_start = req.body.V_time_start
+  let V_time_end = req.body.V_time_end
+  let w_name = req.body.w_name
+  let w_add = req.body.w_add
+  let w_tel = req.body.w_tel
+  if(remark == null){remark = ''}
+  let sql1 = `INSERT INTO visit_form(V_date_go,V_date_arrive,V_date_intern,remark,S_name,T_name,V_time_start,V_time_end,w_name,w_address,w_tel,status) VALUES ('${V_date_go}','${V_date_arrive}','${V_date_intern}','${remark}','${S_name}','${T_name}','${V_time_start}','${V_time_end}','${w_name}','${w_add}','${w_tel}','Send to staff')`
+  connection.query(sql1, function (err, result, fields) {
     console.log(err)
     if (err) throw err;
   });
