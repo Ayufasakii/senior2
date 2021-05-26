@@ -65,12 +65,6 @@ app.get('/getAllStudents', (req, res) => {
     res.send(result)
   });
 })
-app.get('/getStudentAndOrg', (req, res) => {
-  connection.query("SELECT student.S_ID,student.S_name,student.S_major,workplace.W_name,workplace.W_province FROM student INNER JOIN workplace ON student.O_ID=workplace.W_ID", function (err, result, fields) {
-    if (err) throw err;
-    res.send(result)
-  });
-})
 
 
 app.get('/getAllTeachers', (req, res) => {
@@ -82,6 +76,13 @@ app.get('/getAllTeachers', (req, res) => {
 app.post('/getTeacherByID', (req, res) => {
   let TID = req.body.TID
   connection.query(`SELECT T_ID,T_name,T_major,T_school,T_email,T_tel FROM teacher where T_ID = '${TID}'`, function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+})
+app.post('/getTeacherByName', (req, res) => {
+  let Tname = req.body.Tname
+  connection.query(`SELECT * FROM teacher where T_name = '${Tname}'`, function (err, result, fields) {
     if (err) throw err;
     res.send(result)
   });

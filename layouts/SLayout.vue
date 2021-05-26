@@ -89,16 +89,17 @@ export default {
           title: 'Student information',
           to: '/Staff/Student information'
         },
-        {
-          icon: 'mdi-account',
-          title: 'Organization',
-          to: '/Staff/Organization'
-        }
-        ,
+
         {
           icon: 'mdi-account',
           title: 'Visit form information',
           to: '/Staff/VisitFormIn'
+        }
+                ,
+        {
+          icon: 'mdi-account',
+          title: 'Cost form information',
+          to: '/Staff/CostFormIn'
         }
       ],
       miniVariant: false,

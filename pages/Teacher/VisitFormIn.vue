@@ -104,8 +104,11 @@
                                 <v-col class="ml-5 mr-5" cols="12" sm="11">
                                     <v-data-table :headers="headers" :items="visitforms" :search="search">
                                         <template v-slot:[`item.actions`]="{ item }">
-                                            <v-icon small class="mr-2" @click="addStudent(item)">
-                                                mdi-plus-circle
+                                            <v-icon small class="mr-2" @click="edit(item)">
+                                                mdi-account-edit
+                                            </v-icon>
+                                            <v-icon small class="mr-2" @click="del(item)">
+                                                mdi-account-remove
                                             </v-icon>
                                         </template>
                                     </v-data-table>
@@ -114,7 +117,176 @@
 
                         </v-card-text>
                     </v-card>
+                    <v-dialog v-model="dialog" max-width="1000px">
+                        <v-card>
+                            
+                            <v-toolbar color=#8c1515 dark flat>
+                                <v-toolbar-title>
+                                    <span>{{ formTitle }}</span>
+                                </v-toolbar-title>
+                                <v-spacer></v-spacer>
+                            </v-toolbar>
+                                                        <v-col cols="12">
+                                                            <v-textarea label="Comment from staff" disabled ref="Comment from staff" v-model="form.comment" rows="2" outlined dense required>
+                                                            </v-textarea>
+                                                        </v-col>
+                            <v-card-text>
+                                <v-container class="fill-height" fluid>
+                                    <v-row align="center" justify="center">
+                                        <v-col cols="12" sm="10" md="10">
+                                            <v-card class="elevation-12 mb-6">
+                                                <v-toolbar color=#8c1515 dark flat>
+                                                    
+                                                    <v-toolbar-title>Teacher Information</v-toolbar-title>
 
+                                                </v-toolbar>
+                                                <v-row>
+                                                    <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                                        <v-text-field label="Name" v-model="teacher.T_name" disabled outlined dense required>
+                                                        </v-text-field>
+                                                    </v-col>
+                                                    <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                                        <v-text-field label="Email" v-model="teacher.T_email" disabled outlined dense required>
+                                                        </v-text-field>
+                                                    </v-col>
+                                                    <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                                        <v-text-field label="Telephone Number" v-model="teacher.T_tel" disabled outlined dense required>
+                                                        </v-text-field>
+                                                    </v-col>
+                                                    <v-col class="ml-5 mr-5" cols="12" sm="3">
+                                                        <v-text-field label="School" v-model="teacher.T_School" disabled outlined dense required>
+                                                        </v-text-field>
+                                                    </v-col>
+                                                    <v-col class="ml-5 mr-5" cols="12" sm="3">
+                                                        <v-text-field label="Major" v-model="teacher.T_Major" disabled outlined dense required>
+                                                        </v-text-field>
+                                                    </v-col>
+                                                    <v-spacer></v-spacer>
+                                                </v-row>
+
+                                                <v-card-text>
+
+                                                </v-card-text>
+                                            </v-card>
+                                            <v-card class="elevation-12 mb-6">
+                                                <v-toolbar color=#8c1515 dark flat>
+                                                    <v-toolbar-title>Student</v-toolbar-title>
+                                                    <v-spacer></v-spacer>
+                                                </v-toolbar>
+
+                                                <v-card-text>
+                                                    <v-row>
+                                                        <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                                            <v-text-field label="Student ID" v-model="student.ID" outlined dense required>
+                                                            </v-text-field>
+                                                        </v-col>
+                                                        <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                                            <v-text-field label="Name" v-model="student.name" outlined dense required>
+                                                            </v-text-field>
+                                                        </v-col>
+                                                        <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                                            <v-text-field label="School" v-model="student.school" outlined dense required>
+                                                            </v-text-field>
+                                                        </v-col>
+                                                        <v-col class="ml-5 mr-5" cols="12" sm="3">
+                                                            <v-text-field label="Major" v-model="student.major" outlined dense required>
+                                                            </v-text-field>
+                                                        </v-col>
+                                                        <v-col class="ml-5 mr-5" cols="12" sm="3">
+                                                            <v-text-field label="Academic Year" v-model="student.acyear" outlined dense required>
+                                                            </v-text-field>
+                                                        </v-col>
+                                                        <v-col class="ml-5 mr-5" cols="12" sm="3">
+                                                            <v-text-field label="Semester" v-model="student.semester" outlined dense required>
+                                                            </v-text-field>
+                                                        </v-col>
+                                                    </v-row>
+
+                                                </v-card-text>
+                                            </v-card>
+                                            <v-card class="elevation-12">
+                                                <v-toolbar color=#8c1515 dark flat>
+                                                    <v-toolbar-title>Workplace Visits Form</v-toolbar-title>
+                                                    <v-spacer></v-spacer>
+                                                </v-toolbar>
+
+                                                <v-card-text>
+                                                    <v-row>
+                                                        <v-col cols="12">
+                                                            <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                    <v-text-field v-model="form.date_go" label="Date to go" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                                                </template>
+                                                                <v-date-picker v-model="form.date_go" @input="menu2 = false"></v-date-picker>
+                                                            </v-menu>
+                                                        </v-col>
+                                                    </v-row>
+                                                    <v-row>
+                                                        <v-col cols="12">
+                                                            <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                    <v-text-field v-model="form.date_arrive" label="Date to arrive" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                                                </template>
+                                                                <v-date-picker v-model="form.date_arrive" @input="menu2 = false"></v-date-picker>
+                                                            </v-menu>
+                                                        </v-col>
+                                                    </v-row>
+                                                    <v-row>
+                                                        <v-col cols="12">
+                                                            <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                    <v-text-field v-model="form.date_intern" label="Date to visit" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                                                </template>
+                                                                <v-date-picker v-model="form.date_intern" @input="menu2 = false"></v-date-picker>
+                                                            </v-menu>
+                                                        </v-col>
+                                                    </v-row>
+
+                                                    <v-row>
+                                                        <v-col cols="12" sm="6">
+                                                            <span class="black--text">Start time visit</span>
+                                                            <b-form-timepicker id="FTime" locale="th" dense v-model="form.time_start"></b-form-timepicker>
+                                                        </v-col>
+                                                        <v-col cols="12" sm="6">
+                                                            <span class="black--text">End time visit</span>
+                                                            <b-form-timepicker id="TTime" locale="th" dense v-model="form.time_end"></b-form-timepicker>
+                                                        </v-col>
+
+                                                        <v-col cols="12">
+                                                            <v-text-field label="Organization Name" v-model="form.workplace" outlined dense required>
+                                                            </v-text-field>
+                                                        </v-col>
+                                                        <v-col cols="12">
+                                                            <v-text-field label="Organization Telephone Number" v-model="form.telephone" outlined dense required>
+                                                            </v-text-field>
+                                                        </v-col>
+
+                                                        <v-col cols="12">
+                                                            <v-textarea label="Address" ref="Address" v-model="form.address" rows="2" outlined dense required>
+                                                            </v-textarea>
+                                                        </v-col>
+                                                        <v-col cols="12">
+                                                            <v-textarea label="Remark" ref="Address" v-model="form.remark" rows="2" outlined dense required>
+                                                            </v-textarea>
+                                                        </v-col>
+
+                                                    </v-row>
+                                                </v-card-text>
+
+                                            </v-card>
+
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-card-text>
+
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                                <v-btn color="blue darken-1" text @click="save" :disabled="!isEditing">Save</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
                 </v-col>
             </v-row>
         </v-container>
@@ -131,7 +303,10 @@ export default {
     created() {
         this.getdata();
     },
+
     data: () => ({
+        show: null,
+        isEditing: null,
         menu: false,
         teacher: {
             T_name: null,
@@ -172,8 +347,16 @@ export default {
             comment: null,
             status: null,
             AccYear: null,
-            semester: null
+            semester: null,
         },
+        student:{name:null,
+        ID:null,
+        school:null,
+        major:null,
+        acyear:null,
+        semester:null
+        },
+        dialog: false,
         dup: null,
         visitforms: [],
         headers: [{
@@ -192,8 +375,46 @@ export default {
     },
     methods: {
         New() {
-            this.$router.push('/Staff/NewStudent')
+
         },
+        async edit(item) {
+            this.show = true
+            this.isEditing = true
+            this.dialog = true
+            console.log(item)
+            await axios.post('http://localhost:5010/getSearchStudents', {
+                    Sname: item.S_name,
+                })
+                .then((response) => {
+                    this.student.name = response.data[0].S_name
+                    this.student.ID = response.data[0].S_ID
+                    this.student.school = response.data[0].S_school
+                    this.student.major = response.data[0].S_major
+                    this.student.semester = response.data[0].s_acsemester
+                    this.student.acyear = response.data[0].s_acyear
+                }, (error) => {
+                    console.log(error);
+                });
+                console.log(item)
+                item.V_date_go = item.V_date_go.toString();
+                item.v_date_arrive= item.v_date_arrive.toString();
+                item.v_date_intern= item.v_date_intern.toString();
+                item.V_date_go = item.V_date_go.split("T")[0]
+                item.v_date_arrive= item.v_date_arrive.split("T")[0]
+                item.v_date_intern= item.v_date_intern.split("T")[0]
+                this.form.date_go = item.V_date_go
+                this.form.date_arrive = item.v_date_arrive
+                this.form.date_intern = item.v_date_intern
+                this.form.time_start=item.V_time_start
+                this.form.time_end=item.v_time_end
+                this.form.workplace=item.w_name
+                this.form.telephone=item.w_tel
+                this.form.address=item.w_address
+                this.form.remark=item.remark
+                this.form.comment = item.comment
+            
+        },
+        close() { this.dialog = false },
         getdata() {
             axios.post('http://localhost:5010/getTeacherByID', {
                     TID: sessionStorage.getItem("TID"),
@@ -211,15 +432,15 @@ export default {
         },
         searchVisit() {
             axios.post('http://localhost:5010/getSearchVisitForm', {
-                    Sname : this.search.Sname,
-                    Tname :  this.teacher.T_name,
-                    Date2Go : this.search.Date2Go,
-                    Date2Arrive : this.search.Date2Arrive,
-                    Date2Visit :this.search.Date2Visit,
-                    semester : this.search.semester,
-                    acyear : this.search.acyear,
-                    workplace : this.search.workplace,
-                    status : this.search.status,
+                    Sname: this.search.Sname,
+                    Tname: this.teacher.T_name,
+                    Date2Go: this.search.Date2Go,
+                    Date2Arrive: this.search.Date2Arrive,
+                    Date2Visit: this.search.Date2Visit,
+                    semester: this.search.semester,
+                    acyear: this.search.acyear,
+                    workplace: this.search.workplace,
+                    status: this.search.status,
                 })
                 .then((response) => {
                     this.visitforms = response.data
@@ -234,6 +455,13 @@ export default {
                 this.form.student = item.S_name
                 this.form.AccYear = item.S_acYear
                 this.form.semester = item.S_acsemester
+            } else {
+
+            }
+        },
+        del(item){
+            let r = confirm('ต้องการลบแบบฟอร์มนี้หรือไม่?')
+            if (r == true) {
             } else {
 
             }
