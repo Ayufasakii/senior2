@@ -91,13 +91,13 @@ export default {
         },
 
         {
-          icon: 'mdi-account',
+          icon: 'mdi-form-select',
           title: 'Visit form information',
           to: '/Staff/VisitFormIn'
         }
                 ,
         {
-          icon: 'mdi-account',
+          icon: 'mdi-form-select',
           title: 'Cost form information',
           to: '/Staff/CostFormIn'
         }

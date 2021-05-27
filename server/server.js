@@ -73,6 +73,22 @@ app.get('/getAllTeachers', (req, res) => {
     res.send(result)
   });
 })
+app.post('/aproveVisitForm', (req, res) => {
+  let VID = req.body.VID
+  connection.query(`Update visit_form set status = 'Approved' where V_ID = '${VID}'`, function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+})
+app.post('/rejectVisitForm', (req, res) => {
+  let VID = req.body.VID
+  let comments = req.body.comment
+  if(comments == undefined){comment = ''}
+  connection.query(`Update visit_form set comment = '${comments}',status = 'Teacher Edit' where V_ID = '${VID}'`, function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+})
 app.post('/getTeacherByID', (req, res) => {
   let TID = req.body.TID
   connection.query(`SELECT T_ID,T_name,T_major,T_school,T_email,T_tel FROM teacher where T_ID = '${TID}'`, function (err, result, fields) {

@@ -65,9 +65,9 @@
                                     <v-text-field label="Academic Year" v-model="searchAccYear" outlined dense required>
                                     </v-text-field>
                                 </v-col>
+
                                 <v-col class="ml-5 mr-5" cols="12" sm="3">
-                                    <v-text-field label="Semester" v-model="searchSemester" outlined dense required>
-                                    </v-text-field>
+                                    <v-select :items="Ssemester" v-model="searchSemester" filled label="Semester"></v-select>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -213,7 +213,9 @@ export default {
             AccYear: null,
             semester: null
         },
-        dup:null,
+        formstatus: ['Send to staff', 'Teacher Edit', 'Approve'],
+        dup: null,
+        Ssemester:['1','2','3'],
         students: [],
         headers: [{
                 text: 'Student ID',
@@ -286,45 +288,44 @@ export default {
                 }, (error) => {
                     console.log(error);
                 });
-            if(this.dup == true){
+            if (this.dup == true) {
                 alert('นักเรียนคนนี้มีแบบฟอร์มนิเทศอยู่แล้ว')
-            }else{
-            this.form.teacher = this.teacher.T_name
-            console.log(this.form)
-            if (this.form.date_go == null || this.form.date_arrive == null || this.form.date_intern == null ||
-                this.form.student == null || this.form.teacher == null || this.form.time_start == null || this.form.time_end == null ||
-                this.form.workplace == null || this.form.address == null || this.form.telephone == null
-            ) {
-                alert('กรุณากรอกข้อมูลให้ครบถ้วน')
             } else {
-                let r = confirm('Are you sure you want to create?')
-                if (r == true) {
-                    axios({
-                        method: 'post',
-                        url: `http://localhost:5010/createVisitForm`,
-                        data: {
-                            V_date_go: this.form.date_go,
-                            V_date_arrive: this.form.date_arrive,
-                            V_date_intern: this.form.date_intern,
-                            remark: this.form.remark,
-                            S_name: this.form.student,
-                            T_name: this.form.teacher,
-                            V_time_start: this.form.time_start,
-                            V_time_end: this.form.time_end,
-                            w_name: this.form.workplace,
-                            w_add: this.form.address,
-                            w_tel: this.form.telephone,
-                        }
-                    });
-                    this.$router.push('/Staff/Student information')
+                this.form.teacher = this.teacher.T_name
+                console.log(this.form)
+                if (this.form.date_go == null || this.form.date_arrive == null || this.form.date_intern == null ||
+                    this.form.student == null || this.form.teacher == null || this.form.time_start == null || this.form.time_end == null ||
+                    this.form.workplace == null || this.form.address == null || this.form.telephone == null
+                ) {
+                    alert('กรุณากรอกข้อมูลให้ครบถ้วน')
                 } else {
-                    this.close()
+                    let r = confirm('Are you sure you want to create?')
+                    if (r == true) {
+                        axios({
+                            method: 'post',
+                            url: `http://localhost:5010/createVisitForm`,
+                            data: {
+                                V_date_go: this.form.date_go,
+                                V_date_arrive: this.form.date_arrive,
+                                V_date_intern: this.form.date_intern,
+                                remark: this.form.remark,
+                                S_name: this.form.student,
+                                T_name: this.form.teacher,
+                                V_time_start: this.form.time_start,
+                                V_time_end: this.form.time_end,
+                                w_name: this.form.workplace,
+                                w_add: this.form.address,
+                                w_tel: this.form.telephone,
+                            }
+                        });
+                        this.$router.push('/Staff/Student information')
+                    } else {
+                        this.close()
+                    }
                 }
             }
+
         }
-        
-    }
     }
 }
-
 </script>

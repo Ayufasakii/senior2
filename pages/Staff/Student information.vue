@@ -74,7 +74,6 @@
                                                             </v-select>
                                                         </v-col>
 
-
                                                         <v-col cols="12" sm="6">
                                                             <v-select :items="Province" label="Province" v-model="editedItem.Province" dense outlined required :readonly="!isEditing">
                                                             </v-select>
@@ -133,6 +132,8 @@ export default {
                 },
                 { text: 'Name', value: 'S_name' },
                 { text: 'Major', value: 'S_major' },
+                { text: 'Academic Year', value: 's_acyear' },
+                { text: 'Semester', value: 's_acsemester' },
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
             students: [],
@@ -196,8 +197,7 @@ export default {
             this.$router.push('/Staff/NewStudent')
         },
         getdata() {
-            axios.get('http://localhost:5010/getAllStudents', {
-                })
+            axios.get('http://localhost:5010/getAllStudents', {})
                 .then((response) => {
                     this.students = response.data
                 }, (error) => {
@@ -211,8 +211,8 @@ export default {
             this.editedItem = Object.assign({}, item)
             let name = this.students[this.editedIndex].S_name
             name = name.split(" ");
-            this.editedItem.Fname = name[0] 
-            this.editedItem.Lname = name[1] 
+            this.editedItem.Fname = name[0]
+            this.editedItem.Lname = name[1]
             this.editedItem.SID = this.students[this.editedIndex].S_ID
             this.editedItem.Phone = this.students[this.editedIndex].S_tel
             this.editedItem.selectedMajor = this.students[this.editedIndex].S_major
@@ -237,9 +237,7 @@ export default {
         save() {
             let self = this
             if (self.editedItem.selectedSchool == null || self.editedItem.Fname == null || self.editedItem.selectedMajor == null ||
-                self.editedItem.Lname == null || self.editedItem.SID == null || self.editedItem.Phone == null ||
-                self.editedItem.Oname == null || self.editedItem.Contact == null || self.editedItem.Province == null ||
-                self.editedItem.Address == null) {
+                self.editedItem.Lname == null || self.editedItem.SID == null || self.editedItem.Phone == null ) {
                 alert('Please check information that not empty!!')
             } else {
                 let r = confirm('Are you sure you want to create?')

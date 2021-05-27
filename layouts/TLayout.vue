@@ -85,22 +85,22 @@ export default {
           to: '/Teacher/Profile'
         },
         {
-          icon: 'mdi-home',
+          icon: 'mdi-file-plus',
           title: 'Create Visit form',
           to: '/Teacher/VisitForm'
         },
         {
-          icon: 'mdi-home',
+          icon: 'mdi-file-plus',
           title: 'Create Cost form',
           to: '/Teacher/CostFrom'
         },
         {
-          icon: 'mdi-home',
+          icon: 'mdi-form-select',
           title: 'Cost form Information',
-          to: '/Teacher/TSCF'
+          to: '/Teacher/CostFormIn'
         },
         {
-          icon: 'mdi-home',
+          icon: 'mdi-form-select',
           title: 'Visit form information',
           to: '/Teacher/VisitFormIn'
         },
