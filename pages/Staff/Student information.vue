@@ -75,14 +75,14 @@
                                                         </v-col>
 
                                                         <v-col cols="12" sm="6">
-                                                            <v-select :items="Province" label="Province" v-model="editedItem.Province" dense outlined required :readonly="!isEditing">
-                                                            </v-select>
-                                                        </v-col>
+                                                        <v-text-field label="Academic Year" ref="AcYear" v-model="editedItem.selectedAccYear" outlined dense required>
+                                                        </v-text-field>
+                                                    </v-col>
 
-                                                        <v-col cols="12" sm="6">
-                                                            <v-textarea auto-grow label="Address" ref="Address" v-model="editedItem.Address" outlined dense rows="3" row-height="25" required :readonly="!isEditing">
-                                                            </v-textarea>
-                                                        </v-col>
+                                                    <v-col cols="12" sm="6">
+                                                        <v-select :items="Semester" label="Semester" v-model="editedItem.selectedSemester" dense outlined required>
+                                                        </v-select>
+                                                    </v-col>
                                                     </v-row>
                                                 </v-container>
                                             </v-card-text>
@@ -137,6 +137,7 @@ export default {
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
             students: [],
+            Semester: [1, 2, 3],
             sID: null,
             editedIndex: -1,
             School: ['Agro-Industry', 'Cosmetic Science', 'Dentistry', 'Health Science', 'Information Teachnology',
@@ -162,6 +163,8 @@ export default {
                 Oname: null,
                 Contact: null,
                 Province: null,
+                selectedSemester: null,
+                selectedAccYear: null,
                 Address: null,
             },
             defaultItem: {
@@ -194,7 +197,8 @@ export default {
     },
     methods: {
         New() {
-            this.$router.push('/Staff/NewStudent')
+            this.show = true
+            this.isEditing = true
         },
         getdata() {
             axios.get('http://localhost:5010/getAllStudents', {})
@@ -237,7 +241,8 @@ export default {
         save() {
             let self = this
             if (self.editedItem.selectedSchool == null || self.editedItem.Fname == null || self.editedItem.selectedMajor == null ||
-                self.editedItem.Lname == null || self.editedItem.SID == null || self.editedItem.Phone == null ) {
+                self.editedItem.Lname == null || self.editedItem.SID == null || self.editedItem.Phone == null
+            ) {
                 alert('Please check information that not empty!!')
             } else {
                 let r = confirm('Are you sure you want to create?')
@@ -254,13 +259,11 @@ export default {
                                 Stel: this.editedItem.Phone,
                                 Smajor: this.editedItem.selectedMajor,
                                 Sschool: this.editedItem.selectedSchool,
-                                W_name: this.editedItem.Oname,
-                                W_address: this.editedItem.Address,
-                                W_contract: this.editedItem.Contact,
-                                W_province: this.editedItem.Province
+                                semester: this.editedItem.selectedSemester,
+                                accYear: this.editedItem.selectedAccYear,
                             }
                         });
-                        location.reload()
+                        this.$router.push('/Staff/Student information')
                     }
                 } else {
                     this.close()
