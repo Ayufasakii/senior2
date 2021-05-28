@@ -75,14 +75,14 @@
                                                         </v-col>
 
                                                         <v-col cols="12" sm="6">
-                                                        <v-text-field label="Academic Year" ref="AcYear" v-model="editedItem.selectedAccYear" outlined dense required>
-                                                        </v-text-field>
-                                                    </v-col>
+                                                            <v-text-field label="Academic Year" ref="AcYear" v-model="editedItem.selectedAccYear" outlined dense required>
+                                                            </v-text-field>
+                                                        </v-col>
 
-                                                    <v-col cols="12" sm="6">
-                                                        <v-select :items="Semester" label="Semester" v-model="editedItem.selectedSemester" dense outlined required>
-                                                        </v-select>
-                                                    </v-col>
+                                                        <v-col cols="12" sm="6">
+                                                            <v-select :items="Semester" label="Semester" v-model="editedItem.selectedSemester" dense outlined required>
+                                                            </v-select>
+                                                        </v-col>
                                                     </v-row>
                                                 </v-container>
                                             </v-card-text>
@@ -250,6 +250,7 @@ export default {
                     if (this.editedIndex > -1) {
                         Object.assign(this.students[this.editedIndex], this.editedItem)
                     } else {
+                        console.log(this.editedItem)
                         axios({
                             method: 'post',
                             url: `http://localhost:5010/createStudents`,
@@ -263,7 +264,7 @@ export default {
                                 accYear: this.editedItem.selectedAccYear,
                             }
                         });
-                        this.$router.push('/Staff/Student information')
+                        this.close()
                     }
                 } else {
                     this.close()

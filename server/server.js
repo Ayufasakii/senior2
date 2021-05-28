@@ -164,12 +164,7 @@ app.post('/createStudents', (req, res) => {
   let semester = req.body.semester
   let accYear = req.body.accYear
   let sql1 = `INSERT INTO student(S_ID,S_name,S_tel,S_major,S_school,s_acyear,s_acsemester) VALUES ('${sID}','${Sname}','${Stel}','${Smajor}','${Sschool}','${accYear}','${semester}')`
- 
   connection.query(sql1, function (err, result, fields) {
-    console.log(err)
-    if (err) throw err;
-  });
-  connection.query(sql2, function (err, result, fields) {
     console.log(err)
     if (err) throw err;
   });
@@ -197,11 +192,13 @@ app.post('/createVisitForm', (req, res) => {
   let T_name = req.body.T_name
   let V_time_start = req.body.V_time_start
   let V_time_end = req.body.V_time_end
+  let semester = req.body.semester
+  let acyear = req.body.acyear
   let w_name = req.body.w_name
   let w_add = req.body.w_add
   let w_tel = req.body.w_tel
   if(remark == null){remark = ''}
-  let sql1 = `INSERT INTO visit_form(V_date_go,V_date_arrive,V_date_intern,remark,S_name,T_name,V_time_start,V_time_end,w_name,w_address,w_tel,status) VALUES ('${V_date_go}','${V_date_arrive}','${V_date_intern}','${remark}','${S_name}','${T_name}','${V_time_start}','${V_time_end}','${w_name}','${w_add}','${w_tel}','Send to staff')`
+  let sql1 = `INSERT INTO visit_form(V_date_go,V_date_arrive,V_date_intern,remark,S_name,T_name,V_time_start,V_time_end,w_name,w_address,w_tel,status,accyear,semester) VALUES ('${V_date_go}','${V_date_arrive}','${V_date_intern}','${remark}','${S_name}','${T_name}','${V_time_start}','${V_time_end}','${w_name}','${w_add}','${w_tel}','Send to staff','${acyear}','${semester}')`
   connection.query(sql1, function (err, result, fields) {
     console.log(err)
     if (err) throw err;

@@ -4,14 +4,14 @@
         <v-container class="fill-height" fluid>
             <v-row align="center" justify="center">
                 <v-col cols="12" sm="10" md="10">
-                                <v-col class="ml-5 mr-5" cols="12" sm="3">
-                                    <v-text-field label="Academic Year" v-model="searchAccYear" outlined dense required>
-                                    </v-text-field>
-                                </v-col>
+                    <v-col class="ml-5 mr-5" cols="12" sm="3">
+                        <v-text-field label="Academic Year" v-model="form.acyear" outlined dense required>
+                        </v-text-field>
+                    </v-col>
 
-                                <v-col class="ml-5 mr-5" cols="12" sm="3">
-                                    <v-select :items="Ssemester" v-model="searchSemester" filled label="Semester"></v-select>
-                                </v-col>
+                    <v-col class="ml-5 mr-5" cols="12" sm="3">
+                        <v-select :items="Ssemester" v-model="form.semester" filled label="Semester"></v-select>
+                    </v-col>
                     <v-card class="elevation-12 mb-6">
                         <v-toolbar color=#8c1515 dark flat>
                             <v-checkbox v-model="checkroundtrip" hide-details class="shrink mr-2 mt-0"></v-checkbox>
@@ -27,32 +27,32 @@
                                 </v-col>
                                 <v-col v-if="costform.checkBox.C111" class="ml-5 mr-5 mt-5" cols="12" sm="3">
                                     <v-checkbox v-model="costform.checkBox.C112" hide-details class="shrink mr-2 mt-0"></v-checkbox>
-                                    <v-text-field label="Flight Origin date" :disabled="!costform.checkBox.C112" v-model="s" outlined dense required>
+                                    <v-text-field label="Flight Origin date" :disabled="!costform.checkBox.C112" v-model="form.cost1.forigindate" outlined dense required>
                                     </v-text-field>
-                                    <v-text-field label="From" :disabled="!costform.checkBox.C112" v-model="s" outlined dense required>
+                                    <v-text-field label="From" :disabled="!costform.checkBox.C112" v-model="form.cost1.forigingfrom" outlined dense required>
                                     </v-text-field>
-                                    <v-text-field label="To" :disabled="!costform.checkBox.C112" v-model="s" outlined dense required>
+                                    <v-text-field label="To" :disabled="!costform.checkBox.C112" v-model="form.cost1.foriginto" outlined dense required>
                                     </v-text-field>
                                     <span class="black--text">Departure Time</span>
-                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C112" locale="th" dense v-model="s"></b-form-timepicker>
+                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C112" locale="th" dense v-model="form.cost1.forigindetime"></b-form-timepicker>
                                     <span class="black--text">Arrival Time</span>
-                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C112" locale="th" dense v-model="s"></b-form-timepicker>
-                                    <v-text-field class="mt-6" label="Cost" :disabled="!costform.checkBox.C112" v-model="s" outlined dense required>
+                                    <b-form-timepicker id="CTime" :disabled="!costform.checkBox.C112" locale="th" dense v-model="form.cost1.foriginartime"></b-form-timepicker>
+                                    <v-text-field class="mt-6" label="Cost" :disabled="!costform.checkBox.C112" v-model="form.cost1.forigincost" outlined dense required>
                                     </v-text-field>
                                 </v-col>
                                 <v-col v-if="costform.checkBox.C111" class="ml-5 mr-5 mt-5" cols="12" sm="3">
                                     <v-checkbox v-model="costform.checkBox.C113" hide-details class="shrink mr-2 mt-0"></v-checkbox>
-                                    <v-text-field label="Flight Destination date" :disabled="!costform.checkBox.C113" v-model="s" outlined dense required>
+                                    <v-text-field label="Flight Destination date" :disabled="!costform.checkBox.C113" v-model="form.cost1.fdesdate" outlined dense required>
                                     </v-text-field>
-                                    <v-text-field label="From" :disabled="!costform.checkBox.C113" v-model="s" outlined dense required>
+                                    <v-text-field label="From" :disabled="!costform.checkBox.C113" v-model="form.cost1.fdesfrom" outlined dense required>
                                     </v-text-field>
-                                    <v-text-field label="To" :disabled="!costform.checkBox.C113" v-model="teacher.T_name" outlined dense required>
+                                    <v-text-field label="To" :disabled="!costform.checkBox.C113" v-model="form.cost1.fordesto" outlined dense required>
                                     </v-text-field>
                                     <span class="black--text">Departure Time</span>
-                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C113" locale="th" dense v-model="form.time_start"></b-form-timepicker>
+                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C113" locale="th" dense v-model="form.cost1.fdesdetime"></b-form-timepicker>
                                     <span class="black--text">Arrival Time</span>
-                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C113" locale="th" dense v-model="form.time_start"></b-form-timepicker>
-                                    <v-text-field class="mt-6" label="Cost" :disabled="!costform.checkBox.C113" v-model="s" outlined dense required>
+                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C113" locale="th" dense v-model="form.cost1.fdesartime"></b-form-timepicker>
+                                    <v-text-field class="mt-6" label="Cost" :disabled="!costform.checkBox.C113" v-model="form.cost1.fdescost" outlined dense required>
                                     </v-text-field>
                                 </v-col>
                             </v-row>
@@ -64,32 +64,32 @@
                                 </v-col>
                                 <v-col v-if="costform.checkBox.C121" class="ml-5 mr-5 " cols="12" sm="3">
                                     <v-checkbox v-model="costform.checkBox.C122" hide-details class="shrink mr-2 mt-0"></v-checkbox>
-                                    <v-text-field label="Origin date" :disabled="!costform.checkBox.C122" v-model="s" outlined dense required>
+                                    <v-text-field label="Origin date" :disabled="!costform.checkBox.C122" v-model="form.cost1.borigindate" outlined dense required>
                                     </v-text-field>
-                                    <v-text-field label="From" :disabled="!costform.checkBox.C122" v-model="s" outlined dense required>
+                                    <v-text-field label="From" :disabled="!costform.checkBox.C122" v-model="form.cost1.boriginfrom" outlined dense required>
                                     </v-text-field>
-                                    <v-text-field label="To" :disabled="!costform.checkBox.C122" v-model="s" outlined dense required>
+                                    <v-text-field label="To" :disabled="!costform.checkBox.C122" v-model="form.cost1.boriginto" outlined dense required>
                                     </v-text-field>
                                     <span class="black--text">Departure Time</span>
-                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C122" locale="th" dense v-model="s"></b-form-timepicker>
+                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C122" locale="th" dense v-model="form.cost1.borigindetime"></b-form-timepicker>
                                     <span class="black--text">Arrival Time</span>
-                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C122" locale="th" dense v-model="s"></b-form-timepicker>
-                                    <v-text-field class="mt-6" label="Cost" :disabled="!costform.checkBox.C122" v-model="s" outlined dense required>
+                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C122" locale="th" dense v-model="form.cost1.boriginartime"></b-form-timepicker>
+                                    <v-text-field class="mt-6" label="Cost" :disabled="!costform.checkBox.C122" v-model="form.cost1.borigincost" outlined dense required>
                                     </v-text-field>
                                 </v-col>
                                 <v-col v-if="costform.checkBox.C121" class="ml-5 mr-5 " cols="12" sm="3">
                                     <v-checkbox v-model="costform.checkBox.C123" hide-details class="shrink mr-2 mt-0"></v-checkbox>
-                                    <v-text-field label="Destination date" :disabled="!costform.checkBox.C123" v-model="s" outlined dense required>
+                                    <v-text-field label="Destination date" :disabled="!costform.checkBox.C123" v-model="form.cost1.bdesdate" outlined dense required>
                                     </v-text-field>
-                                    <v-text-field label="From" :disabled="!costform.checkBox.C123" v-model="s" outlined dense required>
+                                    <v-text-field label="From" :disabled="!costform.checkBox.C123" v-model="form.cost1.bdesfrom" outlined dense required>
                                     </v-text-field>
-                                    <v-text-field label="To" :disabled="!costform.checkBox.C123" v-model="s" outlined dense required>
+                                    <v-text-field label="To" :disabled="!costform.checkBox.C123" v-model="form.cost1.bdesto" outlined dense required>
                                     </v-text-field>
                                     <span class="black--text">Departure Time</span>
-                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C123" locale="th" dense v-model="s"></b-form-timepicker>
+                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C123" locale="th" dense v-model="form.cost1.bdesdetime"></b-form-timepicker>
                                     <span class="black--text">Arrival Time</span>
-                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C123" locale="th" dense v-model="s"></b-form-timepicker>
-                                    <v-text-field class="mt-6" label="Cost" :disabled="!costform.checkBox.C113" v-model="s" outlined dense required>
+                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C123" locale="th" dense v-model="form.cost1.bdesartime"></b-form-timepicker>
+                                    <v-text-field class="mt-6" label="Cost" :disabled="!costform.checkBox.C123" v-model="form.cost1.bdescost" outlined dense required>
                                     </v-text-field>
                                 </v-col>
 
@@ -107,7 +107,7 @@
                                 </v-col>
                             </v-row>
                             <v-row>
-                                <v-col v-if="costform.checkBox.C131" class="ml-5 " cols="12" sm="3">
+                                <v-col v-if="costform.checkBox.C131" v-model="form.cost1.pricardistance" class="ml-5 " cols="12" sm="3">
                                     <v-text-field label="Distance (Kilometre x 3.50 Bath)" :disabled="!costform.checkBox.C131" outlined dense required>
                                     </v-text-field>
                                 </v-col>
@@ -142,7 +142,7 @@
                             <v-row>
                                 <v-col class="ml-5 mr-5 " cols="12" sm="8">
                                     <v-checkbox v-model="costform.checkBox.C211" hide-details class="shrink mr-2 mt-0"></v-checkbox>
-                                    <v-text-field label="Taxi Expenditure (Plaese fill information in document 6)" :disabled="!costform.checkBox.C211" outlined dense required>
+                                    <v-text-field label="Taxi Expenditure (Plaese fill information in document 6)" :disabled="!costform.checkBox.C211" v-model="form.cost2.taxicost" outlined dense required>
                                     </v-text-field>
                                 </v-col>
                             </v-row>
@@ -157,18 +157,18 @@
                                     <v-text-field class="" label="Rental Car" disabled outlined dense required>
                                     </v-text-field>
                                     <v-col v-if="costform.checkBox.C222" class="ml-5 " cols="12" sm="5">
-                                        <v-text-field class="" label="Day" disabled outlined dense required>
+                                        <v-text-field class="" label="Day" v-model="form.cost2.rcarday"  outlined dense required>
                                         </v-text-field>
-                                        <v-text-field class="" label="Cost (Bath)" disabled outlined dense required>
+                                        <v-text-field class="" label="Cost (Bath)" v-model="form.cost2.rcarcost"  outlined dense required>
                                         </v-text-field>
                                     </v-col>
                                     <v-checkbox v-model="costform.checkBox.C223" hide-details class="shrink mr-2 mt-0"></v-checkbox>
                                     <v-text-field class="" label="Rental van" disabled outlined dense required>
                                     </v-text-field>
                                     <v-col v-if="costform.checkBox.C223" class="ml-5 " cols="12" sm="5">
-                                        <v-text-field class="" label="Day" disabled outlined dense required>
+                                        <v-text-field class="" label="Day" v-model="form.cost2.rvandate"  outlined dense required>
                                         </v-text-field>
-                                        <v-text-field class="" label="Cost (Bath)" disabled outlined dense required>
+                                        <v-text-field class="" label="Cost (Bath)" v-model="form.cost2.rvancost" outlined dense required>
                                         </v-text-field>
                                     </v-col>
 
@@ -181,9 +181,9 @@
                                     <v-text-field class="" label="Car fuel cost" disabled outlined dense required>
                                     </v-text-field>
                                     <v-col v-if="costform.checkBox.C231" class="ml-5 " cols="12" sm="5">
-                                        <v-text-field class="" label="Day" :disabled="!costform.checkBox.C231" outlined dense required>
+                                        <v-text-field class="" label="Day"  v-model="form.cost2.fuelday" outlined dense required>
                                         </v-text-field>
-                                        <v-text-field class="" label="Cost (Bath)" :disabled="!costform.checkBox.C231" outlined dense required>
+                                        <v-text-field class="" label="Cost (Bath)"  v-model="form.cost2.fuelcost" outlined dense required>
                                         </v-text-field>
                                     </v-col>
                                 </v-col>
@@ -191,16 +191,16 @@
                             <row>
                                 <v-col class="ml-3 mr-5 " cols="12" sm="8">
                                     <v-checkbox v-model="costform.checkBox.C241" hide-details class="shrink mr-2 mt-0"></v-checkbox>
-                                    <v-text-field class="" label="Ferry Prices" disabled outlined dense required>
+                                    <v-text-field class="" label="Ferry Prices" disabled outlined dense required >
                                     </v-text-field>
                                     <v-col v-if="costform.checkBox.C241" class="ml-5 " cols="12" sm="5">
                                         <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                             <template v-slot:activator="{ on, attrs }">
-                                                <v-text-field v-model="form.date_intern" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                                <v-text-field v-model="form.cost2.ferrydate" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                             </template>
-                                            <v-date-picker v-model="form.date_intern" @input="menu2 = false"></v-date-picker>
+                                            <v-date-picker v-model="form.cost2.ferrydate" @input="menu2 = false"></v-date-picker>
                                         </v-menu>
-                                        <v-text-field class="" label="Cost (Bath)" :disabled="!costform.checkBox.C241" outlined dense required>
+                                        <v-text-field class="" label="Cost (Bath)" v-model="form.cost2.ferrycost" :disabled="!costform.checkBox.C241" outlined dense required>
                                         </v-text-field>
                                     </v-col>
                                 </v-col>
@@ -213,11 +213,11 @@
                                     <v-col v-if="costform.checkBox.C251" class="ml-5 " cols="12" sm="5">
                                         <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                             <template v-slot:activator="{ on, attrs }">
-                                                <v-text-field v-model="form.date_intern" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                                <v-text-field v-model="form.cost2.expressdate" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                             </template>
-                                            <v-date-picker v-model="form.date_intern" @input="menu2 = false"></v-date-picker>
+                                            <v-date-picker v-model="form.cost2.expressdate" @input="menu2 = false"></v-date-picker>
                                         </v-menu>
-                                        <v-text-field class="" label="Cost (Bath)" :disabled="!costform.checkBox.C251" outlined dense required>
+                                        <v-text-field class="" v-model="form.cost2.expresscost" label="Cost (Bath)" :disabled="!costform.checkBox.C251" outlined dense required>
                                         </v-text-field>
                                     </v-col>
                                 </v-col>
@@ -230,11 +230,11 @@
                                     <v-col v-if="costform.checkBox.C261" class="ml-5 " cols="12" sm="5">
                                         <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                             <template v-slot:activator="{ on, attrs }">
-                                                <v-text-field v-model="form.date_intern" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                                <v-text-field v-model="form.cost2.carparkdate" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                             </template>
-                                            <v-date-picker v-model="form.date_intern" @input="menu2 = false"></v-date-picker>
+                                            <v-date-picker v-model="form.cost2.carparkdate" @input="menu2 = false"></v-date-picker>
                                         </v-menu>
-                                        <v-text-field class="" label="Cost (Bath)" :disabled="!costform.checkBox.C261" outlined dense required>
+                                        <v-text-field class="" v-model="form.cost2.carparkcost" label="Cost (Bath)" :disabled="!costform.checkBox.C261" outlined dense required>
                                         </v-text-field>
                                     </v-col>
                                 </v-col>
@@ -258,21 +258,21 @@
                                     <v-col v-if="costform.checkBox.C311" class="ml-5 " cols="12" sm="5">
                                         <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                             <template v-slot:activator="{ on, attrs }">
-                                                <v-text-field v-model="form.date_intern" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                                <v-text-field v-model="form.cost3.hdatestart" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                             </template>
-                                            <v-date-picker v-model="form.date_intern" @input="menu2 = false"></v-date-picker>
+                                            <v-date-picker v-model="form.cost3.hdatestart" @input="menu2 = false"></v-date-picker>
                                         </v-menu>
                                         <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                             <template v-slot:activator="{ on, attrs }">
-                                                <v-text-field v-model="form.date_intern" label="To date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                                <v-text-field v-model="form.cost3.hdateend" label="To date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                             </template>
-                                            <v-date-picker v-model="form.date_intern" @input="menu2 = false"></v-date-picker>
+                                            <v-date-picker v-model="form.cost3.hdateend" @input="menu2 = false"></v-date-picker>
                                         </v-menu>
-                                        <v-text-field class="" label="Duration Night(s)" :disabled="!costform.checkBox.C311" outlined dense required>
+                                        <v-text-field class="" v-model="form.cost3.hduration" label="Duration Night(s)" :disabled="!costform.checkBox.C311" outlined dense required>
                                         </v-text-field>
-                                        <v-text-field class="" label="x Bath" :disabled="!costform.checkBox.C311" outlined dense required>
+                                        <v-text-field class="" v-model="form.cost3.hcost" label="x Bath" :disabled="!costform.checkBox.C311" outlined dense required>
                                         </v-text-field>
-                                        <v-textarea class="" label="Address" :disabled="!costform.checkBox.C311" outlined dense required>
+                                        <v-textarea class="" v-model="form.cost3.haddress" label="Address" :disabled="!costform.checkBox.C311" outlined dense required>
                                         </v-textarea>
                                     </v-col>
                                 </v-col>
@@ -283,19 +283,19 @@
                                     <v-col v-if="costform.checkBox.C321" class="ml-5 " cols="12" sm="5">
                                         <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                             <template v-slot:activator="{ on, attrs }">
-                                                <v-text-field v-model="form.date_intern" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                                <v-text-field v-model="form.cost3.hodatestart" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                             </template>
-                                            <v-date-picker v-model="form.date_intern" @input="menu2 = false"></v-date-picker>
+                                            <v-date-picker v-model="form.cost3.hodatestart" @input="menu2 = false"></v-date-picker>
                                         </v-menu>
                                         <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                             <template v-slot:activator="{ on, attrs }">
-                                                <v-text-field v-model="form.date_intern" label="To date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                                <v-text-field v-model="form.cost3.hodateend" label="To date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                             </template>
-                                            <v-date-picker v-model="form.date_intern" @input="menu2 = false"></v-date-picker>
+                                            <v-date-picker v-model="form.cost3.hodateend" @input="menu2 = false"></v-date-picker>
                                         </v-menu>
-                                        <v-text-field class="" label="Duration Night(s)" :disabled="!costform.checkBox.C321" outlined dense required>
+                                        <v-text-field class="" v-model="form.cost3.hoduration" label="Duration Night(s)" :disabled="!costform.checkBox.C321" outlined dense required>
                                         </v-text-field>
-                                        <v-text-field class="" label="x Bath" :disabled="!costform.checkBox.C321" outlined dense required>
+                                        <v-text-field class="" v-model="form.cost3.hocost" label="x Bath" :disabled="!costform.checkBox.C321" outlined dense required>
                                         </v-text-field>
                                     </v-col>
                                 </v-col>
@@ -315,17 +315,17 @@
                             <v-col class="ml-3 mr-5 " cols="12" sm="8">
                                 <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-text-field v-model="form.date_intern" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                        <v-text-field v-model="form.cost4.datestart" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                     </template>
-                                    <v-date-picker v-model="form.date_intern" @input="menu2 = false"></v-date-picker>
+                                    <v-date-picker v-model="form.cost4.datestart" @input="menu2 = false"></v-date-picker>
                                 </v-menu>
                                 <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-text-field v-model="form.date_intern" label="To date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                        <v-text-field v-model="form.cost4.dateend" label="To date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                     </template>
-                                    <v-date-picker v-model="form.date_intern" @input="menu2 = false"></v-date-picker>
+                                    <v-date-picker v-model="form.cost4.dateend" @input="menu2 = false"></v-date-picker>
                                 </v-menu>
-                                <v-text-field class="" label="Duration Day(s) x 350 Bath" outlined dense required>
+                                <v-text-field v-model="form.cost4.duration" class="" label="Duration Day(s) x 350 Bath" outlined dense required>
                                 </v-text-field>
 
                             </v-col>
@@ -333,7 +333,7 @@
 
                     </v-card>
                     <v-btn color=#8c1515 class="mb-6" @click="calculate" dark>Calculate cost</v-btn>
-                    <v-text-field  label="Total Cost" disabled outlined dense required>
+                    <v-text-field label="Total Cost" disabled outlined dense required>
                     </v-text-field>
                     <v-btn color=#8c1515 @click="submit" v-if="cal == true" dark>Submit</v-btn>
                 </v-col>
@@ -399,23 +399,74 @@ export default {
             },
 
         },
-        cal:false,
+        cal: false,
         form: {
-            student: null,
-            teacher: null,
-            workplace: null,
-            address: null,
-            telephone: null,
-            date_go: null,
-            date_arrive: null,
-            date_intern: null,
-            time_start: null,
-            time_end: null,
-            remark: null,
-            comment: null,
+            teacherName: null,
+            acyear: null,
+            semester: null,
             status: null,
-            AccYear: null,
-            semester: null
+            comment: null,
+            totalcost: null,
+            cost1: {
+                forigindate: null,
+                fdesdate: null,
+                forigingfrom: null,
+                fdesfrom: null,
+                foriginto: null,
+                fordesto: null,
+                forigindetime: null,
+                foriginartime: null,
+                fdesdetime: null,
+                fdesartime: null,
+                forigincost: null,
+                fdescost: null,
+                borigindate: null,
+                bdesdate: null,
+                boriginfrom: null,
+                bdesfrom: null,
+                boriginto: null,
+                bdesto: null,
+                borigindetime: null,
+                boriginartime: null,
+                bdesdetime: null,
+                bdesartime: null,
+                borigincost: null,
+                bdescost: null,
+                pricardistance: null,
+                pricarcost:null,
+                taxicost: null,
+            },
+            cost2: {
+                taxicost: null,
+                rcarday: null,
+                rcarcost: null,
+                rvandate: null,
+                rvancost: null,
+                fuelday: null,
+                fuelcost: null,
+                ferrydate: null,
+                ferrycost: null,
+                expressdate: null,
+                expresscost: null,
+                carparkdate: null,
+                carparkcost: null
+            },
+            cost3: {
+                hdatestart: null,
+                hdateend: null,
+                hduration: null,
+                hcost: null,
+                haddress: null,
+                hodatestart: null,
+                hodateend: null,
+                hoduration: null,
+                hocost: null
+            },
+            cost4: {
+                datestart: null,
+                dateend: null,
+                duration: null
+            }
         },
         formstatus: ['Send to staff', 'Teacher Edit', 'Approve'],
         dup: null,
@@ -483,8 +534,9 @@ export default {
 
             }
         },
-        calculate(){
-          this.cal = true
+        calculate() {
+            this.cal = true
+            console.log(this.form)
         },
         async submit() {
             await axios.post('http://localhost:5010/checkDuplicateFormStudents', {

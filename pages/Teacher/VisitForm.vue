@@ -316,9 +316,11 @@ export default {
                                 w_name: this.form.workplace,
                                 w_add: this.form.address,
                                 w_tel: this.form.telephone,
+                                acyear:this.form.AccYear,
+                                semester:this.form.semester
                             }
                         });
-                        this.$router.push('/Staff/Student information')
+                        location.reload();
                     } else {
                         this.close()
                     }
