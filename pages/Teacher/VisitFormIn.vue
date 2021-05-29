@@ -80,7 +80,7 @@
                                     </v-text-field>
                                 </v-col>
                                 <v-col class="ml-5 mr-5" cols="12" sm="3">
-                                    <v-select :items="Ssemester" v-model="searchSemester" filled label="Semester"></v-select>
+                                    <v-select :items="Ssemester" v-model="searchSemester" outlined dense required label="Semester"></v-select>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -89,7 +89,7 @@
                                     </v-text-field>
                                 </v-col>
                                 <v-col class="ml-5 mr-5" cols="12" sm="3">
-                                    <v-select :items="formstatus" v-model="search.status" filled label="Status"></v-select>
+                                    <v-select :items="formstatus" v-model="search.status" outlined dense required label="Status"></v-select>
                                 </v-col>
                             </v-row>
                             <v-row>

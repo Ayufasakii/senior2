@@ -10,7 +10,7 @@
                     </v-col>
 
                     <v-col class="ml-5 mr-5" cols="12" sm="3">
-                        <v-select :items="Ssemester" v-model="form.semester" filled label="Semester"></v-select>
+                        <v-select :items="Ssemester" v-model="form.semester" outlined dense required label="Semester"></v-select>
                     </v-col>
                     <v-card class="elevation-12 mb-6">
                         <v-toolbar color=#8c1515 dark flat>
