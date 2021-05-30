@@ -422,9 +422,6 @@ export default {
             item.V_date_go = item.V_date_go.toString();
             item.v_date_arrive = item.v_date_arrive.toString();
             item.v_date_intern = item.v_date_intern.toString();
-            item.V_date_go = item.V_date_go.split("T")[0]
-            item.v_date_arrive = item.v_date_arrive.split("T")[0]
-            item.v_date_intern = item.v_date_intern.split("T")[0]
             this.form.date_go = item.V_date_go
             this.form.date_arrive = item.v_date_arrive
             this.form.date_intern = item.v_date_intern
@@ -471,6 +468,11 @@ export default {
                 })
                 .then((response) => {
                     this.visitforms = response.data
+                    for (let i = 0; i <= this.visitforms.length; i++) {
+                        this.visitforms[i].V_date_go = this.visitforms[i].V_date_go.split("T")[0]
+                        this.visitforms[i].v_date_arrive = this.visitforms[i].v_date_arrive.split("T")[0]
+                        this.visitforms[i].v_date_intern = this.visitforms[i].v_date_intern.split("T")[0]
+                    }
                     console.log(response.data)
                 }, (error) => {
                     console.log(error);
@@ -549,28 +551,20 @@ export default {
         generatePDF(item) {
             var columns = [
                 { title: "Visiting Date", dataKey: "v_date_intern" },
-                { title: "Time", dataKey: "time" },
+                { title: "Time", dataKey: "V_time_start" },
+                { title: "", dataKey: "" },
+                { title: "", dataKey: "v_time_end" },
                 { title: "Organisation name", dataKey: "w_name" },
                 { title: "Property Addres", dataKey: "w_address" },
                 { title: "Student Name", dataKey: "S_name" },
                 { title: "Remark", dataKey: "remark" }
             ];
-            var rows = [{v_date_intern:null,time:null,w_name:null,w_address:null,S_name:null,remark:null}]
-            console.log(this.visitforms[0].v_date_intern)
-
-                rows[0].v_date_intern = this.visitforms[0].v_date_intern
-                rows[0].time = this.visitforms[0].v_time_start + ' - ' + this.visitforms[0].v_time_end
-                rows[0].w_name = this.visitforms[0].w_name
-                rows[0].w_address = this.visitforms[0].w_address
-                rows[0].S_name = this.visitforms[0].S_name
-                rows[0].remark = this.visitforms[0].remark
-            
+            var rows = this.visitforms;
+            console.log(rows)
             item.V_date_go = item.V_date_go.toString();
             item.v_date_arrive = item.v_date_arrive.toString();
             item.v_date_intern = item.v_date_intern.toString();
-            item.V_date_go = item.V_date_go.split("T")[0]
-            item.v_date_arrive = item.v_date_arrive.split("T")[0]
-            item.v_date_intern = item.v_date_intern.split("T")[0]
+
             console.log(item)
             const doc = new jspdf('landscape')
             doc.setFontSize(16)
@@ -580,12 +574,14 @@ export default {
             doc.text(105, 29, 'Visiting Lecturer ' + item.T_name)
             doc.text(90, 36, 'Major ' + this.teacher.T_Major + ' School of ' + this.teacher.T_School)
             doc.text(105, 43, 'Visiting date ' + item.V_date_go + ' - ' + item.v_date_arrive)
-            doc.autoTable({
-                columns,
-                rows,
+            doc.autoTable(columns, rows, {
+                styles: {  },
+                columnStyles: {
+                    id: { }
+                },
                 theme: 'plain',
-                margin: { left: 50, right: 50, bottom: 50, top: 50 }
-            })
+                margin: { top: 60 }
+            });
             doc.setFontSize(12)
             doc.text(10, 165, 'Remark: ')
             doc.text(27, 165, '1.Visiting lecturer must arrange appointments with interns and organisations and confirmation of visiting from organisations is needed.')
