@@ -20,6 +20,7 @@
                         </v-toolbar>
                         <v-card-text v-if="checkroundtrip == true">
                             <v-row>
+
                                 <v-col class="ml-5 mr-5 " cols="12" sm="3">
                                     <v-checkbox v-model="costform.checkBox.C111" hide-details class="shrink mr-2 mt-0"></v-checkbox>
                                     <v-text-field label="Air fares" disabled outlined dense required>
@@ -38,12 +39,13 @@
                                     <v-text-field label="To" :disabled="!costform.checkBox.C112" v-model="form.cost1.foriginto" outlined dense required>
                                     </v-text-field>
                                     <span class="black--text">Departure Time</span>
-                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C112" locale="th" dense v-model="form.cost1.forigindetime"></b-form-timepicker>
+                                    <b-form-timepicker id="ATime" :disabled="!costform.checkBox.C112" locale="th" dense v-model="form.cost1.forigindetime"></b-form-timepicker>
                                     <span class="black--text">Arrival Time</span>
-                                    <b-form-timepicker id="CTime" :disabled="!costform.checkBox.C112" locale="th" dense v-model="form.cost1.foriginartime"></b-form-timepicker>
+                                    <b-form-timepicker id="BTime" :disabled="!costform.checkBox.C112" locale="th" dense v-model="form.cost1.foriginartime"></b-form-timepicker>
                                     <v-text-field class="mt-6" label="Cost" type="number" :disabled="!costform.checkBox.C112" v-model="form.cost1.forigincost" outlined dense required>
                                     </v-text-field>
                                 </v-col>
+
                                 <v-col v-if="costform.checkBox.C111" class="ml-5 mr-5 mt-5" cols="12" sm="3">
                                     <v-checkbox v-model="costform.checkBox.C113" hide-details class="shrink mr-2 mt-0"></v-checkbox>
                                     <v-menu v-model="menu2" :disabled="!costform.checkBox.C113" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
@@ -57,13 +59,14 @@
                                     <v-text-field label="To" :disabled="!costform.checkBox.C113" v-model="form.cost1.fdesto" outlined dense required>
                                     </v-text-field>
                                     <span class="black--text">Departure Time</span>
-                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C113" locale="th" dense v-model="form.cost1.fdesdetime"></b-form-timepicker>
+                                    <b-form-timepicker id="CTime" :disabled="!costform.checkBox.C113" locale="th" dense v-model="form.cost1.fdesdetime"></b-form-timepicker>
                                     <span class="black--text">Arrival Time</span>
-                                    <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C113" locale="th" dense v-model="form.cost1.fdesartime"></b-form-timepicker>
+                                    <b-form-timepicker id="DTime" :disabled="!costform.checkBox.C113" locale="th" dense v-model="form.cost1.fdesartime"></b-form-timepicker>
                                     <v-text-field class="mt-6" label="Cost" type="number" :disabled="!costform.checkBox.C113" v-model="form.cost1.fdescost" outlined dense required>
                                     </v-text-field>
                                 </v-col>
                             </v-row>
+
                             <v-row>
                                 <v-col class="ml-5 mr-5 " cols="12" sm="3">
                                     <v-checkbox v-model="costform.checkBox.C121" hide-details class="shrink mr-2 mt-0"></v-checkbox>
@@ -675,6 +678,7 @@ export default {
                             totalcost : this.form.totalcost
                         }
                     });
+                    this.$router.push('/Teacher/CostFormIn')
                 } else {
                 }
             }

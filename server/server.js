@@ -399,6 +399,15 @@ app.delete('/deleteVisitform', (req, res) => {
   });
   res.send('Delete success')
 })
+app.delete('/deleteCostform', (req, res) => {
+  let id = req.body.id 
+  let sql1 = `DELETE FROM costform WHERE id = '${id}'`
+  connection.query(sql1, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  res.send('Delete success')
+})
 
 //////////////////////////////////UPDATE///////////////////////////////////////
 app.put('/updateTeacher', (req, res) => {

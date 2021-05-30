@@ -420,11 +420,14 @@ export default {
             }
         },
         del(item){
-            let r = confirm('ต้องการลบแบบฟอร์มนี้หรือไม่?')
-            if (r == true) {
-            } else {
-
-            }
+            confirm('Are you sure you want to delete this item?') && axios({
+                method: 'delete',
+                url: `http://localhost:5010/deleteCostform`,
+                data: {
+                    id: item.id,
+                }
+            });
+            location.reload();
         },
         async submit() {
             await axios.post('http://localhost:5010/checkDuplicateFormStudents', {
