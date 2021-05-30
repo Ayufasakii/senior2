@@ -80,7 +80,7 @@
                                     </v-text-field>
                                 </v-col>
                                 <v-col class="ml-5 mr-5" cols="12" sm="3">
-                                    <v-select :items="Ssemester" v-model="searchSemester" outlined dense required label="Semester"></v-select>
+                                    <v-select :items="Ssemester" v-model="search.semester" outlined dense required label="Semester"></v-select>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -96,7 +96,10 @@
                                 <v-col class="ml-5 mr-5" cols="12" sm="3">
                                     <v-btn color=#8c1515 @click="searchVisit" dark>Search</v-btn>
                                 </v-col>
-
+                                <v-spacer></v-spacer>
+                                <v-col  cols="12" sm="3">
+                                    <v-btn color=#8c1515 @click="Clear" dark>Clear</v-btn>
+                                </v-col>
                             </v-row>
                             <v-row>
                                 <v-col class="ml-5 mr-5" cols="12" sm="11">
@@ -512,7 +515,18 @@ export default {
                 }
             }
 
-        }
+        },
+        Clear(){
+                this.search.Sname= null,
+                this.search.Tname= null,
+                this.search.Date2Go= null,
+                this.search.Date2Arrive= null,
+                this.search.Date2Visit= null,
+                this.search.semester= null,
+                this.search.acyear= null,
+                this.search.workplace= null,
+                this.search.status= null
+        },
     }
 }
 </script>
