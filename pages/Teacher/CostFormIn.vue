@@ -325,11 +325,11 @@ export default {
         dup: null,
         visitforms: [],
         headers: [{
-                text: 'Student Name',
+                text: 'Academic Year',
                 align: 'start',
-                value: 'S_name',
+                value: 'acyear',
             },
-            { text: 'Workplace Name', value: 'w_name' },
+            { text: 'Semester', value: 'semester' },
             { text: 'Status', value: 'status' },
             { text: 'Actions', value: 'actions', sortable: false },
         ],
@@ -396,7 +396,7 @@ export default {
                 });
         },
         searchVisit() {
-            axios.post('http://localhost:5010/getSearchVisitForm', {
+            axios.post('http://localhost:5010/getSearchCostForm', {
                     Sname: this.search.Sname,
                     Tname: this.teacher.T_name,
                     Date2Go: this.search.Date2Go,
