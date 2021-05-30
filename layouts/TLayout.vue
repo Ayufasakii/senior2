@@ -104,6 +104,11 @@ export default {
           title: 'Visit form information',
           to: '/Teacher/VisitFormIn'
         },
+        {
+          icon: 'mdi-form-select',
+          title: 'Visit form information',
+          to: '/Teacher/Test'
+        },
       ],
       miniVariant: false,
       right: true,
