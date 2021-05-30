@@ -6,45 +6,15 @@
                 <v-col cols="12" sm="10" md="10">
                     <v-card class="elevation-12 mb-6">
                         <v-toolbar color=#8c1515 dark flat>
-                            <v-toolbar-title>Visit Form Information</v-toolbar-title>
+                            <v-toolbar-title>Cost Form Information</v-toolbar-title>
                             <v-spacer></v-spacer>
                         </v-toolbar>
 
                         <v-card-text>
                             <v-row>
-                                <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                <v-col class="ml-5 mr-5" cols="12" sm="3">
                                     <v-text-field label="Teacher Name" v-model="search.Tname" outlined dense required>
                                     </v-text-field>
-                                </v-col>
-                                <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
-                                    <v-text-field label="Student Name" v-model="search.Sname" outlined dense required>
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="4">
-                                    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="search.Date2Go" label="Date to go" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="search.Date2Go" @input="menu2 = false"></v-date-picker>
-                                    </v-menu>
-                                </v-col>
-                                <v-col cols="4">
-                                    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="search.Date2Arrive" label="Date to arrive" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="search.Date2Arrive" @input="menu2 = false"></v-date-picker>
-                                    </v-menu>
-                                </v-col>
-                                <v-col cols="4">
-                                    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="search.Date2Visit" label="Date to visit" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="search.Date2Visit" @input="menu2 = false"></v-date-picker>
-                                    </v-menu>
                                 </v-col>
                                 <v-col class="ml-5 mr-5" cols="12" sm="3">
                                     <v-text-field label="Academic Year" v-model="search.acyear" outlined dense required>
@@ -57,10 +27,6 @@
                             </v-row>
                             <v-row>
                                 <v-col class="ml-5 mr-5" cols="12" sm="3">
-                                    <v-text-field label="Workplace Name" v-model="search.workplace" outlined dense required>
-                                    </v-text-field>
-                                </v-col>
-                                <v-col class="ml-5 mr-5" cols="12" sm="3">
                                     <v-select :items="formstatus" v-model="search.status" outlined dense required label="Status"></v-select>
                                 </v-col>
                             </v-row>
@@ -69,6 +35,10 @@
                                     <v-btn color=#8c1515 @click="searchVisit" dark>Search</v-btn>
                                 </v-col>
 
+                                <v-spacer></v-spacer>
+                                <v-col  cols="12" sm="3">
+                                    <v-btn color=#8c1515 @click="Clear" dark>Clear</v-btn>
+                                </v-col>
                             </v-row>
                             <v-row>
                                 <v-col class="ml-5 mr-5" cols="12" sm="11">
@@ -372,10 +342,10 @@ export default {
         headers: [{
                 text: 'Teacher Name',
                 align: 'start',
-                value: 'T_name',
+                value: 'Tname',
             },
-            { text: 'Student Name', value: 'S_name' },
-            { text: 'Workplace Name', value: 'w_name' },
+            { text: 'Semester', value: 'semester' },
+            { text: 'Academic Year', value: 'acyear' },
             { text: 'Status', value: 'status' },
             { text: 'Actions', value: 'actions', sortable: false },
         ],
@@ -419,15 +389,10 @@ export default {
             }
         },
         searchVisit() {
-            axios.post('http://localhost:5010/getSearchVisitForm', {
-                    Sname: this.search.Sname,
-                    Tname: this.search.T_name,
-                    Date2Go: this.search.Date2Go,
-                    Date2Arrive: this.search.Date2Arrive,
-                    Date2Visit: this.search.Date2Visit,
+            axios.post('http://localhost:5010/getSearchCostForm', {
+                    Tname: this.search.Tname,
                     semester: this.search.semester,
                     acyear: this.search.acyear,
-                    workplace: this.search.workplace,
                     status: this.search.status,
                 })
                 .then((response) => {
@@ -544,7 +509,18 @@ export default {
                 }
             }
 
-        }
+        },
+        Clear(){
+                this.search.Sname= null,
+                this.search.Tname= null,
+                this.search.Date2Go= null,
+                this.search.Date2Arrive= null,
+                this.search.Date2Visit= null,
+                this.search.semester= null,
+                this.search.acyear= null,
+                this.search.workplace= null,
+                this.search.status= null
+        },
     }
 }
 </script>

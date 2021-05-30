@@ -397,14 +397,9 @@ export default {
         },
         searchVisit() {
             axios.post('http://localhost:5010/getSearchCostForm', {
-                    Sname: this.search.Sname,
                     Tname: this.teacher.T_name,
-                    Date2Go: this.search.Date2Go,
-                    Date2Arrive: this.search.Date2Arrive,
-                    Date2Visit: this.search.Date2Visit,
                     semester: this.search.semester,
                     acyear: this.search.acyear,
-                    workplace: this.search.workplace,
                     status: this.search.status,
                 })
                 .then((response) => {
