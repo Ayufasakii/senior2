@@ -146,6 +146,21 @@ app.post('/getSearchVisitForm', (req, res) => {
     res.send(result)
   });
 })
+app.post('/getSearchCostForm', (req, res) => { 
+  let Tname = req.body.Tname
+  let semester = req.body.semester
+  let acyear = req.body.acyear
+  let status = req.body.status
+  if(Tname == undefined){Tname = ''}
+  if(semester == undefined){semester = ''}
+  if(acyear == undefined){acyear = ''}
+  if(status == undefined){status = ''}
+  connection.query(`SELECT * FROM costform INNER JOIN cform1 ON costform.cform1=cform1.id INNER JOIN cform2 ON costform.cform2=cform2.id INNER JOIN cform3 ON costform.cform3=cform3.id INNER JOIN cform4 ON costform.cform4=cform4.id WHERE Tname like '%${Tname}%' AND semester like '%${semester}%' AND acyear like '%${acyear}%' AND status like '%${status}%'`, function (err, result, fields) {
+    if (err) throw err;
+    console.log(result)
+    res.send(result)
+  });
+})
 app.post('/checkDuplicateFormStudents', (req, res) => {
   let Sname = req.body.Sname
   connection.query(`Select * from visit_form where S_name = '${Sname}'`, function (err, result, fields) {
