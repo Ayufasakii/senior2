@@ -362,10 +362,21 @@ app.post('/createTeacher', (req, res) => {
 app.delete('/deleteStudent', (req, res) => {
   //get student info
   let sID = req.body.sID 
+  let sname = req.body.sname
   let sql1 = `DELETE FROM student WHERE S_ID = '${sID}'`
+  let sql2 = `DELETE FROM visit_form WHERE S_name = '${sname}'`
+  let sql3 = `SELECT FROM visit_form WHERE S_name = '${sname}'`
   connection.query(sql1, function (err, result, fields) {
     console.log(err)
     if (err) throw err;
+  });
+  connection.query(sql3, function (err, result, fields) {
+    if(result.length){
+    connection.query(sql2, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  }
   });
   res.send('Delete success')
 })
