@@ -39,42 +39,12 @@
                     </v-card>
                     <v-card class="elevation-12 mb-6">
                         <v-toolbar color=#8c1515 dark flat>
-                            <v-toolbar-title>Visit Form Information</v-toolbar-title>
+                            <v-toolbar-title>Cost Form Information</v-toolbar-title>
                             <v-spacer></v-spacer>
                         </v-toolbar>
 
                         <v-card-text>
                             <v-row>
-                                <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
-                                    <v-text-field label="Name" v-model="search.Sname" outlined dense required>
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="4">
-                                    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="search.Date2Go" label="Date to go" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="search.Date2Go" @input="menu2 = false"></v-date-picker>
-                                    </v-menu>
-                                </v-col>
-                                <v-col cols="4">
-                                    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="search.Date2Arrive" label="Date to arrive" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="search.Date2Arrive" @input="menu2 = false"></v-date-picker>
-                                    </v-menu>
-                                </v-col>
-                                <v-col cols="4">
-                                    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="search.Date2Visit" label="Date to visit" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="search.Date2Visit" @input="menu2 = false"></v-date-picker>
-                                    </v-menu>
-                                </v-col>
                                 <v-col class="ml-5 mr-5" cols="12" sm="3">
                                     <v-text-field label="Academic Year" v-model="search.acyear" outlined dense required>
                                     </v-text-field>
@@ -84,10 +54,6 @@
                                 </v-col>
                             </v-row>
                             <v-row>
-                                <v-col class="ml-5 mr-5" cols="12" sm="3">
-                                    <v-text-field label="Workplace Name" v-model="search.workplace" outlined dense required>
-                                    </v-text-field>
-                                </v-col>
                                 <v-col class="ml-5 mr-5" cols="12" sm="3">
                                     <v-select :items="formstatus" v-model="search.status" outlined dense required label="Status"></v-select>
                                 </v-col>
@@ -326,14 +292,9 @@ export default {
             searchSemester: '',
         },
         search: {
-            Sname: null,
             Tname: null,
-            Date2Go: null,
-            Date2Arrive: null,
-            Date2Visit: null,
             semester: null,
             acyear: null,
-            workplace: null,
             status: null
         },
         form: {
