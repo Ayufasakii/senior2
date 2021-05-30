@@ -97,7 +97,7 @@
                                     <v-btn color=#8c1515 @click="searchVisit" dark>Search</v-btn>
                                 </v-col>
                                 <v-spacer></v-spacer>
-                                <v-col  cols="12" sm="3">
+                                <v-col cols="12" sm="3">
                                     <v-btn color=#8c1515 @click="Clear" dark>Clear</v-btn>
                                 </v-col>
                             </v-row>
@@ -112,6 +112,11 @@
                                                 mdi-account-remove
                                             </v-icon>
                                         </template>
+                                        <template v-slot:[`item.actions2`]="{ item }">
+                                            <v-icon small class="mr-2" @click="generatePDF(item)">
+                                                mdi-file-download
+                                            </v-icon>
+                                        </template>
                                     </v-data-table>
                                 </v-col>
                             </v-row>
@@ -120,24 +125,24 @@
                     </v-card>
                     <v-dialog v-model="dialog" max-width="1000px">
                         <v-card>
-                            
+
                             <v-toolbar color=#8c1515 dark flat>
                                 <v-toolbar-title>
                                     <span>{{ formTitle }}</span>
                                 </v-toolbar-title>
                                 <v-spacer></v-spacer>
                             </v-toolbar>
-                                                        <v-col cols="12">
-                                                            <v-textarea label="Comment from staff" disabled ref="Comment from staff" v-model="form.comment" rows="2" outlined dense required>
-                                                            </v-textarea>
-                                                        </v-col>
+                            <v-col cols="12">
+                                <v-textarea label="Comment from staff" disabled ref="Comment from staff" v-model="form.comment" rows="2" outlined dense required>
+                                </v-textarea>
+                            </v-col>
                             <v-card-text>
                                 <v-container class="fill-height" fluid>
                                     <v-row align="center" justify="center">
                                         <v-col cols="12" sm="10" md="10">
                                             <v-card class="elevation-4 mb-6">
                                                 <v-toolbar color=#8c1515 dark flat>
-                                                    
+
                                                     <v-toolbar-title>Teacher Information</v-toolbar-title>
 
                                                 </v-toolbar>
@@ -297,6 +302,8 @@
 
 <script>
 const axios = require('axios');
+import jspdf from 'jspdf'
+import 'jspdf-autotable'
 export default {
     layout(context) {
         return 'TLayout'
@@ -308,9 +315,9 @@ export default {
     data: () => ({
         show: null,
         isEditing: null,
-                formstatus: ['Send to staff', 'Teacher Edit', 'Approved'],
+        formstatus: ['Send to staff', 'Teacher Edit', 'Approved'],
         menu: false,
-                Ssemester:['1','2','3'],
+        Ssemester: ['1', '2', '3'],
         teacher: {
             T_name: null,
             T_email: null,
@@ -352,13 +359,24 @@ export default {
             AccYear: null,
             semester: null,
         },
-        student:{name:null,
-        ID:null,
-        school:null,
-        major:null,
-        acyear:null,
-        semester:null
+        student: {
+            name: null,
+            ID: null,
+            school: null,
+            major: null,
+            acyear: null,
+            semester: null
         },
+        table1: [],
+        table2: [],
+        table3: [],
+        table4: [],
+        table5: [],
+        table6: [],
+        table7: [],
+        table8: [],
+        table9: [],
+        table10: [],
         dialog: false,
         dup: null,
         visitforms: [],
@@ -370,9 +388,10 @@ export default {
             { text: 'Workplace Name', value: 'w_name' },
             { text: 'Status', value: 'status' },
             { text: 'Actions', value: 'actions', sortable: false },
+            { text: 'Dowload', value: 'actions2', sortable: false },
         ],
         TID: null,
-        VID:null
+        VID: null
     }),
     computed: {
 
@@ -399,28 +418,28 @@ export default {
                 }, (error) => {
                     console.log(error);
                 });
-                console.log(item)
-                item.V_date_go = item.V_date_go.toString();
-                item.v_date_arrive= item.v_date_arrive.toString();
-                item.v_date_intern= item.v_date_intern.toString();
-                item.V_date_go = item.V_date_go.split("T")[0]
-                item.v_date_arrive= item.v_date_arrive.split("T")[0]
-                item.v_date_intern= item.v_date_intern.split("T")[0]
-                this.form.date_go = item.V_date_go
-                this.form.date_arrive = item.v_date_arrive
-                this.form.date_intern = item.v_date_intern
-                this.form.time_start=item.V_time_start
-                this.form.time_end=item.v_time_end
-                this.form.workplace=item.w_name
-                this.form.telephone=item.w_tel
-                this.form.address=item.w_address
-                this.form.remark=item.remark
-                this.form.comment = item.comment
-                this.form.semester = item.semester
-                this.form.AccYear = item.accyear
-                this.form.student = item.S_name
-                this.VID = item.V_ID
-            
+            console.log(item)
+            item.V_date_go = item.V_date_go.toString();
+            item.v_date_arrive = item.v_date_arrive.toString();
+            item.v_date_intern = item.v_date_intern.toString();
+            item.V_date_go = item.V_date_go.split("T")[0]
+            item.v_date_arrive = item.v_date_arrive.split("T")[0]
+            item.v_date_intern = item.v_date_intern.split("T")[0]
+            this.form.date_go = item.V_date_go
+            this.form.date_arrive = item.v_date_arrive
+            this.form.date_intern = item.v_date_intern
+            this.form.time_start = item.V_time_start
+            this.form.time_end = item.v_time_end
+            this.form.workplace = item.w_name
+            this.form.telephone = item.w_tel
+            this.form.address = item.w_address
+            this.form.remark = item.remark
+            this.form.comment = item.comment
+            this.form.semester = item.semester
+            this.form.AccYear = item.accyear
+            this.form.student = item.S_name
+            this.VID = item.V_ID
+
         },
         close() { this.dialog = false },
         getdata() {
@@ -467,64 +486,113 @@ export default {
 
             }
         },
-        del(item){
-                confirm('Are you sure you want to delete this item?') && axios({
+
+        del(item) {
+            confirm('Are you sure you want to delete this item?') && axios({
                 method: 'delete',
                 url: `http://localhost:5010/deleteVisitform`,
                 data: {
-                    VID: this.VID,
+                    VID: item.V_ID,
                 }
             });
             location.reload();
         },
         async submit() {
-                this.form.teacher = this.teacher.T_name
-                console.log(this.form)
-                if (this.form.date_go == null || this.form.date_arrive == null || this.form.date_intern == null ||
-                    this.form.student == null || this.form.teacher == null || this.form.time_start == null || this.form.time_end == null ||
-                    this.form.workplace == null || this.form.address == null || this.form.telephone == null
-                ) {
-                    alert('กรุณากรอกข้อมูลให้ครบถ้วน')
+            this.form.teacher = this.teacher.T_name
+            console.log(this.form)
+            if (this.form.date_go == null || this.form.date_arrive == null || this.form.date_intern == null ||
+                this.form.student == null || this.form.teacher == null || this.form.time_start == null || this.form.time_end == null ||
+                this.form.workplace == null || this.form.address == null || this.form.telephone == null
+            ) {
+                alert('กรุณากรอกข้อมูลให้ครบถ้วน')
+            } else {
+                let r = confirm('Are you sure you want to create?')
+                if (r == true) {
+                    axios({
+                        method: 'post',
+                        url: `http://localhost:5010/updateVisitForm`,
+                        data: {
+                            V_date_go: this.form.date_go,
+                            V_date_arrive: this.form.date_arrive,
+                            V_date_intern: this.form.date_intern,
+                            remark: this.form.remark,
+                            S_name: this.form.student,
+                            T_name: this.form.teacher,
+                            V_time_start: this.form.time_start,
+                            V_time_end: this.form.time_end,
+                            w_name: this.form.workplace,
+                            w_add: this.form.address,
+                            w_tel: this.form.telephone,
+                            semester: this.form.semester,
+                            accyear: this.form.AccYear,
+                            VID: this.VID
+                        }
+                    });
                 } else {
-                    let r = confirm('Are you sure you want to create?')
-                    if (r == true) {
-                        axios({
-                            method: 'post',
-                            url: `http://localhost:5010/updateVisitForm`,
-                            data: {
-                                V_date_go: this.form.date_go,
-                                V_date_arrive: this.form.date_arrive,
-                                V_date_intern: this.form.date_intern,
-                                remark: this.form.remark,
-                                S_name: this.form.student,
-                                T_name: this.form.teacher,
-                                V_time_start: this.form.time_start,
-                                V_time_end: this.form.time_end,
-                                w_name: this.form.workplace,
-                                w_add: this.form.address,
-                                w_tel: this.form.telephone,
-                                semester : this.form.semester,
-                                accyear:this.form.AccYear,
-                                VID : this.VID
-                            }
-                        });
-                    } else {
-                        this.close()
-                    }
-                
+                    this.close()
+                }
+
             }
 
         },
-        Clear(){
-                this.search.Sname= null,
-                this.search.Tname= null,
-                this.search.Date2Go= null,
-                this.search.Date2Arrive= null,
-                this.search.Date2Visit= null,
-                this.search.semester= null,
-                this.search.acyear= null,
-                this.search.workplace= null,
-                this.search.status= null
+        Clear() {
+            this.search.Sname = null,
+                this.search.Tname = null,
+                this.search.Date2Go = null,
+                this.search.Date2Arrive = null,
+                this.search.Date2Visit = null,
+                this.search.semester = null,
+                this.search.acyear = null,
+                this.search.workplace = null,
+                this.search.status = null
+        },
+        generatePDF(item) {
+            var columns = [
+                { title: "Visiting Date", dataKey: "v_date_intern" },
+                { title: "Time", dataKey: "time" },
+                { title: "Organisation name", dataKey: "w_name" },
+                { title: "Property Addres", dataKey: "w_address" },
+                { title: "Student Name", dataKey: "S_name" },
+                { title: "Remark", dataKey: "remark" }
+            ];
+            var rows = [{v_date_intern:null,time:null,w_name:null,w_address:null,S_name:null,remark:null}]
+            console.log(this.visitforms[0].v_date_intern)
+
+                rows[0].v_date_intern = this.visitforms[0].v_date_intern
+                rows[0].time = this.visitforms[0].v_time_start + ' - ' + this.visitforms[0].v_time_end
+                rows[0].w_name = this.visitforms[0].w_name
+                rows[0].w_address = this.visitforms[0].w_address
+                rows[0].S_name = this.visitforms[0].S_name
+                rows[0].remark = this.visitforms[0].remark
+            
+            item.V_date_go = item.V_date_go.toString();
+            item.v_date_arrive = item.v_date_arrive.toString();
+            item.v_date_intern = item.v_date_intern.toString();
+            item.V_date_go = item.V_date_go.split("T")[0]
+            item.v_date_arrive = item.v_date_arrive.split("T")[0]
+            item.v_date_intern = item.v_date_intern.split("T")[0]
+            console.log(item)
+            const doc = new jspdf('landscape')
+            doc.setFontSize(16)
+            doc.text(110, 15, 'Workplace Visits Form')
+            doc.setFontSize(12)
+            doc.text(110, 22, item.semester + ' Semester Academic Year ' + item.accyear)
+            doc.text(105, 29, 'Visiting Lecturer ' + item.T_name)
+            doc.text(90, 36, 'Major ' + this.teacher.T_Major + ' School of ' + this.teacher.T_School)
+            doc.text(105, 43, 'Visiting date ' + item.V_date_go + ' - ' + item.v_date_arrive)
+            doc.autoTable({
+                columns,
+                rows,
+                theme: 'plain',
+                margin: { left: 50, right: 50, bottom: 50, top: 50 }
+            })
+            doc.setFontSize(12)
+            doc.text(10, 165, 'Remark: ')
+            doc.text(27, 165, '1.Visiting lecturer must arrange appointments with interns and organisations and confirmation of visiting from organisations is needed.')
+            doc.text(27, 175, '2.If more than 1 visiting lecturers, is fill the information of the visiting lecturer who coordinates with organisations in the form.')
+            doc.text(27, 185, '3.The school must supervise or intern. It not be 100% of interns who are supervised by visiting lecturer.')
+            doc.text(27, 195, '4.If visiting lecturer canot visit organisations by themselves, Interns not be supervised by telephone and please inform a detail in the table.')
+            doc.save("Work_Place_Visit_Form.pdf")
         },
     }
 }
