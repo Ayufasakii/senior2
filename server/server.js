@@ -229,6 +229,29 @@ app.post('/createVisitForm', (req, res) => {
   });
   res.send('Create success')
 })
+app.post('/updateVisitForm', (req, res) => {
+  let V_date_go = req.body.V_date_go
+  let V_date_arrive = req.body.V_date_arrive
+  let V_date_intern = req.body.V_date_intern
+  let remark = req.body.remark
+  let S_name = req.body.S_name
+  let T_name = req.body.T_name
+  let V_time_start = req.body.V_time_start
+  let V_time_end = req.body.V_time_end
+  let semester = req.body.semester
+  let acyear = req.body.acyear
+  let w_name = req.body.w_name
+  let w_add = req.body.w_add
+  let w_tel = req.body.w_tel
+  let VID = req.body.VID
+  if(remark == null){remark = ''}
+  let sql1 = `UPDATE visit_form SET V_date_go = '${V_date_go}',V_date_arrive = '${V_date_arrive}',V_date_intern = '${V_date_intern}',remark = '${remark}',S_name='${S_name}',T_name = '${T_name}',V_time_start='${V_time_start}',V_time_end='${V_time_end}',w_name='${w_name}',w_address='${w_add}',w_tel='${w_tel}',status='Send to staff',accyear='${acyear}',semester='${semester}' WHERE V_ID = ${VID}`
+  connection.query(sql1, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  res.send('Create success')
+})
 app.post('/createCostForm', (req, res) => {
   let semester = req.body.semester
   let acyear = req.body.acyear

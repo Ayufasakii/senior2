@@ -284,7 +284,7 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                                <v-btn color="blue darken-1" text @click="save" :disabled="!isEditing">Save</v-btn>
+                                <v-btn color="blue darken-1" text @click="submit" :disabled="!isEditing">Save</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
@@ -371,7 +371,8 @@ export default {
             { text: 'Status', value: 'status' },
             { text: 'Actions', value: 'actions', sortable: false },
         ],
-        TID: null
+        TID: null,
+        VID:null
     }),
     computed: {
 
@@ -415,6 +416,10 @@ export default {
                 this.form.address=item.w_address
                 this.form.remark=item.remark
                 this.form.comment = item.comment
+                this.form.semester = item.semester
+                this.form.AccYear = item.accyear
+                this.form.student = item.S_name
+                this.VID = item.V_ID
             
         },
         close() { this.dialog = false },
@@ -470,17 +475,6 @@ export default {
             }
         },
         async submit() {
-            await axios.post('http://localhost:5010/checkDuplicateFormStudents', {
-                    Sname: this.form.student
-                })
-                .then((response) => {
-                    this.dup = response.data
-                }, (error) => {
-                    console.log(error);
-                });
-            if (this.dup == true) {
-                alert('นักเรียนคนนี้มีแบบฟอร์มนิเทศอยู่แล้ว')
-            } else {
                 this.form.teacher = this.teacher.T_name
                 console.log(this.form)
                 if (this.form.date_go == null || this.form.date_arrive == null || this.form.date_intern == null ||
@@ -493,7 +487,7 @@ export default {
                     if (r == true) {
                         axios({
                             method: 'post',
-                            url: `http://localhost:5010/createVisitForm`,
+                            url: `http://localhost:5010/updateVisitForm`,
                             data: {
                                 V_date_go: this.form.date_go,
                                 V_date_arrive: this.form.date_arrive,
@@ -506,13 +500,15 @@ export default {
                                 w_name: this.form.workplace,
                                 w_add: this.form.address,
                                 w_tel: this.form.telephone,
+                                semester : this.form.semester,
+                                accyear:this.form.AccYear,
+                                VID : this.VID
                             }
                         });
-                        this.$router.push('/Staff/Student information')
                     } else {
                         this.close()
                     }
-                }
+                
             }
 
         },
