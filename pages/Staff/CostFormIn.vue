@@ -342,7 +342,7 @@ export default {
         headers: [{
                 text: 'Teacher Name',
                 align: 'start',
-                value: 'Tname',
+                value: 'tname',
             },
             { text: 'Semester', value: 'semester' },
             { text: 'Academic Year', value: 'acyear' },
@@ -390,7 +390,7 @@ export default {
         },
         searchVisit() {
             axios.post('http://localhost:5010/getSearchCostForm', {
-                    Tname: this.search.Tname,
+                    tname: this.search.tname,
                     semester: this.search.semester,
                     acyear: this.search.acyear,
                     status: this.search.status,
