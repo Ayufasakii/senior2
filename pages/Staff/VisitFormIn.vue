@@ -102,7 +102,7 @@
                                 <v-container class="fill-height" fluid>
                                     <v-row align="center" justify="center">
                                         <v-col cols="12" sm="10" md="10">
-                                            <v-card class="elevation-12 mb-6">
+                                            <v-card class="elevation-4 mb-6">
                                                 <v-toolbar color=#8c1515 dark flat>
 
                                                     <v-toolbar-title>Teacher Information</v-toolbar-title>
@@ -136,7 +136,7 @@
 
                                                 </v-card-text>
                                             </v-card>
-                                            <v-card class="elevation-12 mb-6">
+                                            <v-card class="elevation-4 mb-6">
                                                 <v-toolbar color=#8c1515 dark flat>
                                                     <v-toolbar-title>Student</v-toolbar-title>
                                                     <v-spacer></v-spacer>
@@ -165,13 +165,13 @@
                                                             </v-text-field>
                                                         </v-col>
                                                         <v-col class="ml-5 mr-5" cols="12" sm="3">
-                                                            <v-select :items="Ssemester" v-model="searchSemester" filled label="Semester"></v-select>
+                                                            <v-select :items="Ssemester" v-model="searchSemester" disabled outlined dense label="Semester"></v-select>
                                                         </v-col>
                                                     </v-row>
 
                                                 </v-card-text>
                                             </v-card>
-                                            <v-card class="elevation-12">
+                                            <v-card class="elevation-4">
                                                 <v-toolbar color=#8c1515 dark flat>
                                                     <v-toolbar-title>Workplace Visits Form</v-toolbar-title>
                                                     <v-spacer></v-spacer>
@@ -242,7 +242,7 @@
 
                                             </v-card>
                                             <v-col cols="12">
-                                                <v-textarea label="Comment from staff" ref="Comment from staff" v-model="form.comment" rows="2" outlined dense required>
+                                                <v-textarea label="Comment from staff" ref="Comment from staff" v-model="form.comment" rows="4" outlined dense required>
                                                 </v-textarea>
                                             </v-col>
                                         </v-col>

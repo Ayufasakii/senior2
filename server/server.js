@@ -356,6 +356,15 @@ app.delete('/deleteTeacher', (req, res) => {
   });
   res.send('Delete success')
 })
+app.delete('/deleteVisitform', (req, res) => {
+  let VID = req.body.VID 
+  let sql1 = `DELETE FROM visit_form WHERE V_ID = '${VID}'`
+  connection.query(sql1, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  res.send('Delete success')
+})
 
 //////////////////////////////////UPDATE///////////////////////////////////////
 app.put('/updateTeacher', (req, res) => {

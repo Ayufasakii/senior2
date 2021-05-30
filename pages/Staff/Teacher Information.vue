@@ -156,30 +156,7 @@
                                                             :readonly="!isEditing">
                                                             </v-select>
                                                             
-                                                        </v-col>   
-                                                        
-                                                        <v-col cols="12" sm="6">                                                
-                                                            <v-text-field  
-                                                            label="Academic Year" 
-                                                            ref="AcYear" 
-                                                            v-model="editedItem.selectedAccYear" 
-                                                            outlined 
-                                                            dense 
-                                                            required>
-                                                            </v-text-field>
-                                                        </v-col>
-                                                       <v-col cols="12" sm="6">
-                                                            <v-select 
-                                                            :items="Semester" 
-                                                            label="Semester" 
-                                                            v-model="editedItem.selectedSemester" 
-                                                            dense 
-                                                            outlined 
-                                                            required
-                                                            :readonly="!isEditing">
-                                                            </v-select>
-                                                            
-                                                        </v-col>                                           
+                                                        </v-col>                                          
                                                     </v-row>
                                                 </v-container>
                                             </v-card-text>
@@ -355,8 +332,6 @@ export default {
                                 Tschool:this.editedItem.selectedSchool,
                                 Temail:this.editedItem.Temail,
                                 newTID:this.editedItem.TID,
-                                semester:this.editedItem.selectedSemester,
-                                accYear:this.editedItem.selectedAccYear,
                                 oldTID:this.oldTID
                                 }
                         });
@@ -373,8 +348,6 @@ export default {
                                 Tschool:this.editedItem.selectedSchool,
                                 Tpass:this.editedItem.Tpass,
                                 Temail:this.editedItem.Temail,
-                                accYear:this.editedItem.selectedAccYear,
-                                semester:this.editedItem.selectedSemester
                             }
                         });
                         location.reload()

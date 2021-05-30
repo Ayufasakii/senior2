@@ -135,7 +135,7 @@
                                 <v-container class="fill-height" fluid>
                                     <v-row align="center" justify="center">
                                         <v-col cols="12" sm="10" md="10">
-                                            <v-card class="elevation-12 mb-6">
+                                            <v-card class="elevation-4 mb-6">
                                                 <v-toolbar color=#8c1515 dark flat>
                                                     
                                                     <v-toolbar-title>Teacher Information</v-toolbar-title>
@@ -169,7 +169,7 @@
 
                                                 </v-card-text>
                                             </v-card>
-                                            <v-card class="elevation-12 mb-6">
+                                            <v-card class="elevation-4 mb-6">
                                                 <v-toolbar color=#8c1515 dark flat>
                                                     <v-toolbar-title>Student</v-toolbar-title>
                                                     <v-spacer></v-spacer>
@@ -205,7 +205,7 @@
 
                                                 </v-card-text>
                                             </v-card>
-                                            <v-card class="elevation-12">
+                                            <v-card class="elevation-4">
                                                 <v-toolbar color=#8c1515 dark flat>
                                                     <v-toolbar-title>Workplace Visits Form</v-toolbar-title>
                                                     <v-spacer></v-spacer>
@@ -463,11 +463,14 @@ export default {
             }
         },
         del(item){
-            let r = confirm('ต้องการลบแบบฟอร์มนี้หรือไม่?')
-            if (r == true) {
-            } else {
-
-            }
+                confirm('Are you sure you want to delete this item?') && axios({
+                method: 'delete',
+                url: `http://localhost:5010/deleteVisitform`,
+                data: {
+                    VID: this.VID,
+                }
+            });
+            location.reload();
         },
         async submit() {
             await axios.post('http://localhost:5010/checkDuplicateFormStudents', {
