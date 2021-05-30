@@ -153,6 +153,15 @@ app.post('/checkDuplicateFormStudents', (req, res) => {
     if(result.length == 0){res.send(false)}else{res.send(true)}
   });
 })
+app.post('/checkDuplicateTeacher', (req, res) => {
+  let Tname = req.body.Tname
+  let semester = req.body.semester
+  let acyear = req.body.acyear
+  connection.query(`Select * from costform where tname = '${Tname}' AND acyear = '${acyear}' AND semester = '${semester}'`, function (err, result, fields) {
+    if (err) throw err;
+    if(result.length == 0){res.send(false)}else{res.send(true)}
+  });
+})
 //////////////////////////////CREATE//////////////////////////////////
 app.post('/createStudents', (req, res) => {
   //get student info
@@ -200,6 +209,95 @@ app.post('/createVisitForm', (req, res) => {
   if(remark == null){remark = ''}
   let sql1 = `INSERT INTO visit_form(V_date_go,V_date_arrive,V_date_intern,remark,S_name,T_name,V_time_start,V_time_end,w_name,w_address,w_tel,status,accyear,semester) VALUES ('${V_date_go}','${V_date_arrive}','${V_date_intern}','${remark}','${S_name}','${T_name}','${V_time_start}','${V_time_end}','${w_name}','${w_add}','${w_tel}','Send to staff','${acyear}','${semester}')`
   connection.query(sql1, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  res.send('Create success')
+})
+app.post('/createCostForm', (req, res) => {
+  let semester = req.body.semester
+  let acyear = req.body.acyear
+  let tname = req.body.tname
+  let comment = req.body.comment
+
+  let forigindate   = req.body.forigindate
+  let fdesdate      = req.body.fdesdate
+  let foriginfrom  = req.body.foriginfrom
+  let fdesfrom      = req.body.fdesfrom
+  let foriginto     = req.body.foriginto
+  let fdesto      = req.body.fdesto
+  let forigindetime = req.body.forigindetime
+  let foriginartime = req.body.foriginartime
+  let fdesdetime    = req.body.fdesdetime
+  let fdesartime    = req.body.fdesartime
+  let forigincost   = req.body.forigincost
+  let fdescost      = req.body.fdescost
+  let borigindate   = req.body.borigindate
+  let bdesdate      = req.body.bdesdate
+  let boriginfrom   = req.body.boriginfrom
+  let bdesfrom      = req.body.bdesfrom
+  let boriginto     = req.body.boriginto
+  let bdesto        = req.body.bdesto
+  let borigindetime = req.body.borigindetime
+  let boriginartime = req.body.boriginartime
+  let bdesdetime    = req.body.bdesdetime
+  let bdesartime    = req.body.bdesartime
+  let borigincost   = req.body.borigincost
+  let bdescost      = req.body.bdescost
+  let pricardistance= req.body.pricardistance
+
+  let taxicost      = req.body.taxicost
+  let taxicost2  = req.body.taxicost2
+  let rcarday    = req.body.rcarday
+  let rcarcost   = req.body.rcarcost
+  let rvandate   = req.body.rvandate
+  let rvancost   = req.body.rvancost
+  let fuelday    = req.body.fuelday
+  let fuelcost   = req.body.fuelcost
+  let ferrydate  = req.body.ferrydate
+  let ferrycost  = req.body.ferrycost
+  let expressdate= req.body.expressdate
+  let expresscost= req.body.expresscost
+  let carparkdate= req.body.carparkdate
+  let carparkcost=req.body.carparkcost
+
+  let hdatestart = req.body.hdatestart
+  let hdateend   = req.body.hdateend
+  let hduration  = req.body.hduration
+  let hcost      = req.body.hcost
+  let haddress   = req.body.haddress
+  let hodatestart= req.body.hodatestart
+  let hodateend  = req.body.hodateend
+  let hoduration = req.body.hoduration
+  let hocost     = req.body.hocost
+  console.log(req.body)
+  let datestart= req.body.datestart
+  let dateend= req.body.dateend
+  let duration= req.body.duration
+  let totalcost = req.body.totalcost
+  let sql1 = `insert into cform1 (foriginfrom,fdesfrom,foriginto,fdesto,forigindetime,foriginartime,fdesdetime,fdesartime,forigincost,fdescost,boriginfrom,bdesfrom,boriginto,bdesto,borigindetime,boriginartime,bdesdetime,bdesartime,borigincost,bdescost,pricardistance,taxicost,forigindate,fdesdate,borigindate,bdesdate) values ('${foriginfrom}','${fdesfrom}','${foriginto}','${fdesto}','${forigindetime}','${foriginartime}','${fdesdetime}','${fdesartime}',${forigincost},${fdescost},'${boriginfrom}','${bdesfrom}','${boriginto}','${bdesto}','${borigindetime}','${boriginartime}','${bdesdetime}','${bdesartime}',${borigincost},${bdescost},${pricardistance},${taxicost},'${forigindate}','${fdesdate}','${borigindate}','${bdesdate}');`
+  let sql2 = `insert into cform2 (taxicost,rcarday,rcarcost,rvandate,rvancost,fuelday,fuelcost,ferrydate,ferrycost,expressdate,expresscost,carparkdate,carparkcost) values (${taxicost2},${rcarday},${rcarcost},${rvandate},${rvancost},${fuelday},${fuelcost},'${ferrydate}',${ferrycost},'${expressdate}',${expresscost},'${carparkdate}',${carparkcost});`
+  let sql3 = `insert into cform3 (hdatestart,hdateend,hduration,hcost,haddress,hodatestart,hodateend,hoduration,hocost) values ('${hdatestart}','${hdateend}',${hduration},${hcost},'${haddress}','${hodatestart}','${hodateend}',${hoduration},${hocost});`
+  let sql4 = `insert into cform4 (datestart,dateend,duration) values ('${datestart}','${dateend}',${duration});`
+  let sql5 = `INSERT INTO costform (tname,acyear,semester,status,comment,totalcost,cform1,cform2,cform3,cform4) select '${tname}',${acyear},${semester},'Send to staff','${comment}',${totalcost},cform1.id,cform1.id,cform1.id,cform1.id from cform1 GROUP BY id desc limit 1;`
+  
+  connection.query(sql1, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  connection.query(sql2, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  connection.query(sql3, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  connection.query(sql4, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  connection.query(sql5, function (err, result, fields) {
     console.log(err)
     if (err) throw err;
   });

@@ -33,7 +33,7 @@
                                         </template>
                                         <v-date-picker v-model="form.cost1.forigindate" @input="menu2 = false"></v-date-picker>
                                     </v-menu>
-                                    <v-text-field label="From" :disabled="!costform.checkBox.C112" v-model="form.cost1.forigingfrom" outlined dense required>
+                                    <v-text-field label="From" :disabled="!costform.checkBox.C112" v-model="form.cost1.foriginfrom" outlined dense required>
                                     </v-text-field>
                                     <v-text-field label="To" :disabled="!costform.checkBox.C112" v-model="form.cost1.foriginto" outlined dense required>
                                     </v-text-field>
@@ -54,7 +54,7 @@
                                     </v-menu>
                                     <v-text-field label="From" :disabled="!costform.checkBox.C113" v-model="form.cost1.fdesfrom" outlined dense required>
                                     </v-text-field>
-                                    <v-text-field label="To" :disabled="!costform.checkBox.C113" v-model="form.cost1.fordesto" outlined dense required>
+                                    <v-text-field label="To" :disabled="!costform.checkBox.C113" v-model="form.cost1.fdesto" outlined dense required>
                                     </v-text-field>
                                     <span class="black--text">Departure Time</span>
                                     <b-form-timepicker id="FTime" :disabled="!costform.checkBox.C113" locale="th" dense v-model="form.cost1.fdesdetime"></b-form-timepicker>
@@ -427,10 +427,10 @@ export default {
             cost1: {
                 forigindate: null,
                 fdesdate: null,
-                forigingfrom: null,
+                foriginfrom: null,
                 fdesfrom: null,
                 foriginto: null,
-                fordesto: null,
+                fdesto: null,
                 forigindetime: null,
                 foriginartime: null,
                 fdesdetime: null,
@@ -582,69 +582,100 @@ export default {
             let h2 = parseInt(this.form.cost2.ferrycost)
             let i2 = parseInt(this.form.cost2.expresscost)
             let j2 = parseInt(this.form.cost2.carparkcost)
-            c2 = b2*c2
-            e2 = d2*e2
-            g2 = f2*g2
+            c2 = b2 * c2
+            e2 = d2 * e2
+            g2 = f2 * g2
             let totalcost2 = a2 + c2 + e2 + g2 + h2 + i2 + j2
             console.log(totalcost2)
             let a3 = parseInt(this.form.cost3.hduration)
             let b3 = parseInt(this.form.cost3.hcost)
             let c3 = parseInt(this.form.cost3.hoduration)
             let d3 = parseInt(this.form.cost3.hocost)
-            b3 = a3*b3
-            d3 = c3*d3
-            let totalcost3 = b3+d3 
+            b3 = a3 * b3
+            d3 = c3 * d3
+            let totalcost3 = b3 + d3
             console.log(totalcost3)
             let a4 = parseInt(this.form.cost4.duration)
-            a4 = a4*350
+            a4 = a4 * 350
             console.log(a4)
-            let totalcost = totalcost1+totalcost2+totalcost3+a4
-            console.log('totalcost: '+totalcost)
+            let totalcost = totalcost1 + totalcost2 + totalcost3 + a4
+            console.log('totalcost: ' + totalcost)
             this.form.totalcost = totalcost
         },
         async submit() {
-            await axios.post('http://localhost:5010/checkDuplicateFormStudents', {
-                    Sname: this.form.student
-                })
-                .then((response) => {
-                    this.dup = response.data
-                }, (error) => {
-                    console.log(error);
-                });
-            if (this.dup == true) {
-                alert('นักเรียนคนนี้มีแบบฟอร์มนิเทศอยู่แล้ว')
+            this.form.teacherName = this.teacher.T_name
+            console.log(this.form)
+            if (this.form.acyear == null || this.form.semester == null) {
+                alert('กรุณากรอกข้อมูลให้ครบถ้วน')
             } else {
-                this.form.teacher = this.teacher.T_name
-                console.log(this.form)
-                if (this.form.date_go == null || this.form.date_arrive == null || this.form.date_intern == null ||
-                    this.form.student == null || this.form.teacher == null || this.form.time_start == null || this.form.time_end == null ||
-                    this.form.workplace == null || this.form.address == null || this.form.telephone == null
-                ) {
-                    alert('กรุณากรอกข้อมูลให้ครบถ้วน')
+                let r = confirm('Are you sure you want to create?')
+                if (r == true) {
+                    axios({
+                        method: 'post',
+                        url: `http://localhost:5010/createCostForm`,
+                        data: {
+                            tname: this.form.teacherName,
+                            acyear: this.form.acyear,
+                            semester: this.form.semester,
+                            comment: this.form.comment,
+
+                            forigindate: this.form.cost1.forigindate,
+                            fdesdate: this.form.cost1.fdesdate,
+                            foriginfrom: this.form.cost1.foriginfrom,
+                            fdesfrom: this.form.cost1.fdesfrom,
+                            foriginto: this.form.cost1.foriginto,
+                            fdesto: this.form.cost1.fdesto,
+                            forigindetime: this.form.cost1.forigindetime,
+                            foriginartime: this.form.cost1.foriginartime,
+                            fdesdetime: this.form.cost1.fdesdetime,
+                            fdesartime: this.form.cost1.fdesartime,
+                            forigincost: this.form.cost1.forigincost,
+                            fdescost: this.form.cost1.fdescost,
+                            borigindate: this.form.cost1.borigindate,
+                            bdesdate: this.form.cost1.bdesdate,
+                            boriginfrom: this.form.cost1.boriginfrom,
+                            bdesfrom: this.form.cost1.bdesfrom,
+                            boriginto: this.form.cost1.boriginto,
+                            bdesto: this.form.cost1.bdesto,
+                            borigindetime: this.form.cost1.borigindetime,
+                            boriginartime: this.form.cost1.boriginartime,
+                            bdesdetime: this.form.cost1.bdesdetime,
+                            bdesartime: this.form.cost1.bdesartime,
+                            borigincost: this.form.cost1.borigincost,
+                            bdescost: this.form.cost1.bdescost,
+                            pricardistance: this.form.cost1.pricardistance,
+
+                            taxicost: this.form.cost1.taxicost,
+                            taxicost2: this.form.cost2.taxicost,
+                            rcarday: this.form.cost2.rcarday,
+                            rcarcost: this.form.cost2.rcarcost,
+                            rvandate: this.form.cost2.rvandate,
+                            rvancost: this.form.cost2.rvancost,
+                            fuelday: this.form.cost2.fuelday,
+                            fuelcost: this.form.cost2.fuelcost,
+                            ferrydate: this.form.cost2.ferrydate,
+                            ferrycost: this.form.cost2.ferrycost,
+                            expressdate: this.form.cost2.expressdate,
+                            expresscost: this.form.cost2.expresscost,
+                            carparkdate: this.form.cost2.carparkdate,
+                            carparkcost: this.form.cost2.carparkcost,
+
+                            hdatestart: this.form.cost3.hdatestart,
+                            hdateend: this.form.cost3.hdateend,
+                            hduration: this.form.cost3.hduration,
+                            hcost: this.form.cost3.hcost,
+                            haddress: this.form.cost3.haddress,
+                            hodatestart: this.form.cost3.hodatestart,
+                            hodateend: this.form.cost3.hodateend,
+                            hoduration: this.form.cost3.hoduration,
+                            hocost: this.form.cost3.hocost, 
+                            datestart :this.form.cost4.datestart,
+                            dateend :this.form.cost4.dateend,
+                            duration:this.form.cost4.duration,
+                            totalcost : this.form.totalcost
+                        }
+                    });
                 } else {
-                    let r = confirm('Are you sure you want to create?')
-                    if (r == true) {
-                        axios({
-                            method: 'post',
-                            url: `http://localhost:5010/createVisitForm`,
-                            data: {
-                                V_date_go: this.form.date_go,
-                                V_date_arrive: this.form.date_arrive,
-                                V_date_intern: this.form.date_intern,
-                                remark: this.form.remark,
-                                S_name: this.form.student,
-                                T_name: this.form.teacher,
-                                V_time_start: this.form.time_start,
-                                V_time_end: this.form.time_end,
-                                w_name: this.form.workplace,
-                                w_add: this.form.address,
-                                w_tel: this.form.telephone,
-                            }
-                        });
-                        this.$router.push('/Staff/Student information')
-                    } else {
-                        this.close()
-                    }
                 }
             }
 
