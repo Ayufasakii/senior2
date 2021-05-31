@@ -315,6 +315,7 @@
                                         </v-menu>
                                         <v-text-field class="" v-model="form.cost3.hoduration" type="number" label="Duration Night(s)" :disabled="!costform.checkBox.C321" outlined dense required>
                                         </v-text-field>
+
                                         <v-text-field class="" v-model="form.cost3.hocost" type="number" label="x Bath" :disabled="!costform.checkBox.C321" outlined dense required>
                                         </v-text-field>
                                     </v-col>
@@ -355,6 +356,8 @@
                     <v-btn color=#8c1515 class="mb-6" @click="calculate" dark>Calculate cost</v-btn>
                     <v-text-field label="Total Cost" v-model="form.totalcost" disabled outlined dense required>
                     </v-text-field>
+                    <v-textarea class="" v-model="form.file" label="Link google drive (File)"  outlined dense required>
+                    </v-textarea>
                     <v-btn color=#8c1515 @click="submit" v-if="cal == true" dark>Submit</v-btn>
                 </v-col>
             </v-row>
@@ -427,6 +430,7 @@ export default {
             status: null,
             comment: null,
             totalcost: null,
+            file:null,
             cost1: {
                 forigindate: null,
                 fdesdate: null,
@@ -671,16 +675,16 @@ export default {
                             hodatestart: this.form.cost3.hodatestart,
                             hodateend: this.form.cost3.hodateend,
                             hoduration: this.form.cost3.hoduration,
-                            hocost: this.form.cost3.hocost, 
-                            datestart :this.form.cost4.datestart,
-                            dateend :this.form.cost4.dateend,
-                            duration:this.form.cost4.duration,
-                            totalcost : this.form.totalcost
+                            hocost: this.form.cost3.hocost,
+                            datestart: this.form.cost4.datestart,
+                            dateend: this.form.cost4.dateend,
+                            duration: this.form.cost4.duration,
+                            totalcost: this.form.totalcost,
+                            file:this.form.file
                         }
                     });
                     this.$router.push('/Teacher/CostFormIn')
-                } else {
-                }
+                } else {}
             }
 
         }

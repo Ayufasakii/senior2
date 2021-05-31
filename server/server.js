@@ -324,6 +324,7 @@ app.post('/createCostForm', (req, res) => {
   let hodateend  = req.body.hodateend
   let hoduration = req.body.hoduration
   let hocost     = req.body.hocost
+  let file = req.body.file
   console.log(req.body)
   let datestart= req.body.datestart
   let dateend= req.body.dateend
@@ -333,7 +334,7 @@ app.post('/createCostForm', (req, res) => {
   let sql2 = `insert into cform2 (taxicost,rcarday,rcarcost,rvandate,rvancost,fuelday,fuelcost,ferrydate,ferrycost,expressdate,expresscost,carparkdate,carparkcost) values (${taxicost2},${rcarday},${rcarcost},${rvandate},${rvancost},${fuelday},${fuelcost},'${ferrydate}',${ferrycost},'${expressdate}',${expresscost},'${carparkdate}',${carparkcost});`
   let sql3 = `insert into cform3 (hdatestart,hdateend,hduration,hcost,haddress,hodatestart,hodateend,hoduration,hocost) values ('${hdatestart}','${hdateend}',${hduration},${hcost},'${haddress}','${hodatestart}','${hodateend}',${hoduration},${hocost});`
   let sql4 = `insert into cform4 (datestart,dateend,duration) values ('${datestart}','${dateend}',${duration});`
-  let sql5 = `INSERT INTO costform (tname,acyear,semester,status,comment,totalcost,cform1,cform2,cform3,cform4) select '${tname}',${acyear},${semester},'Send to staff','${comment}',${totalcost},cform1.id,cform1.id,cform1.id,cform1.id from cform1 GROUP BY id desc limit 1;`
+  let sql5 = `INSERT INTO costform (tname,acyear,semester,status,comment,totalcost,cform1,cform2,cform3,cform4,file) select '${tname}',${acyear},${semester},'Send to staff','${comment}',${totalcost},cform1.id,cform1.id,cform1.id,cform1.id,'${file}' from cform1 GROUP BY id desc limit 1;`
   
   connection.query(sql1, function (err, result, fields) {
     console.log(err)
