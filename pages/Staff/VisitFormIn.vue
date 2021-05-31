@@ -70,7 +70,7 @@
                                 </v-col>
 
                                 <v-spacer></v-spacer>
-                                <v-col  cols="12" sm="3">
+                                <v-col cols="12" sm="3">
                                     <v-btn color=#8c1515 @click="Clear" dark>Clear</v-btn>
                                 </v-col>
                             </v-row>
@@ -80,6 +80,14 @@
                                         <template v-slot:[`item.actions`]="{ item }">
                                             <v-icon small class="mr-2" @click="edit(item)">
                                                 mdi-account-edit
+                                            </v-icon>
+                                            <v-icon small class="mr-2" @click="del(item)">
+                                                mdi-account-remove
+                                            </v-icon>
+                                        </template>
+                                        <template v-slot:[`item.actions2`]="{ item }">
+                                            <v-icon small class="mr-2" @click="generatePDF(item)">
+                                                mdi-file-download
                                             </v-icon>
                                         </template>
                                     </v-data-table>
@@ -267,6 +275,8 @@
 
 <script>
 const axios = require('axios');
+import jspdf from 'jspdf'
+import 'jspdf-autotable'
 export default {
     layout(context) {
         return 'SLayout'
@@ -338,6 +348,7 @@ export default {
             { text: 'Workplace Name', value: 'w_name' },
             { text: 'Status', value: 'status' },
             { text: 'Actions', value: 'actions', sortable: false },
+            { text: 'Dowload', value: 'actions2', sortable: false },
         ],
         TID: null
     }),
@@ -361,25 +372,25 @@ export default {
                 }, (error) => {
                     console.log(error);
                 });
-                this.close()
+            this.close()
 
         },
         reject() {
-            if(this.form.comment==undefined){
+            if (this.form.comment == undefined) {
                 alert('กรุณาใส่คำเสนอแนะเพื่อให้อาจารย์กลับไปแก้ไข')
-            }else{
-            axios.post('http://localhost:5010/rejectVisitForm', {
-                    VID: this.form.vid,
-                    comment : this.form.comment
-                })
-                .then((response) => {
-                    console.log(response.data)
-                }, (error) => {
-                    console.log(error);
-                });
+            } else {
+                axios.post('http://localhost:5010/rejectVisitForm', {
+                        VID: this.form.vid,
+                        comment: this.form.comment
+                    })
+                    .then((response) => {
+                        console.log(response.data)
+                    }, (error) => {
+                        console.log(error);
+                    });
                 this.close()
             }
-            
+
         },
         searchVisit() {
             axios.post('http://localhost:5010/getSearchVisitForm', {
@@ -395,6 +406,11 @@ export default {
                 })
                 .then((response) => {
                     this.visitforms = response.data
+                    for (let i = 0; i <= this.visitforms.length; i++) {
+                        this.visitforms[i].V_date_go = this.visitforms[i].V_date_go.split("T")[0]
+                        this.visitforms[i].v_date_arrive = this.visitforms[i].v_date_arrive.split("T")[0]
+                        this.visitforms[i].v_date_intern = this.visitforms[i].v_date_intern.split("T")[0]
+                    }
                     console.log(response.data)
                 }, (error) => {
                     console.log(error);
@@ -432,12 +448,6 @@ export default {
                     console.log(error);
                 });
             console.log(item)
-            item.V_date_go = item.V_date_go.toString();
-            item.v_date_arrive = item.v_date_arrive.toString();
-            item.v_date_intern = item.v_date_intern.toString();
-            item.V_date_go = item.V_date_go.split("T")[0]
-            item.v_date_arrive = item.v_date_arrive.split("T")[0]
-            item.v_date_intern = item.v_date_intern.split("T")[0]
             this.form.vid = item.V_ID
             this.form.date_go = item.V_date_go
             this.form.date_arrive = item.v_date_arrive
@@ -461,16 +471,81 @@ export default {
 
             }
         },
-        Clear(){
-                this.search.Sname= null,
-                this.search.Tname= null,
-                this.search.Date2Go= null,
-                this.search.Date2Arrive= null,
-                this.search.Date2Visit= null,
-                this.search.semester= null,
-                this.search.acyear= null,
-                this.search.workplace= null,
-                this.search.status= null
+        del(item) {
+            confirm('Are you sure you want to delete this item?') && axios({
+                method: 'delete',
+                url: `http://localhost:5010/deleteVisitform`,
+                data: {
+                    VID: item.V_ID,
+                }
+            });
+            location.reload();
+        },
+        Clear() {
+            this.search.Sname = null,
+                this.search.Tname = null,
+                this.search.Date2Go = null,
+                this.search.Date2Arrive = null,
+                this.search.Date2Visit = null,
+                this.search.semester = null,
+                this.search.acyear = null,
+                this.search.workplace = null,
+                this.search.status = null
+        },
+        async generatePDF(item) {
+            await axios.post('http://localhost:5010/getTeacherByName', {
+                    Tname: item.T_name,
+                })
+                .then((response) => {
+                    this.teacher.T_name = response.data[0].T_name
+                    this.teacher.T_email = response.data[0].T_email
+                    this.teacher.T_tel = response.data[0].T_tel
+                    this.teacher.T_School = response.data[0].T_school
+                    this.teacher.T_Major = response.data[0].T_major
+                    console.log(response.data)
+                }, (error) => {
+                    console.log(error);
+                });
+            var columns = [
+                { title: "Visiting Date", dataKey: "v_date_intern" },
+                { title: "Time", dataKey: "V_time_start" },
+                { title: "", dataKey: "" },
+                { title: "", dataKey: "v_time_end" },
+                { title: "Organisation name", dataKey: "w_name" },
+                { title: "Property Addres", dataKey: "w_address" },
+                { title: "Student Name", dataKey: "S_name" },
+                { title: "Remark", dataKey: "remark" }
+            ];
+            var rows = this.visitforms;
+            console.log(rows)
+            item.V_date_go = item.V_date_go.toString();
+            item.v_date_arrive = item.v_date_arrive.toString();
+            item.v_date_intern = item.v_date_intern.toString();
+
+            console.log(item)
+            const doc = new jspdf('landscape')
+            doc.setFontSize(16)
+            doc.text(110, 15, 'Workplace Visits Form')
+            doc.setFontSize(12)
+            doc.text(110, 22, item.semester + ' Semester Academic Year ' + item.accyear)
+            doc.text(105, 29, 'Visiting Lecturer ' + this.teacher.T_name)
+            doc.text(90, 36, 'Major ' + this.teacher.T_Major + ' School of ' + this.teacher.T_School)
+            doc.text(105, 43, 'Visiting date ' + item.V_date_go + ' - ' + item.v_date_arrive)
+            doc.autoTable(columns, rows, {
+                styles: {},
+                columnStyles: {
+                    id: {}
+                },
+                theme: 'plain',
+                margin: { top: 60 }
+            });
+            doc.setFontSize(12)
+            doc.text(10, 165, 'Remark: ')
+            doc.text(27, 165, '1.Visiting lecturer must arrange appointments with interns and organisations and confirmation of visiting from organisations is needed.')
+            doc.text(27, 175, '2.If more than 1 visiting lecturers, is fill the information of the visiting lecturer who coordinates with organisations in the form.')
+            doc.text(27, 185, '3.The school must supervise or intern. It not be 100% of interns who are supervised by visiting lecturer.')
+            doc.text(27, 195, '4.If visiting lecturer canot visit organisations by themselves, Interns not be supervised by telephone and please inform a detail in the table.')
+            doc.save("Work_Place_Visit_Form.pdf")
         },
     }
 }

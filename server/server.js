@@ -80,11 +80,27 @@ app.post('/aproveVisitForm', (req, res) => {
     res.send(result)
   });
 })
+app.post('/aproveCostForm', (req, res) => {
+  let VID = req.body.VID
+  connection.query(`Update costform set status = 'Approved' where id = '${VID}'`, function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+})
 app.post('/rejectVisitForm', (req, res) => {
   let VID = req.body.VID
   let comments = req.body.comment
   if(comments == undefined){comment = ''}
   connection.query(`Update visit_form set comment = '${comments}',status = 'Teacher Edit' where V_ID = '${VID}'`, function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+})
+app.post('/rejectCostForm', (req, res) => {
+  let VID = req.body.VID
+  let comments = req.body.comment
+  if(comments == undefined){comment = ''}
+  connection.query(`Update costform set comment = '${comments}',status = 'Teacher Edit' where id = '${VID}'`, function (err, result, fields) {
     if (err) throw err;
     res.send(result)
   });
@@ -402,10 +418,31 @@ app.delete('/deleteVisitform', (req, res) => {
 app.delete('/deleteCostform', (req, res) => {
   let id = req.body.id 
   let sql1 = `DELETE FROM costform WHERE id = '${id}'`
+  let sql2 = `DELETE FROM cform1 WHERE id = '${id}'`
+  let sql3 = `DELETE FROM cform2 WHERE id = '${id}'`
+  let sql4 = `DELETE FROM cform3 WHERE id = '${id}'`
+  let sql5 = `DELETE FROM cform4 WHERE id = '${id}'`
   connection.query(sql1, function (err, result, fields) {
     console.log(err)
     if (err) throw err;
   });
+  connection.query(sql2, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  connection.query(sql3, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  connection.query(sql4, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  connection.query(sql5, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+
   res.send('Delete success')
 })
 
