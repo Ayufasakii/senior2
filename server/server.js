@@ -358,6 +358,95 @@ app.post('/createCostForm', (req, res) => {
   });
   res.send('Create success')
 })
+app.post('/updateCostForm', (req, res) => {
+  let semester = req.body.semester
+  let acyear = req.body.acyear
+  let tname = req.body.tname
+  let comment = req.body.comment
+let id = req.body.id
+  let forigindate   = req.body.forigindate
+  let fdesdate      = req.body.fdesdate
+  let foriginfrom  = req.body.foriginfrom
+  let fdesfrom      = req.body.fdesfrom
+  let foriginto     = req.body.foriginto
+  let fdesto      = req.body.fdesto
+  let forigindetime = req.body.forigindetime
+  let foriginartime = req.body.foriginartime
+  let fdesdetime    = req.body.fdesdetime
+  let fdesartime    = req.body.fdesartime
+  let forigincost   = req.body.forigincost
+  let fdescost      = req.body.fdescost
+  let borigindate   = req.body.borigindate
+  let bdesdate      = req.body.bdesdate
+  let boriginfrom   = req.body.boriginfrom
+  let bdesfrom      = req.body.bdesfrom
+  let boriginto     = req.body.boriginto
+  let bdesto        = req.body.bdesto
+  let borigindetime = req.body.borigindetime
+  let boriginartime = req.body.boriginartime
+  let bdesdetime    = req.body.bdesdetime
+  let bdesartime    = req.body.bdesartime
+  let borigincost   = req.body.borigincost
+  let bdescost      = req.body.bdescost
+  let pricardistance= req.body.pricardistance
+
+  let taxicost      = req.body.taxicost
+  let taxicost2  = req.body.taxicost2
+  let rcarday    = req.body.rcarday
+  let rcarcost   = req.body.rcarcost
+  let rvandate   = req.body.rvandate
+  let rvancost   = req.body.rvancost
+  let fuelday    = req.body.fuelday
+  let fuelcost   = req.body.fuelcost
+  let ferrydate  = req.body.ferrydate
+  let ferrycost  = req.body.ferrycost
+  let expressdate= req.body.expressdate
+  let expresscost= req.body.expresscost
+  let carparkdate= req.body.carparkdate
+  let carparkcost=req.body.carparkcost
+
+  let hdatestart = req.body.hdatestart
+  let hdateend   = req.body.hdateend
+  let hduration  = req.body.hduration
+  let hcost      = req.body.hcost
+  let haddress   = req.body.haddress
+  let hodatestart= req.body.hodatestart
+  let hodateend  = req.body.hodateend
+  let hoduration = req.body.hoduration
+  let hocost     = req.body.hocost
+  let file = req.body.file
+  console.log(req.body)
+  let datestart= req.body.datestart
+  let dateend= req.body.dateend
+  let duration= req.body.duration
+  let totalcost = req.body.totalcost
+  let sql1 = `update cform1  SET  foriginfrom = '${foriginfrom}',fdesfrom='${fdesfrom}',foriginto='${foriginto},fdesto='${fdesto}',forigindetime='${forigindetime}',foriginartime='${foriginartime}',fdesdetime='${fdesdetime}',fdesartime='${fdesartime}',forigincost=${forigincost},fdescost=${fdescost},boriginfrom='${boriginfrom}',bdesfrom'=${bdesfrom}',boriginto='${boriginto}',bdesto='${bdesto}',borigindetime='${borigindetime}',boriginartime='${boriginartime}',bdesdetime='${bdesdetime}',bdesartime='${bdesartime}',borigincost=${borigincost},bdescost=${bdescost},pricardistance=${pricardistance},taxicost=${taxicost},forigindate='${forigindate}',fdesdate='${fdesdate}',borigindate='${borigindate}',bdesdate='${bdesdate}' WHERE id = ${id}`
+  let sql2 = `update cform2  SET taxicost=${taxicost2},rcarday=${rcarday},rcarcost=${rcarcost},rvandate=${rvandate},rvancost=${rvancost},fuelday=${fuelday},fuelcost=${fuelcost},ferrydate='${ferrydate}',ferrycost=${ferrycost},expressdate='${expressdate}',expresscost${expresscost},carparkdate='${carparkdate}',carparkcost=${carparkcost} WHERE id = ${id}`
+  let sql3 = `update cform3  SET hdatestart='${hdatestart}',hdateend='${hdateend}',hduration=${hduration},hcost=${hcost},haddress='${haddress}',hodatestart='${hodatestart}',hodateend='${hodateend}',hoduration=${hoduration},hocost=${hocost} WHERE id = ${id}`
+  let sql4 = `update cform4  SET datestart='${datestart}',dateend='${dateend}',duration=${duration} WHERE id = ${id} `
+  let sql5 = `update costform SET tname='${tname}',acyear=${acyear},semester=${semester},status='Send to staff',comment='${comment}',totalcost=${totalcost},file='${file}' WHERE id = ${id}`
+  connection.query(sql1, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  connection.query(sql2, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  connection.query(sql3, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  connection.query(sql4, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  connection.query(sql5, function (err, result, fields) {
+    console.log(err)
+    if (err) throw err;
+  });
+  res.send('Update success')
+})
 app.post('/createTeacher', (req, res) => {
   let TID = req.body.TID
   let Tname = req.body.Tname 
