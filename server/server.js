@@ -184,6 +184,16 @@ app.post('/checkDuplicateFormStudents', (req, res) => {
     if(result.length == 0){res.send(false)}else{res.send(true)}
   });
 })
+app.post('/getVisitformStu', (req, res) => {
+  let Tname = req.body.Tname
+  let V_date_go = req.body.V_date_go
+  let v_date_arrive = req.body.v_date_arrive
+  connection.query(`Select * from visit_form where T_name = '${Tname}' and v_date_intern >= '${V_date_go}' and v_date_intern <= '${v_date_arrive}'`, function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+})
+
 app.post('/checkDuplicateTeacher', (req, res) => {
   let Tname = req.body.Tname
   let semester = req.body.semester
@@ -370,6 +380,8 @@ let id = req.body.id
   let fdesfrom      = req.body.fdesfrom
   let foriginto     = req.body.foriginto
   let fdesto      = req.body.fdesto
+
+
   let forigindetime = req.body.forigindetime
   let foriginartime = req.body.foriginartime
   let fdesdetime    = req.body.fdesdetime
@@ -420,8 +432,16 @@ let id = req.body.id
   let dateend= req.body.dateend
   let duration= req.body.duration
   let totalcost = req.body.totalcost
-  let sql1 = `update cform1  SET  foriginfrom = '${foriginfrom}',fdesfrom='${fdesfrom}',foriginto='${foriginto},fdesto='${fdesto}',forigindetime='${forigindetime}',foriginartime='${foriginartime}',fdesdetime='${fdesdetime}',fdesartime='${fdesartime}',forigincost=${forigincost},fdescost=${fdescost},boriginfrom='${boriginfrom}',bdesfrom'=${bdesfrom}',boriginto='${boriginto}',bdesto='${bdesto}',borigindetime='${borigindetime}',boriginartime='${boriginartime}',bdesdetime='${bdesdetime}',bdesartime='${bdesartime}',borigincost=${borigincost},bdescost=${bdescost},pricardistance=${pricardistance},taxicost=${taxicost},forigindate='${forigindate}',fdesdate='${fdesdate}',borigindate='${borigindate}',bdesdate='${bdesdate}' WHERE id = ${id}`
-  let sql2 = `update cform2  SET taxicost=${taxicost2},rcarday=${rcarday},rcarcost=${rcarcost},rvandate=${rvandate},rvancost=${rvancost},fuelday=${fuelday},fuelcost=${fuelcost},ferrydate='${ferrydate}',ferrycost=${ferrycost},expressdate='${expressdate}',expresscost${expresscost},carparkdate='${carparkdate}',carparkcost=${carparkcost} WHERE id = ${id}`
+  if(boriginfrom == 'null'){boriginfrom = null}
+  if(bdesfrom == 'null'){bdesfrom = null}
+  if(boriginto == 'null'){boriginto = null}
+  if(bdesto == 'null'){bdesto = null}
+  if(foriginfrom == 'null'){foriginfrom = null}
+  if(fdesfrom == 'null'){fdesfrom = null}
+  if(foriginto == 'null'){foriginto = null}
+  if(fdesto == 'null'){fdesto = null}
+  let sql1 = `update cform1  SET  foriginfrom = '${foriginfrom}',fdesfrom='${fdesfrom}',foriginto='${foriginto}',fdesto='${fdesto}',forigindetime='${forigindetime}',foriginartime='${foriginartime}',fdesdetime='${fdesdetime}',fdesartime='${fdesartime}',forigincost=${forigincost},fdescost=${fdescost},boriginfrom='${boriginfrom}',bdesfrom='${bdesfrom}',boriginto='${boriginto}',bdesto='${bdesto}',borigindetime='${borigindetime}',boriginartime='${boriginartime}',bdesdetime='${bdesdetime}',bdesartime='${bdesartime}',borigincost=${borigincost},bdescost=${bdescost},pricardistance=${pricardistance},taxicost=${taxicost},forigindate='${forigindate}',fdesdate='${fdesdate}',borigindate='${borigindate}',bdesdate='${bdesdate}' WHERE id = ${id}`
+  let sql2 = `update cform2  SET taxicost=${taxicost2},rcarday=${rcarday},rcarcost=${rcarcost},rvandate=${rvandate},rvancost=${rvancost},fuelday=${fuelday},fuelcost=${fuelcost},ferrydate='${ferrydate}',ferrycost=${ferrycost},expressdate='${expressdate}',expresscost=${expresscost},carparkdate='${carparkdate}',carparkcost=${carparkcost} WHERE id = ${id}`
   let sql3 = `update cform3  SET hdatestart='${hdatestart}',hdateend='${hdateend}',hduration=${hduration},hcost=${hcost},haddress='${haddress}',hodatestart='${hodatestart}',hodateend='${hodateend}',hoduration=${hoduration},hocost=${hocost} WHERE id = ${id}`
   let sql4 = `update cform4  SET datestart='${datestart}',dateend='${dateend}',duration=${duration} WHERE id = ${id} `
   let sql5 = `update costform SET tname='${tname}',acyear=${acyear},semester=${semester},status='Send to staff',comment='${comment}',totalcost=${totalcost},file='${file}' WHERE id = ${id}`

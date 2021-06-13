@@ -368,6 +368,7 @@ export default {
             semester: null
         },
         dialog: false,
+        studentForm: [],
         dup: null,
         visitforms: [],
         headers: [{
@@ -538,7 +539,20 @@ export default {
                 this.search.workplace = null,
                 this.search.status = null
         },
-        generatePDF(item) {
+        async generatePDF(item) {
+            console.log(item.V_date_go)
+            console.log(item.v_date_arrive)
+            await axios.post('http://localhost:5010/getVisitformStu', {
+                    Tname:item.T_name,
+                    V_date_go: item.V_date_go,
+                    v_date_arrive: item.v_date_arrive,
+                })
+                .then((response) => {
+                    this.studentForm = response.data
+                    console.log(response.data)
+                }, (error) => {
+                    console.log(error);
+                });
             var columns = [
                 { title: "Visiting Date", dataKey: "v_date_intern" },
                 { title: "Time", dataKey: "V_time_start" },
@@ -549,7 +563,7 @@ export default {
                 { title: "Student Name", dataKey: "S_name" },
                 { title: "Remark", dataKey: "remark" }
             ];
-            var rows = this.visitforms;
+            var rows = this.studentForm;
             console.log(rows)
             item.V_date_go = item.V_date_go.toString();
             item.v_date_arrive = item.v_date_arrive.toString();
@@ -565,9 +579,9 @@ export default {
             doc.text(90, 36, 'Major ' + this.teacher.T_Major + ' School of ' + this.teacher.T_School)
             doc.text(105, 43, 'Visiting date ' + item.V_date_go + ' - ' + item.v_date_arrive)
             doc.autoTable(columns, rows, {
-                styles: {  },
+                styles: {},
                 columnStyles: {
-                    id: { }
+                    id: {}
                 },
                 theme: 'plain',
                 margin: { top: 60 }

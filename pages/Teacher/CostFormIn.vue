@@ -447,11 +447,18 @@
                                     <v-btn color=#8c1515 class="mb-6" @click="calculate" dark>Calculate cost</v-btn>
                                     <v-text-field label="Total Cost" v-model="form.totalcost" disabled outlined dense required>
                                     </v-text-field>
-                                    <v-textarea class="" v-model="form.file" label="Link google drive (File)"  outlined dense required>
+                                    <v-textarea class="" v-model="form.file" label="Link google drive (File)" outlined dense required>
                                     </v-textarea>
                                     <v-btn color=#8c1515 @click="submit" v-if="cal == true" dark>Submit</v-btn>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color=#8c1515 @click="calculate" dark>Calculate</v-btn>
+                                        <v-btn color=#8c1515 @click="submit" dark>Submit</v-btn>
+                                    </v-card-actions>
                                 </v-col>
+
                             </v-row>
+
                         </v-card>
                     </v-dialog>
                 </v-col>
@@ -528,13 +535,14 @@ export default {
             status: null
         },
         form: {
+            VID: null,
             teacherName: null,
             acyear: null,
             semester: null,
             status: null,
             comment: null,
             totalcost: null,
-            file:null,
+            file: null,
             cost1: {
                 forigindate: null,
                 fdesdate: null,
@@ -625,13 +633,63 @@ export default {
         New() {
 
         },
+        calculate() {
+            this.cal = true
+            let a1 = parseInt(this.form.cost1.forigincost)
+            let b1 = parseInt(this.form.cost1.fdescost)
+            let c1 = parseInt(this.form.cost1.borigincost)
+            let d1 = parseInt(this.form.cost1.bdescost)
+            let e1 = parseInt(this.form.cost1.pricardistance)
+            this.form.cost1.taxicost = 0
+            if (this.costform.checkBox.C142 == true) {
+                this.form.cost1.taxicost = this.form.cost1.taxicost + 700
+            }
+            if (this.costform.checkBox.C143 == true) {
+                this.form.cost1.taxicost = this.form.cost1.taxicost + 350
+            }
+            if (this.costform.checkBox.C144 == true) {
+                this.form.cost1.taxicost = this.form.cost1.taxicost + 350
+            }
+            e1 = e1 * 3.5
+            let totalcost1 = a1 + b1 + c1 + d1 + e1 + this.form.cost1.taxicost
+            console.log(totalcost1)
+            let a2 = parseInt(this.form.cost2.taxicost)
+            let b2 = parseInt(this.form.cost2.rcarday)
+            let c2 = parseInt(this.form.cost2.rcarcost)
+            let d2 = parseInt(this.form.cost2.rvandate)
+            let e2 = parseInt(this.form.cost2.rvancost)
+            let f2 = parseInt(this.form.cost2.fuelday)
+            let g2 = parseInt(this.form.cost2.fuelcost)
+            let h2 = parseInt(this.form.cost2.ferrycost)
+            let i2 = parseInt(this.form.cost2.expresscost)
+            let j2 = parseInt(this.form.cost2.carparkcost)
+            c2 = b2 * c2
+            e2 = d2 * e2
+            g2 = f2 * g2
+            let totalcost2 = a2 + c2 + e2 + g2 + h2 + i2 + j2
+            console.log(totalcost2)
+            let a3 = parseInt(this.form.cost3.hduration)
+            let b3 = parseInt(this.form.cost3.hcost)
+            let c3 = parseInt(this.form.cost3.hoduration)
+            let d3 = parseInt(this.form.cost3.hocost)
+            b3 = a3 * b3
+            d3 = c3 * d3
+            let totalcost3 = b3 + d3
+            console.log(totalcost3)
+            let a4 = parseInt(this.form.cost4.duration)
+            a4 = a4 * 350
+            console.log(a4)
+            let totalcost = totalcost1 + totalcost2 + totalcost3 + a4
+            console.log('totalcost: ' + totalcost)
+            this.form.totalcost = totalcost
+        },
         async edit(item) {
             this.show = true
             this.isEditing = true
             this.dialog = true
             console.log(item)
-
-            this.form.teacherName = item.tname,
+            this.form.id = item.id,
+                this.form.teacherName = item.tname,
                 this.form.acyear = item.acyear,
                 this.form.semester = item.semester,
                 this.form.status = item.status,
@@ -663,8 +721,8 @@ export default {
                 this.form.cost1.bdescost = item.bdescost,
                 this.form.cost1.pricardistance = item.pricardistance,
                 this.form.cost1.pricarcost = item.pricarcost,
-                this.form.cost1.taxicost = item.taxicost1,
-                this.form.cost2.taxicost = item.taxicost2,
+                this.form.cost1.taxicost = item.taxicost,
+                this.form.cost2.taxicost = item.taxicost,
                 this.form.cost2.rcarday = item.rcarday,
                 this.form.cost2.rcarcost = item.rcarcost,
                 this.form.cost2.rvandate = item.rvandate,
@@ -678,7 +736,7 @@ export default {
                 this.form.cost2.carparkdate = item.carparkdate,
                 this.form.cost2.carparkcost = item.carparkcost,
                 this.form.file = item.file
-                this.form.cost3.hdatestart = item.hdatestart,
+            this.form.cost3.hdatestart = item.hdatestart,
                 this.form.cost3.hdateend = item.hdateend,
                 this.form.cost3.hduration = item.hduration,
                 this.form.cost3.hcost = item.hcost,
@@ -690,8 +748,26 @@ export default {
                 this.form.cost4.datestart = item.datestart,
                 this.form.cost4.dateend = item.dateend,
                 this.form.cost4.duration = item.duration
-
+            if (this.form.cost1.taxicost == 0) {
+                this.costform.checkBox.C142 = false
+                this.costform.checkBox.C143 = false
+                this.costform.checkBox.C144 = false
+            } else if (this.form.cost1.taxicost == 350) {
+                this.costform.checkBox.C142 = false
+                this.costform.checkBox.C143 = false
+            } else if (this.form.cost1.taxicost == 700) {
+                this.costform.checkBox.C143 = false
+                this.costform.checkBox.C144 = false
+            } else if (this.form.cost1.taxicost == 1050) {
+                this.costform.checkBox.C142 = false
+                this.costform.checkBox.C143 = false
+            } else if (this.form.cost1.taxicost == 1400) {
+                this.costform.checkBox.C142 = false
+                this.costform.checkBox.C143 = false
+                this.costform.checkBox.C144 = false
+            }
         },
+
         close() { this.dialog = false },
         getdata() {
             axios.post('http://localhost:5010/getTeacherByID', {
@@ -743,100 +819,82 @@ export default {
             });
             location.reload();
         },
+
         async submit() {
-            await axios.post('http://localhost:5010/checkDuplicateFormStudents', {
-                    Sname: this.form.student
-                })
-                .then((response) => {
-                    this.dup = response.data
-                }, (error) => {
-                    console.log(error);
-                });
-            if (this.dup == true) {
-                alert('นักเรียนคนนี้มีแบบฟอร์มนิเทศอยู่แล้ว')
-            } else {
-                this.form.teacher = this.teacher.T_name
-                console.log(this.form)
-                if (this.form.date_go == null || this.form.date_arrive == null || this.form.date_intern == null ||
-                    this.form.student == null || this.form.teacher == null || this.form.time_start == null || this.form.time_end == null ||
-                    this.form.workplace == null || this.form.address == null || this.form.telephone == null
-                ) {
-                    alert('กรุณากรอกข้อมูลให้ครบถ้วน')
-                } else {
-                    let r = confirm('Are you sure you want to create?')
-                    if (r == true) {
-                        axios({
-                            method: 'post',
-                            url: `http://localhost:5010/updateCostForm`,
-                            data: {
-                                id : this.form.id,
-                           tname: this.form.teacherName,
-                            acyear: this.form.acyear,
-                            semester: this.form.semester,
-                            comment: this.form.comment,
+            this.form.teacher = this.teacher.T_name
+            console.log(this.form)
+            let r = confirm('Are you sure you want to Update?')
+            if (r == true) {
+                axios({
+                    method: 'post',
+                    url: `http://localhost:5010/updateCostForm`,
+                    data: {
+                        id: this.form.id,
+                        tname: this.form.teacherName,
+                        acyear: this.form.acyear,
+                        semester: this.form.semester,
+                        comment: this.form.comment,
+                        VID: this.form.VID,
+                        forigindate: this.form.cost1.forigindate,
+                        fdesdate: this.form.cost1.fdesdate,
+                        foriginfrom: this.form.cost1.foriginfrom,
+                        fdesfrom: this.form.cost1.fdesfrom,
+                        foriginto: this.form.cost1.foriginto,
+                        fdesto: this.form.cost1.fdesto,
+                        forigindetime: this.form.cost1.forigindetime,
+                        foriginartime: this.form.cost1.foriginartime,
+                        fdesdetime: this.form.cost1.fdesdetime,
+                        fdesartime: this.form.cost1.fdesartime,
+                        forigincost: this.form.cost1.forigincost,
+                        fdescost: this.form.cost1.fdescost,
+                        borigindate: this.form.cost1.borigindate,
+                        bdesdate: this.form.cost1.bdesdate,
+                        boriginfrom: this.form.cost1.boriginfrom,
+                        bdesfrom: this.form.cost1.bdesfrom,
+                        boriginto: this.form.cost1.boriginto,
+                        bdesto: this.form.cost1.bdesto,
+                        borigindetime: this.form.cost1.borigindetime,
+                        boriginartime: this.form.cost1.boriginartime,
+                        bdesdetime: this.form.cost1.bdesdetime,
+                        bdesartime: this.form.cost1.bdesartime,
+                        borigincost: this.form.cost1.borigincost,
+                        bdescost: this.form.cost1.bdescost,
+                        pricardistance: this.form.cost1.pricardistance,
 
-                            forigindate: this.form.cost1.forigindate,
-                            fdesdate: this.form.cost1.fdesdate,
-                            foriginfrom: this.form.cost1.foriginfrom,
-                            fdesfrom: this.form.cost1.fdesfrom,
-                            foriginto: this.form.cost1.foriginto,
-                            fdesto: this.form.cost1.fdesto,
-                            forigindetime: this.form.cost1.forigindetime,
-                            foriginartime: this.form.cost1.foriginartime,
-                            fdesdetime: this.form.cost1.fdesdetime,
-                            fdesartime: this.form.cost1.fdesartime,
-                            forigincost: this.form.cost1.forigincost,
-                            fdescost: this.form.cost1.fdescost,
-                            borigindate: this.form.cost1.borigindate,
-                            bdesdate: this.form.cost1.bdesdate,
-                            boriginfrom: this.form.cost1.boriginfrom,
-                            bdesfrom: this.form.cost1.bdesfrom,
-                            boriginto: this.form.cost1.boriginto,
-                            bdesto: this.form.cost1.bdesto,
-                            borigindetime: this.form.cost1.borigindetime,
-                            boriginartime: this.form.cost1.boriginartime,
-                            bdesdetime: this.form.cost1.bdesdetime,
-                            bdesartime: this.form.cost1.bdesartime,
-                            borigincost: this.form.cost1.borigincost,
-                            bdescost: this.form.cost1.bdescost,
-                            pricardistance: this.form.cost1.pricardistance,
+                        taxicost: this.form.cost1.taxicost,
+                        taxicost2: this.form.cost2.taxicost,
+                        rcarday: this.form.cost2.rcarday,
+                        rcarcost: this.form.cost2.rcarcost,
+                        rvandate: this.form.cost2.rvandate,
+                        rvancost: this.form.cost2.rvancost,
+                        fuelday: this.form.cost2.fuelday,
+                        fuelcost: this.form.cost2.fuelcost,
+                        ferrydate: this.form.cost2.ferrydate,
+                        ferrycost: this.form.cost2.ferrycost,
+                        expressdate: this.form.cost2.expressdate,
+                        expresscost: this.form.cost2.expresscost,
+                        carparkdate: this.form.cost2.carparkdate,
+                        carparkcost: this.form.cost2.carparkcost,
 
-                            taxicost: this.form.cost1.taxicost,
-                            taxicost2: this.form.cost2.taxicost,
-                            rcarday: this.form.cost2.rcarday,
-                            rcarcost: this.form.cost2.rcarcost,
-                            rvandate: this.form.cost2.rvandate,
-                            rvancost: this.form.cost2.rvancost,
-                            fuelday: this.form.cost2.fuelday,
-                            fuelcost: this.form.cost2.fuelcost,
-                            ferrydate: this.form.cost2.ferrydate,
-                            ferrycost: this.form.cost2.ferrycost,
-                            expressdate: this.form.cost2.expressdate,
-                            expresscost: this.form.cost2.expresscost,
-                            carparkdate: this.form.cost2.carparkdate,
-                            carparkcost: this.form.cost2.carparkcost,
-
-                            hdatestart: this.form.cost3.hdatestart,
-                            hdateend: this.form.cost3.hdateend,
-                            hduration: this.form.cost3.hduration,
-                            hcost: this.form.cost3.hcost,
-                            haddress: this.form.cost3.haddress,
-                            hodatestart: this.form.cost3.hodatestart,
-                            hodateend: this.form.cost3.hodateend,
-                            hoduration: this.form.cost3.hoduration,
-                            hocost: this.form.cost3.hocost,
-                            datestart: this.form.cost4.datestart,
-                            dateend: this.form.cost4.dateend,
-                            duration: this.form.cost4.duration,
-                            totalcost: this.form.totalcost,
-                            file:this.form.file
-                            }
-                        });
-                        location.reload();
-                    } else {
-                        this.close()
+                        hdatestart: this.form.cost3.hdatestart,
+                        hdateend: this.form.cost3.hdateend,
+                        hduration: this.form.cost3.hduration,
+                        hcost: this.form.cost3.hcost,
+                        haddress: this.form.cost3.haddress,
+                        hodatestart: this.form.cost3.hodatestart,
+                        hodateend: this.form.cost3.hodateend,
+                        hoduration: this.form.cost3.hoduration,
+                        hocost: this.form.cost3.hocost,
+                        datestart: this.form.cost4.datestart,
+                        dateend: this.form.cost4.dateend,
+                        duration: this.form.cost4.duration,
+                        totalcost: this.form.totalcost,
+                        file: this.form.file
                     }
-                }
+                });
+                location.reload();
+            } else {
+                this.close()
             }
 
         },
