@@ -67,7 +67,7 @@
                                 </v-col>
 
                                 <v-col class="ml-5 mr-5" cols="12" sm="3">
-                                    <v-select :items="Ssemester" v-model="searchSemester"  outlined dense required label="Semester"></v-select>
+                                    <v-select :items="Ssemester" v-model="searchSemester" outlined dense required label="Semester"></v-select>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -103,7 +103,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-text-field v-model="form.date_go" label="Date to go" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="form.date_go" @input="menu2 = false"></v-date-picker>
+                                        <v-date-picker @change="dateStart" v-model="form.date_go" @input="menu2 = false"></v-date-picker>
                                     </v-menu>
                                 </v-col>
                             </v-row>
@@ -113,7 +113,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-text-field v-model="form.date_arrive" label="Date to arrive" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="form.date_arrive" @input="menu2 = false"></v-date-picker>
+                                        <v-date-picker v-model="form.date_arrive" @change="dateStart" @input="menu2 = false"></v-date-picker>
                                     </v-menu>
                                 </v-col>
                             </v-row>
@@ -174,6 +174,7 @@
 
 <script>
 const axios = require('axios');
+import moment from 'moment';
 export default {
     layout(context) {
         return 'TLayout'
@@ -215,7 +216,7 @@ export default {
         },
         formstatus: ['Send to staff', 'Teacher Edit', 'Approve'],
         dup: null,
-        Ssemester:['1','2','3'],
+        Ssemester: ['1', '2', '3'],
         students: [],
         headers: [{
                 text: 'Student ID',
@@ -269,6 +270,50 @@ export default {
                     console.log(error);
                 });
         },
+        async dateStart() {
+            this.form.date_go = moment(this.form.date_go).format('YYYY-MM-DD');
+            console.log(this.form.date_go)
+            var check = false
+            console.log('start')
+            await axios.post('http://localhost:5010/checkVformDstart', {
+                    Tname: this.teacher.T_name,
+                    DStart: this.form.date_go
+                })
+                .then((response) => {
+                    console.log(response)
+                    if (response.data == false) {
+                        check = true
+                    } else {
+                        alert('ช่วงวันที่นี้มีแบบฟอร์มอยู่แล้ว ระบบจึงกรอกวันที่ไปและกลับอัตโนมัติ')
+                        this.form.date_arrive = response.data[0].v_date_arrive
+                        this.form.date_arrive = moment(this.form.date_arrive).format('YYYY-MM-DD');
+                    }
+                }, (error) => {
+                    console.log(error);
+                });
+            if (check) {
+                await axios.post('http://localhost:5010/checkVformDupStart', {
+                        Tname: this.teacher.T_name,
+                        DStart: this.form.date_go
+                    })
+                    .then((response) => {
+                        console.log(response.data)
+                        if (response.data != false) {
+                            alert('ช่วงวันที่นี้มีแบบฟอร์มอยู่แล้ว ระบบจึงกรอกวันที่ไปและกลับอัตโนมัติ')
+                            this.form.date_arrive = response.data[0].v_date_arrive
+                        this.form.date_arrive = moment(this.form.date_arrive).format('YYYY-MM-DD');
+                            this.form.date_go = response.data[0].V_date_go
+                        this.form.date_go = moment(this.form.date_arrive).format('YYYY-MM-DD');
+                        } else {
+
+                        }
+                    }, (error) => {
+                        console.log(error);
+                    });
+            } else {
+
+            }
+        },
         addStudent(item) {
             let r = confirm('ต้องการเพิ่มนักเรียนคนนี้ในฟอร์ม?')
             if (r == true) {
@@ -280,8 +325,9 @@ export default {
             }
         },
         async submit() {
+            this.form.date_go + 1
             await axios.post('http://localhost:5010/checkDuplicateFormStudents', {
-                    Sname: this.form.student
+                    Sname: this.form.student,
                 })
                 .then((response) => {
                     this.dup = response.data
@@ -289,8 +335,11 @@ export default {
                     console.log(error);
                 });
             if (this.dup == true) {
-                alert('นักเรียนคนนี้มีแบบฟอร์มนิเทศอยู่แล้ว')
+                alert('นักเรียนคนนี้มีแบบฟอร์มนิเทศในเทอมนี้อยู่แล้ว')
             } else {
+                this.form.date_go = moment(this.form.date_go).format('YYYY-MM-DD');
+                this.form.date_arrive = moment(this.form.date_arrive).format('YYYY-MM-DD');
+                this.form.date_intern = moment(this.form.date_intern).format('YYYY-MM-DD');
                 this.form.teacher = this.teacher.T_name
                 console.log(this.form)
                 if (this.form.date_go == null || this.form.date_arrive == null || this.form.date_intern == null ||
@@ -301,6 +350,11 @@ export default {
                 } else {
                     let r = confirm('Are you sure you want to create?')
                     if (r == true) {
+                        if(this.form.date_intern > this.form.date_arrive&&this.form.date_intern < this.form.date_go){
+                            alert('วันที่นิเทศต้องอยู่ระหว่างวันที่ไป-กลับ')
+                        }else{
+
+                        
                         axios({
                             method: 'post',
                             url: `http://localhost:5010/createVisitForm`,
@@ -316,11 +370,13 @@ export default {
                                 w_name: this.form.workplace,
                                 w_add: this.form.address,
                                 w_tel: this.form.telephone,
-                                acyear:this.form.AccYear,
-                                semester:this.form.semester
+                                acyear: this.form.AccYear,
+                                semester: this.form.semester
                             }
                         });
                         location.reload();
+                        }
+                        this.close()
                     } else {
                         this.close()
                     }
