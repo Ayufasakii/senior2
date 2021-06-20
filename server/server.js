@@ -179,9 +179,27 @@ app.post('/getSearchCostForm', (req, res) => {
 })
 app.post('/checkDuplicateFormStudents', (req, res) => {
   let Sname = req.body.Sname
-  connection.query(`Select * from visit_form where S_name = '${Sname}'`, function (err, result, fields) {
+  connection.query(`Select * from visit_form where S_name = '${Sname}' `, function (err, result, fields) {
     if (err) throw err;
     if(result.length == 0){res.send(false)}else{res.send(true)}
+  });
+})
+app.post('/checkVformDstart', (req, res) => {
+  let Tname = req.body.Tname
+  let DStart = req.body.DStart
+  connection.query(`Select * from visit_form where T_name = '${Tname}' and V_date_go = '${DStart}'`, function (err, result, fields) {
+    if (err) throw err;
+    if(result.length == 0){res.send(false)}else{res.send(result)}
+  });
+})
+app.post('/checkVformDupStart', (req, res) => {
+  let Tname = req.body.Tname
+  let DStart = req.body.DStart
+  console.log(DStart)
+  console.log(Tname)
+  connection.query(`Select * from visit_form where T_name = '${Tname}' and '${DStart}' > V_date_go  and '${DStart}' < v_date_arrive`, function (err, result, fields) {
+    if (err) throw err;
+    if(result.length == 0){res.send(false)}else{res.send(result)}
   });
 })
 app.post('/getVisitformStu', (req, res) => {

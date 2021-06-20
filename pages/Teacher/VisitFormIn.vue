@@ -304,6 +304,7 @@
 const axios = require('axios');
 import jspdf from 'jspdf'
 import 'jspdf-autotable'
+import moment from 'moment';
 export default {
     layout(context) {
         return 'TLayout'
@@ -460,9 +461,9 @@ export default {
                 .then((response) => {
                     this.visitforms = response.data
                     for (let i = 0; i <= this.visitforms.length; i++) {
-                        this.visitforms[i].V_date_go = this.visitforms[i].V_date_go.split("T")[0]
-                        this.visitforms[i].v_date_arrive = this.visitforms[i].v_date_arrive.split("T")[0]
-                        this.visitforms[i].v_date_intern = this.visitforms[i].v_date_intern.split("T")[0]
+                        this.visitforms[i].V_date_go = moment(this.visitforms[i].V_date_go).format('YYYY-MM-DD');
+                        this.visitforms[i].v_date_arrive = moment(this.visitforms[i].v_date_arrive).format('YYYY-MM-DD');
+                        this.visitforms[i].v_date_intern = moment(this.visitforms[i].v_date_intern).format('YYYY-MM-DD');
                     }
                     console.log(response.data)
                 }, (error) => {
@@ -543,13 +544,18 @@ export default {
             console.log(item.V_date_go)
             console.log(item.v_date_arrive)
             await axios.post('http://localhost:5010/getVisitformStu', {
-                    Tname:item.T_name,
+                    Tname: item.T_name,
                     V_date_go: item.V_date_go,
                     v_date_arrive: item.v_date_arrive,
                 })
                 .then((response) => {
                     this.studentForm = response.data
-                    console.log(response.data)
+                    for (let i = 0; i < this.studentForm.length; i++) {
+                        this.studentForm[i].V_date_go = moment(this.studentForm[i].V_date_go).format('YYYY-MM-DD');
+                        this.studentForm[i].v_date_arrive = moment(this.studentForm[i].v_date_arrive).format('YYYY-MM-DD');
+                        this.studentForm[i].v_date_intern = moment(this.studentForm[i].v_date_intern).format('YYYY-MM-DD');
+
+                    }
                 }, (error) => {
                     console.log(error);
                 });
