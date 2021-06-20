@@ -592,7 +592,7 @@ export default {
             doc.text(27, 175, '2.If more than 1 visiting lecturers, is fill the information of the visiting lecturer who coordinates with organisations in the form.')
             doc.text(27, 185, '3.The school must supervise or intern. It not be 100% of interns who are supervised by visiting lecturer.')
             doc.text(27, 195, '4.If visiting lecturer canot visit organisations by themselves, Interns not be supervised by telephone and please inform a detail in the table.')
-            doc.save("Work_Place_Visit_Form.pdf")
+            doc.save("Work_Place_Visit_Form "+item.T_name+".pdf")
         },
     }
 }
