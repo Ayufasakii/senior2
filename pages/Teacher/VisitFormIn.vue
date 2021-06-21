@@ -576,7 +576,7 @@ export default {
             console.log(item)
             const doc = new jspdf('landscape')
             doc.setFontSize(16)
-            doc.text(110, 15, 'Workplace Visits Form')
+            doc.text(113, 15, 'Workplace Visits Form')
             doc.setFontSize(12)
             doc.text(110, 22, item.semester + ' Semester Academic Year ' + item.accyear)
             doc.text(105, 29, 'Visiting Lecturer ' + item.T_name)
