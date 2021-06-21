@@ -376,7 +376,6 @@ export default {
                         });
                         location.reload();
                         }
-                        this.close()
                     } else {
                         this.close()
                     }
