@@ -116,31 +116,30 @@
                                                     <v-toolbar-title>Teacher Information</v-toolbar-title>
 
                                                 </v-toolbar>
+                                                <v-card-text>
                                                 <v-row>
-                                                    <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                                    <v-col cols="12" sm="6">
                                                         <v-text-field label="Name" v-model="teacher.T_name" disabled outlined dense required>
                                                         </v-text-field>
                                                     </v-col>
-                                                    <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                                    <v-col cols="12" sm="6">
                                                         <v-text-field label="Email" v-model="teacher.T_email" disabled outlined dense required>
                                                         </v-text-field>
                                                     </v-col>
-                                                    <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                                    <v-col cols="12" sm="6">
                                                         <v-text-field label="Telephone Number" v-model="teacher.T_tel" disabled outlined dense required>
                                                         </v-text-field>
                                                     </v-col>
-                                                    <v-col class="ml-5 mr-5" cols="12" sm="3">
+                                                    <v-col cols="12" sm="6">
                                                         <v-text-field label="School" v-model="teacher.T_School" disabled outlined dense required>
                                                         </v-text-field>
                                                     </v-col>
-                                                    <v-col class="ml-5 mr-5" cols="12" sm="3">
+                                                    <v-col cols="12" sm="6">
                                                         <v-text-field label="Major" v-model="teacher.T_Major" disabled outlined dense required>
                                                         </v-text-field>
                                                     </v-col>
                                                     <v-spacer></v-spacer>
                                                 </v-row>
-
-                                                <v-card-text>
 
                                                 </v-card-text>
                                             </v-card>
@@ -152,27 +151,27 @@
 
                                                 <v-card-text>
                                                     <v-row>
-                                                        <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                                        <v-col cols="12" sm="6">
                                                             <v-text-field label="Student ID" v-model="student.ID" disabled outlined dense required>
                                                             </v-text-field>
                                                         </v-col>
-                                                        <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                                        <v-col cols="12" sm="6">
                                                             <v-text-field label="Name" v-model="student.name" disabled outlined dense required>
                                                             </v-text-field>
                                                         </v-col>
-                                                        <v-col class="ml-5 mr-5 mt-5" cols="12" sm="3">
+                                                        <v-col cols="12" sm="6">
                                                             <v-text-field label="School" v-model="student.school" disabled outlined dense required>
                                                             </v-text-field>
                                                         </v-col>
-                                                        <v-col class="ml-5 mr-5" cols="12" sm="3">
+                                                        <v-col cols="12" sm="6">
                                                             <v-text-field label="Major" v-model="student.major" disabled outlined dense required>
                                                             </v-text-field>
                                                         </v-col>
-                                                        <v-col class="ml-5 mr-5" cols="12" sm="3">
+                                                        <v-col cols="12" sm="6">
                                                             <v-text-field label="Academic Year" v-model="student.acyear" disabled outlined dense required>
                                                             </v-text-field>
                                                         </v-col>
-                                                        <v-col class="ml-5 mr-5" cols="12" sm="3">
+                                                        <v-col cols="12" sm="6">
                                                             <v-select :items="Ssemester" v-model="searchSemester" disabled outlined dense label="Semester"></v-select>
                                                         </v-col>
                                                     </v-row>
