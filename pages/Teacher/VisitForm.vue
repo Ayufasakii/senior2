@@ -109,21 +109,21 @@
                             </v-row>
                             <v-row>
                                 <v-col cols="12">
-                                    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                    <v-menu v-model="menu2" :disabled="form.date_go==null" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-text-field v-model="form.date_arrive" label="Date to arrive" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                                            <v-text-field v-model="form.date_arrive"  label="Date to arrive" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="form.date_arrive" @change="dateStart" @input="menu2 = false"></v-date-picker>
+                                        <v-date-picker v-model="form.date_arrive"  @change="dateEnd" @input="menu2 = false"></v-date-picker>
                                     </v-menu>
                                 </v-col>
                             </v-row>
-                            <v-row>
+                            <v-row >
                                 <v-col cols="12">
-                                    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                    <v-menu v-model="menu2" :disabled="form.date_go == null && form.date_arrive == null" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-text-field v-model="form.date_intern" label="Date to visit" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="form.date_intern" @input="menu2 = false"></v-date-picker>
+                                        <v-date-picker  v-model="form.date_intern" @change="dateIn" @input="menu2 = false"></v-date-picker>
                                     </v-menu>
                                 </v-col>
                             </v-row>
@@ -184,6 +184,7 @@ export default {
     },
     data: () => ({
         menu: false,
+        date_goTF : false,
         teacher: {
             T_name: null,
             T_email: null,
@@ -301,9 +302,9 @@ export default {
                         if (response.data != false) {
                             alert('ช่วงวันที่นี้มีแบบฟอร์มอยู่แล้ว ระบบจึงกรอกวันที่ไปและกลับอัตโนมัติ')
                             this.form.date_arrive = response.data[0].v_date_arrive
-                        this.form.date_arrive = moment(this.form.date_arrive).format('YYYY-MM-DD');
+                            this.form.date_arrive = moment(this.form.date_arrive).format('YYYY-MM-DD');
                             this.form.date_go = response.data[0].V_date_go
-                        this.form.date_go = moment(this.form.date_arrive).format('YYYY-MM-DD');
+                            this.form.date_go = moment(this.form.date_arrive).format('YYYY-MM-DD');
                         } else {
 
                         }
@@ -314,18 +315,40 @@ export default {
 
             }
         },
+        async dateIn() {
+            this.form.date_go = moment(this.form.date_go).format('YYYY-MM-DD');
+            this.form.date_arrive = moment(this.form.date_arrive).format('YYYY-MM-DD');
+            this.form.date_intern = moment(this.form.date_intern).format('YYYY-MM-DD');
+            if (this.form.date_intern <= this.form.date_arrive && this.form.date_intern >= this.form.date_go) {
+
+            } else {
+                this.form.date_intern = null
+                alert('โปรดเลือกวันนิเทศในระหว่างวันที่เดินทาง')
+            }
+        },
+        async dateEnd() {
+            this.form.date_go = moment(this.form.date_go).format('YYYY-MM-DD');
+            this.form.date_arrive = moment(this.form.date_arrive).format('YYYY-MM-DD');
+            if ( this.form.date_arrive <=this.form.date_go) {
+               this.form.date_arrive = null
+                alert('โปรดเลือกวันเดินทางกลับหลังเดินทางไป')
+            } else {
+
+            }
+        },
         addStudent(item) {
             let r = confirm('ต้องการเพิ่มนักเรียนคนนี้ในฟอร์ม?')
+            console.log(item)
             if (r == true) {
                 this.form.student = item.S_name
-                this.form.AccYear = item.S_acYear
-                this.form.semester = item.S_acsemester
+                this.form.AccYear = item.s_acyear
+                this.form.semester = item.s_acsemester
             } else {
 
             }
         },
         async submit() {
-            this.form.date_go + 1
+            console.log(this.form)
             await axios.post('http://localhost:5010/checkDuplicateFormStudents', {
                     Sname: this.form.student,
                 })
@@ -341,7 +364,7 @@ export default {
                 this.form.date_arrive = moment(this.form.date_arrive).format('YYYY-MM-DD');
                 this.form.date_intern = moment(this.form.date_intern).format('YYYY-MM-DD');
                 this.form.teacher = this.teacher.T_name
-                console.log(this.form)
+
                 if (this.form.date_go == null || this.form.date_arrive == null || this.form.date_intern == null ||
                     this.form.student == null || this.form.teacher == null || this.form.time_start == null || this.form.time_end == null ||
                     this.form.workplace == null || this.form.address == null || this.form.telephone == null
@@ -350,31 +373,30 @@ export default {
                 } else {
                     let r = confirm('Are you sure you want to create?')
                     if (r == true) {
-                        if(this.form.date_intern > this.form.date_arrive&&this.form.date_intern < this.form.date_go){
+                        if (this.form.date_intern > this.form.date_arrive && this.form.date_intern < this.form.date_go) {
                             alert('วันที่นิเทศต้องอยู่ระหว่างวันที่ไป-กลับ')
-                        }else{
+                        } else {
 
-                        
-                        axios({
-                            method: 'post',
-                            url: `http://localhost:5010/createVisitForm`,
-                            data: {
-                                V_date_go: this.form.date_go,
-                                V_date_arrive: this.form.date_arrive,
-                                V_date_intern: this.form.date_intern,
-                                remark: this.form.remark,
-                                S_name: this.form.student,
-                                T_name: this.form.teacher,
-                                V_time_start: this.form.time_start,
-                                V_time_end: this.form.time_end,
-                                w_name: this.form.workplace,
-                                w_add: this.form.address,
-                                w_tel: this.form.telephone,
-                                acyear: this.form.AccYear,
-                                semester: this.form.semester
-                            }
-                        });
-                        location.reload();
+                            axios({
+                                method: 'post',
+                                url: `http://localhost:5010/createVisitForm`,
+                                data: {
+                                    V_date_go: this.form.date_go,
+                                    V_date_arrive: this.form.date_arrive,
+                                    V_date_intern: this.form.date_intern,
+                                    remark: this.form.remark,
+                                    S_name: this.form.student,
+                                    T_name: this.form.teacher,
+                                    V_time_start: this.form.time_start,
+                                    V_time_end: this.form.time_end,
+                                    w_name: this.form.workplace,
+                                    w_add: this.form.address,
+                                    w_tel: this.form.telephone,
+                                    acyear: this.form.AccYear,
+                                    semester: this.form.semester
+                                }
+                            });
+                            location.reload();
                         }
                         this.close()
                     } else {
